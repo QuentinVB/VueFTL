@@ -13,6 +13,9 @@ app.use(function(req, res, next) {
   next();
 });
 
+let cors = require('cors')
+app.use(cors())
+
 //routes
 var routes = require('./api/routes/Routes'); //importing route
 routes(app); //register the route
@@ -26,4 +29,4 @@ app.use(function(req, res) {
 app.listen(port);
 
 
-console.log('square game RESTful API server started on: ' + port);
+console.log('FTL RESTful API server started on: ' + port);

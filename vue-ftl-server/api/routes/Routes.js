@@ -2,6 +2,8 @@
 module.exports = function(app) {
   var gamecontroller = require('../controllers/Controller');
 
+  var testController = require('../controllers/TestController')
+
 //Routes for testing
   app.route('/ping')
     .get((req, res)=> {
@@ -11,7 +13,11 @@ module.exports = function(app) {
     .get((req, res)=> {
       res.json({timestamp : (new Date(Date.now())).toLocaleString('fr-FR'), methode : req.method})}
       );
-  
+  app.route('/getstate')
+  .get(testController.getstate);
+  app.route('/updatemessage')
+  .put(testController.updateMessage);
+
 //real routes
 
   /*join a new game, 
