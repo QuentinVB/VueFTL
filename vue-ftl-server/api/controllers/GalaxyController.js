@@ -1,12 +1,12 @@
 'use strict';
 //var Game = require('../models/Game'); //created model loading here
 //var Player = require('../models/PLayer'); //created model loading here
-var Ship = require('../models/Ship'); 
+var Galaxy = require('../models/Galaxy'); 
 
-var message = "ga";
 
-var activeShip = Ship.EmptyShip();
+var activeGalaxy = Galaxy.EmptyGalaxy();
 
+/*
 exports.getstate = function(req, res) {
   res.json({message : message, methode : req.method});
 };
@@ -17,29 +17,11 @@ exports.updateMessage = function(req, res) {
   message = req.body.message;
   
   res.json({message : message, methode : req.method});
+};*/
+
+exports.getGalaxy = function(req, res) {
+  res.json({galaxy : activeGalaxy, methode : req.method});
 };
-
-exports.getShip = function(req, res) {
-  res.json({ship : activeShip.toObject(), methode : req.method});
-};
-
-exports.moveShipRandom= function(req, res) {
-  //destination = req.body.destination;
-
-  if(activeShip.canMove())
-  {
-    let rand=(Math.random()*2)-1;
-    let range=1;
-    activeShip.moveTo(
-      {
-        x:activeShip.x + rand*range,
-        y:activeShip.y+ Math.sqrt(range*range - rand*rand)
-      });
-  }
-
-  res.json({ship : activeShip.toObject(), methode : req.method});
-};
-
 
 /*
 exports.list_all_tasks = function(req, res) {

@@ -24,7 +24,7 @@ class MessageApiServices extends Services{
   putMessageAsync (message) {
     return putAsync(this.forgeUrl(`${endpoint}updatemessage`),{message : message});
   }
-
+ 
 
   getSkillAsync (skillId) {
     return getAsync(this.forgeUrl(`${endpoint}/${skillId}`));

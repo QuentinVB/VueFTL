@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+//import Home from '../views/Home.vue'
+import MainScreen from '../views/MainScreen.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'MainScreen',
+    component: MainScreen
   },
   {
     path: '/about',
@@ -23,6 +24,12 @@ Vue.use(VueRouter)
     name: 'Message',
     
     component: () => import(/* webpackChunkName: "about" */ '../views/Message.vue')
+  },
+  {
+    path: '/ship',
+    name: 'Ship',
+    
+    component: () => import(/* webpackChunkName: "about" */ '../views/Ship.vue')
   }
 ]
 
