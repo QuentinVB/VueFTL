@@ -2,8 +2,9 @@
 module.exports = function(app) {
   var gamecontroller = require('../controllers/Controller');
 
-  var testController = require('../controllers/TestController')
-  var galaxyController = require('../controllers/GalaxyController')
+  const testController = require('../controllers/TestController')
+  const galaxyController = require('../controllers/GalaxyController')
+  const shipController = require('../controllers/ShipController')
 
 //Routes for testing
   app.route('/ping')
@@ -20,10 +21,13 @@ module.exports = function(app) {
   .put(testController.updateMessage);
 
   app.route('/ship')
-  .get(testController.getShip);
+  .get(shipController.getShip);
 
   app.route('/ship/moverandom')
-  .get(testController.moveShipRandom);
+  .get(shipController.moveShipRandom);
+
+  app.route('/ship/moveto')
+  .post(shipController.moveShipTo);
 
   app.route('/galaxy')
   .get(galaxyController.getGalaxy);

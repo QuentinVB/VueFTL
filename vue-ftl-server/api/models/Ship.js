@@ -25,21 +25,28 @@ class Ship {
     {
       if(this.fuel<=0) return false;
       this.fuel--;
+
       this.x = coordinate.x;
       this.y = coordinate.y;
       return true;
     }
     toObject()
     {
+      //TODO ADD STATE MESSAGE ?
       return {
         name:this.name,
         coordinate: this.getCoordinate(),
         fuel:this.fuel
       }
     }
-    canMove()
+    canMove(destination)
     {
-      return this.fuel>0
+      if(this.fuel<=0) return false;
+      if(destination.x == this.x)
+      {
+        if(destination.y == this.y) return false
+      }
+      return true;
     }
   }
 module.exports = Ship;

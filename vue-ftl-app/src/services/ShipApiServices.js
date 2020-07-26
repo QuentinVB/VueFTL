@@ -1,4 +1,4 @@
-import { getAsync} from '../helpers/apiHelpers'
+import { getAsync,postAsync} from '../helpers/apiHelpers'
 import Services from './Services'
 
 const endpoint = 'ship'//message
@@ -18,6 +18,10 @@ class ShipApiServices extends Services{
   getMoveShipAsync () {
     return getAsync(this.forgeUrl(`${endpoint}/moverandom`));
   }
+  postMoveShipToAsync (destination) {
+    return postAsync(this.forgeUrl(`${endpoint}/moveto`),{destination : destination});
+  }
+
 }
 
 export default new ShipApiServices()

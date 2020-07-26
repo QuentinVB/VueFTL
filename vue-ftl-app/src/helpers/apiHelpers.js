@@ -32,11 +32,22 @@ export function getMDAsync (url) {
 
 export function putAsync (url, data) {
   /* await axios.get({
-      method: 'GET',
+      method: 'PUT',
       url: url,
       dataType: 'json',
       dataFilter: dataFilter,
   });
   */
     return axios.put(url,data)
+}
+
+export function postAsync (url, data) {
+  /* await axios.get({
+      method: 'POST',
+      url: url,
+      dataType: 'json',
+      dataFilter: dataFilter,
+  });
+  */
+    return axios.post(url,data)
 }

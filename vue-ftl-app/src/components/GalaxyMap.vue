@@ -2,7 +2,12 @@
   <div class="galaxy">
     <p>{{galaxy.starCount}}</p>
     <div class="starSystemList">
-      <div v-for="starSystem in galaxy.galaxyMap" :key="starSystem.uuid" class="starSystem">
+      <div 
+        v-for="starSystem in galaxy.galaxyMap" 
+        :key="starSystem.uuid" 
+        class="starSystem"
+        v-bind:class="[ selectedSystem.uuid == starSystem.uuid ? 'selected':'' ]"
+        @click="onSelectStarSystem(starSystem)">
         <ul>
           <li>{{starSystem.type}} - {{starSystem.name}}</li>
           <li>Id : {{starSystem.uuid}}</li>
@@ -15,7 +20,7 @@
   </div>
 </template>
 <script>
-  //import ShipApiService from '../services/ShipApiServices'
+  import GalaxyApiService from '../services/GalaxyApiServices'
 
   export default {
   name: 'GalaxyMap',
@@ -25,14 +30,35 @@
   data: function () {
     return {
       errors: [],
+      selectedSystem: GalaxyApiService.EmptyStarSystem,
     }
   },
   mounted() {
   },
   methods: {
+    onSelectStarSystem(starSystem)
+    {
+      if(starSystem.uuid != this.selectedSystem.uuid)
+      {
+        this.selectedSystem=starSystem;
+        console.log("GalaxyMap here ! You selected " +starSystem.name);
+        this.$emit("onselectstarsystem", starSystem);
+
+      }
+      else
+      {
+        console.log("GalaxyMap here ! You deselected " +starSystem.name);
+        this.selectedSystem = GalaxyApiService.EmptyStarSystem;
+        this.$emit("onselectstarsystem");
+
+      }
+
+    }
     
   }
 }
+// throw event : this.$emit("onselectimage", {}); // bubble up
+
 
 </script>
 <style lang="scss" scoped>
@@ -48,5 +74,9 @@
   text-align: left;
   border: 1px solid black;
 
+}
+.selected
+{
+  background: blueviolet;
 }
 </style>
