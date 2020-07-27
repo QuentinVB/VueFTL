@@ -9,3 +9,5 @@ Charge utile du vaisseau
     },
     fuel: 5//le carburant
 }
+
+building an universal "message" payload system ?

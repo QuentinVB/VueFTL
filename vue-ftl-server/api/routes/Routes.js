@@ -1,10 +1,11 @@
 'use strict';
 module.exports = function(app) {
-  var gamecontroller = require('../controllers/Controller');
 
-  const testController = require('../controllers/TestController')
-  const galaxyController = require('../controllers/GalaxyController')
-  const shipController = require('../controllers/ShipController')
+const testController = require('../controllers/TestController')
+const galaxyController = require('../controllers/GalaxyController')
+const shipController = require('../controllers/ShipController')
+
+
 
 //Routes for testing
   app.route('/ping')
@@ -22,15 +23,20 @@ module.exports = function(app) {
 
   app.route('/ship')
   .get(shipController.getShip);
-
   app.route('/ship/moverandom')
   .get(shipController.moveShipRandom);
-
   app.route('/ship/moveto')
   .post(shipController.moveShipTo);
+  app.route('/ship/wrapto')
+  .post(shipController.wrapShipTo);
 
   app.route('/galaxy')
   .get(galaxyController.getGalaxy);
+
+  app.route('/galaxy/:starsystemuuid')
+  .get(galaxyController.getStarSystem);
+  app.route('/galaxy/:starsystemuuid/mine')
+  .get(galaxyController.mineStarSystem);
 //real routes
 
   /*join a new game, 

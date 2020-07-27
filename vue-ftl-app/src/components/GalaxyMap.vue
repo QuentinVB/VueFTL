@@ -1,6 +1,6 @@
 <template>
   <div class="galaxy">
-    <p>{{galaxy.starCount}}</p>
+    <h1>Galaxy Map</h1>
     <div class="starSystemList">
       <div 
         v-for="starSystem in galaxy.galaxyMap" 
@@ -11,7 +11,7 @@
         <ul>
           <li>{{starSystem.type}} - {{starSystem.name}}</li>
           <li>Id : {{starSystem.uuid}}</li>
-          <li>Position : {{starSystem.coordinates.x}}:{{starSystem.coordinates.y}}</li>
+          <li>Position : {{starSystem.position.x}}:{{starSystem.position.y}}</li>
           <li>Minerals : {{starSystem.minerals}}</li>
         </ul>
         

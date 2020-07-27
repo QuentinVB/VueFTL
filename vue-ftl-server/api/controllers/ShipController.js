@@ -1,33 +1,34 @@
 'use strict';
 //var Game = require('../models/Game'); //created model loading here
 //var Player = require('../models/PLayer'); //created model loading here
-var Ship = require('../models/Ship'); 
+var Ship = require('../../models/Ship'); 
+const dao = require('../../dal/dao')
 
 
-var activeShip = Ship.EmptyShip();
+
 
 
 //GET
 exports.getShip = function(req, res) {
-  res.json({ship : activeShip.toObject(), methode : req.method});
+  res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
 };
 
 //GET
 exports.moveShipRandom= function(req, res) {
   //destination = req.body.destination;
 
-  if(activeShip.canMove())
+  if(dao.ActiveShip.canMove())
   {
     let rand=(Math.random()*2)-1;
     let range=1;
-    activeShip.moveTo(
+    dao.ActiveShip.moveTo(
       {
-        x:activeShip.x + rand*range,
-        y:activeShip.y+ Math.sqrt(range*range - rand*rand)
+        x:dao.ActiveShip.position.x + rand*range,
+        y:dao.ActiveShip.position.y+ Math.sqrt(range*range - rand*rand)
       });
   }
 
-  res.json({ship : activeShip.toObject(), methode : req.method});
+  res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
 };
 
 //POST
@@ -36,16 +37,29 @@ exports.moveShipTo= function(req, res) {
   //should be a star system uuid ?
   var destination = req.body.destination;
 
-  if(activeShip.canMove(destination))
+  if(dao.ActiveShip.canMove(destination))
   {    
-      activeShip.moveTo(
+    dao.ActiveShip.moveTo(
         {
           x:destination.x,
           y:destination.y
         });
   }
 
-  res.json({ship : activeShip.toObject(), methode : req.method});
+  res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
+};
+
+//POST
+exports.wrapShipTo= function(req, res) {
+  //destination = req.body.destination;
+  var destination = req.body.destination;
+
+  if(dao.ActiveShip.canMove(destination))
+  {
+    dao.ActiveShip.wrapTo(destination.uuid);
+  }
+
+  res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
 };
 
 

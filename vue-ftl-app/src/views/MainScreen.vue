@@ -3,8 +3,10 @@
     <p>Captain on the bridge !</p>
     <Ship v-bind:ship="ship"/>
     <GalaxyMap v-bind:galaxy="galaxy" v-on:onselectstarsystem="starSystemSelected"/>
+    <h2>Actions</h2>
     <button v-on:click="moveShipRandom">Move ship randomly</button>
-    <button v-if="selectedDestination" v-on:click="moveShipToSelectedDestination">Move ship to destination</button>
+    <button v-if="wrapButtonVisible" v-on:click="moveShipToSelectedDestination">Move ship to destination</button>
+    <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
   </div>
 </template>
 
@@ -24,7 +26,7 @@ export default {
   },
   data: function () {
     return {
-      ship: ShipApiService.EmptyShip(),
+      ship: ShipApiService.EmptyShip,
       galaxy: GalaxyApiService.EmptyGalaxy,
       selectedDestination:undefined,
       errors: [],
@@ -76,7 +78,7 @@ export default {
       console.log("trying to move to " + this.selectedDestination.name);
       //request moving to the destination
       //check for
-      ShipApiService.postMoveShipToAsync(this.selectedDestination.coordinates)
+      ShipApiService.postMoveShipToAsync(this.selectedDestination.uuid)
         .then(response => {
           //check message status ?
 
@@ -86,7 +88,7 @@ export default {
         })
         .catch(err => {
           console.error(err)
-        })
+        });
 
     },
     starSystemSelected(starSystem)
@@ -106,7 +108,43 @@ export default {
 
       }
       
+    },
+    mineSomeOre()
+    {
+      if(this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid)
+      {
+        GalaxyApiService.getMineStarSystemAsync(this.selectedDestination.uuid)
+        .then(response => {
+          //check message status ?
+
+          //on valid : update the ship
+          const starSystemToUpdate = response.data.starSystem;
+          const fuelMined = response.data.fuelmined;
+          this.galaxy.galaxyMap[starSystemToUpdate.uuid]=starSystemToUpdate;
+
+          this.ship.fuel += fuelMined;
+
+
+          console.log("mined " + this.selectedDestination.name+" and gained "+ fuelMined+" fuel");
+        })
+        .catch(err => {
+          console.error(err)
+        });
+        
+      }
     }
+  },
+  computed:
+  {
+    wrapButtonVisible()
+    {
+      return this.selectedDestination != undefined && this.ship.location != this.selectedDestination.uuid ;
+    },
+    miningButtonVisible()
+    {
+      return this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid ;
+    }
+
   }
 }
 </script>

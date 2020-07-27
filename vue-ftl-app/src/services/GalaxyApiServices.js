@@ -13,7 +13,7 @@ class GalaxyApiServices extends Services{
   EmptyStarSystem={
       name:"",
       type:"",
-      coordinates:{x:0,y:0},
+      position:{x:0,y:0},
       minerals:0,
       uuid:""
     }
@@ -21,6 +21,9 @@ class GalaxyApiServices extends Services{
 
   getGalaxyAsync() {
     return getAsync(this.forgeUrl(`${endpoint}`));
+  }
+  getMineStarSystemAsync(starSystem) {
+    return getAsync(this.forgeUrl(`${endpoint}/${starSystem}/mine`));
   }
   /*
   getMoveShipAsync () {

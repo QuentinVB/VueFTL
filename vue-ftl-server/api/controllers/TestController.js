@@ -1,7 +1,7 @@
 'use strict';
 //var Game = require('../models/Game'); //created model loading here
 //var Player = require('../models/PLayer'); //created model loading here
-var Ship = require('../models/Ship'); 
+var Ship = require('../../models/Ship'); 
 
 var message = "ga";
 

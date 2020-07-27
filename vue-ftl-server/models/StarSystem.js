@@ -1,5 +1,5 @@
 'use strict';
-const Random = require("../../helpers/Random");
+const Random = require("../helpers/Random");
 var hash = require('object-hash');
 const Uuid = require('uuid');
 
@@ -22,8 +22,8 @@ class StarSystem {
       this.name=name;
       this.type="";
       this.color={r:0,g:0,b:0};
-      this.coordinates = {x,y} ;
-      this.minerals = Random.getRandomIntInclusive(1,10);
+      this.position = {x,y} ;
+      this.minerals = Math.round(Math.random()*100);
 
       this.uuid = Uuid.v4();
     }
@@ -42,8 +42,19 @@ class StarSystem {
     {
       return STELLARTYPES[Random.getRandomInt(STELLARTYPES.length)];
     }
-   
-    
+
+    mineSystem()//TODO : add modificator ?
+    {
+      const oreRatio = this.minerals / 100;
+      this.minerals -- ; //or more if modifier
+
+      if(Math.random() <oreRatio)
+      {
+        
+        return 1; //or more if modifier
+      }
+      return 0; //sry not sorry
+    }
   }
 
   

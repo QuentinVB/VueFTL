@@ -1,7 +1,7 @@
 'use strict';
 
 const StarSystem = require("./StarSystem");
-const Random = require("../../helpers/Random");
+const Random = require("../helpers/Random");
 
 
 

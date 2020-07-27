@@ -6,8 +6,8 @@
       <li>Fuel left  : {{ship.fuel}}</li>
       <li>Position  : 
         <ul>
-          <li>x : {{ship.coordinate.x}}</li>
-          <li>y : {{ship.coordinate.y}}</li>
+          <li>x : {{ship.position.x}}</li>
+          <li>y : {{ship.position.y}}</li>
         </ul>
       </li>
     </ul>

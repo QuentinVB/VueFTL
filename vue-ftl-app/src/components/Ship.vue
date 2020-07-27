@@ -4,12 +4,9 @@
     <ul>
       <li>Name : {{ship.name}}</li>
       <li>Fuel left  : {{ship.fuel}}</li>
-      <li>Position  : 
-        <ul>
-          <li>x : {{ship.coordinate.x}}</li>
-          <li>y : {{ship.coordinate.y}}</li>
-        </ul>
-      </li>
+      <li>Position  : {{ship.position.x}}:{{ship.position.y}}</li>
+      <li>StarSystem UUID  : {{ship.location}}</li>
+
     </ul>
   </div>
 </template>
