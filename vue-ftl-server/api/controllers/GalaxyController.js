@@ -19,13 +19,13 @@ exports.updateMessage = function(req, res) {
 };*/
 
 exports.getGalaxy = function(req, res) {
-  res.json({galaxy : dao.ActiveGalaxy, methode : req.method});
+  res.json({galaxy : dao.ActiveGalaxy.ToObject(), methode : req.method});
 };
 
 exports.getStarSystem = function(req, res) {
 
   const uuid = req.params.starsystemuuid;
-  const starSystem = dao.ActiveGalaxy.galaxyMap[uuid];
+  const starSystem = dao.ActiveGalaxy.galaxyMap[uuid].ToObject();
 
   if(!starSystem)
   {
@@ -34,6 +34,22 @@ exports.getStarSystem = function(req, res) {
   else
   {
     res.json({starSystem : starSystem, methode : req.method});
+  }
+};
+
+exports.getStarSystemEvent = function(req, res) {
+
+  const uuid = req.params.starsystemuuid;
+  const starSystem = dao.ActiveGalaxy.galaxyMap[uuid];
+  const starSystemEvent = starSystem.event.ToObject();
+
+  if(!starSystem)
+  {
+    res.status(404).send('not found');
+  }
+  else
+  {
+    res.json({event : starSystemEvent, methode : req.method});
   }
 };
 
@@ -51,7 +67,7 @@ exports.mineStarSystem = function(req, res) {
     var minedfuel = starSystem.mineSystem();
     dao.ActiveShip.fuel+=minedfuel;
 
-    res.json({starSystem : starSystem, fuelmined: minedfuel,  methode : req.method});
+    res.json({starSystem : starSystem.ToObject(), fuelmined: minedfuel,  methode : req.method});
   }
 };
 

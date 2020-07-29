@@ -6,8 +6,9 @@ const StarSystem = require("../models/StarSystem");
 const Galaxy = require("../models/Galaxy");
 const Ship = require("../models/Ship");
 
-var activeGalaxy = Galaxy.EmptyGalaxy();
+//should be a way to the database & session
 
+var activeGalaxy = Galaxy.EmptyGalaxy();
 var activeShip = Ship.EmptyShip();
 
 exports.ActiveShip = activeShip;

@@ -25,6 +25,9 @@ class GalaxyApiServices extends Services{
   getMineStarSystemAsync(starSystem) {
     return getAsync(this.forgeUrl(`${endpoint}/${starSystem}/mine`));
   }
+  getStarSystemEventAsync(starSystem) {
+    return getAsync(this.forgeUrl(`${endpoint}/${starSystem}/event`));
+  }
   /*
   getMoveShipAsync () {
     return getAsync(this.forgeUrl(`${endpoint}/moverandom`));

@@ -1,6 +1,6 @@
 'use strict';
 const Random = require("../helpers/Random");
-var hash = require('object-hash');
+//var hash = require('object-hash');
 const Uuid = require('uuid');
 
 const GREEKALPHABET=['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta','Theta','Iota','Kappa','Lambda','Mu','Nu','Xi','Omicron','Pi','Rho','Sigma','Tau','Upsilon','Phi','Chi','Psi','Omega']
@@ -25,7 +25,24 @@ class StarSystem {
       this.position = {x,y} ;
       this.minerals = Math.round(Math.random()*100);
 
+      this.event;
+
       this.uuid = Uuid.v4();
+    }
+    
+    ToObject()
+    {
+      //event only on request !
+      var cleanEvent = this.event.name
+      return {
+        name:this.name,
+        type:this.type,
+        color:this.color,
+        position :this.position,
+        minerals:this.minerals,
+        event :cleanEvent ,
+        uuid:this.uuid
+      }
     }
     static EmptyStarSystem() {
       let emptySystem= new StarSystem(this.getRandomName(),0,0);

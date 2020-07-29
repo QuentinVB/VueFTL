@@ -4,6 +4,7 @@
     <ul>
       <li>Name : {{ship.name}}</li>
       <li>Fuel left  : {{ship.fuel}}</li>
+      <li>Location : {{ship.location}}</li>
       <li>Position  : 
         <ul>
           <li>x : {{ship.position.x}}</li>
@@ -11,7 +12,6 @@
         </ul>
       </li>
     </ul>
-    <button v-on:click="moveShipRandom">Move ship randomly</button>
   </div>
 </template>
 <script>
@@ -22,7 +22,7 @@
 
   data: function () {
     return {
-      ship: ShipApiService.EmptyShip(),
+      ship: ShipApiService.EmptyShip,
       errors: [],
     }
   },
@@ -40,17 +40,7 @@
           console.error(err)
         })
     },
-    moveShipRandom()
-    {
-      ShipApiService.getMoveShipAsync()
-        .then(response => {
-          this.ship = response.data.ship
-          //console.log(this.skill)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    }
+    
     /*
     checkForm: function (e) {
       e.preventDefault();

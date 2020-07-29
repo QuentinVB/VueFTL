@@ -1,5 +1,7 @@
 'use strict';
 
+const StarSystem = require("./StarSystem");
+const dao = require('../dal/dao');
 
 class Ship {
     constructor(name) {
@@ -31,8 +33,8 @@ class Ship {
 
       this.location = uuid;
       //falsy because a ship has no
-      //this.position.x = starSystem.position.x;
-      //this.position.y = starSystem.position.y;
+      this.position = dao.ActiveGalaxy.galaxyMap[uuid].position;
+
 
       return true;
     }

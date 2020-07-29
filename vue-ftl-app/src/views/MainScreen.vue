@@ -1,31 +1,37 @@
 <template>
   <div class="mainscreen">
     <p>Captain on the bridge !</p>
-    <Ship v-bind:ship="ship"/>
-    <GalaxyMap v-bind:galaxy="galaxy" v-on:onselectstarsystem="starSystemSelected"/>
     <h2>Actions</h2>
-    <button v-on:click="moveShipRandom">Move ship randomly</button>
-    <button v-if="wrapButtonVisible" v-on:click="moveShipToSelectedDestination">Move ship to destination</button>
     <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
+    <h2>Communications</h2>
+    <p>Here lies the messages from strangers species</p>
+    <p v-if="mode == 'event'"> <!--should be modal !-->
+      {{event.state.message}}
+    </p>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Ship from '@/components/Ship.vue'
-import GalaxyMap from '@/components/GalaxyMap.vue'
-import ShipApiService from '../services/ShipApiServices'
-import GalaxyApiService from '../services/GalaxyApiServices'
+import ShipApiService from '@/services/ShipApiServices'
+import GalaxyApiService from '@/services/GalaxyApiServices'
+import EventApiServices from '@/services/EventApiServices'
 
 
 export default {
   name: 'MainScreen',
+  props: {
+    mode:  //event or nothing
+    {
+        type: String,
+        default: null
+    }
+  },
   components: {
-    Ship,
-    GalaxyMap
   },
   data: function () {
     return {
+      event: EventApiServices.EmptyEvent,
       ship: ShipApiService.EmptyShip,
       galaxy: GalaxyApiService.EmptyGalaxy,
       selectedDestination:undefined,
@@ -40,6 +46,8 @@ export default {
   mounted() {
     this.refreshShip();
     this.refreshGalaxy();
+    console.log(this.mode);
+    //if(this.mode == 'event') this.refreshEvent();
   },
   methods: {
     refreshShip() {
@@ -47,6 +55,7 @@ export default {
         .then(response => {
           this.ship = response.data.ship
           //console.log(this.skill)
+          if(this.mode == 'event') this.refreshEvent();
         })
         .catch(err => {
           console.error(err)
@@ -62,58 +71,25 @@ export default {
           console.error(err)
         })
     },
-    moveShipRandom()
-    {
-      ShipApiService.getMoveShipAsync()
-        .then(response => {
-          this.ship = response.data.ship
-          //console.log(this.skill)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    moveShipToSelectedDestination()
-    {
-      console.log("trying to move to " + this.selectedDestination.name);
-      //request moving to the destination
-      //check for
-      ShipApiService.postMoveShipToAsync(this.selectedDestination.uuid)
-        .then(response => {
-          //check message status ?
-
-          //on valid : update the ship
-          this.ship = response.data.ship
-          console.log("moved to " + this.selectedDestination.name);
-        })
-        .catch(err => {
-          console.error(err)
-        });
-
-    },
-    starSystemSelected(starSystem)
-    {
-      if(starSystem)
-      {
-        console.log("MainScreen here ! You selected "+starSystem.name);
-        this.selectedDestination=starSystem;
-        //this.$emit("onselectstarsystem", starSystem);
-
-      }
-      else
-      {
-        console.log("MainScreen here ! You deselected " +this.selectedDestination.name);
-        this.selectedDestination = undefined;
-        //this.$emit("onselectstarsystem");
-
-      }
+    refreshEvent() {
       
+      GalaxyApiService.getStarSystemEventAsync(this.ship.location)
+      .then(response => {
+        console.log(response.data.event);
+        this.event = response.data.event
+        //console.log(this.skill)
+      })
+      .catch(err => {
+        console.error(err)
+      })
     },
+    
     mineSomeOre()
     {
-      if(this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid)
+      //if(this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid)
+      if(this.ship.location)
       {
-        GalaxyApiService.getMineStarSystemAsync(this.selectedDestination.uuid)
+        GalaxyApiService.getMineStarSystemAsync(this.ship.location)
         .then(response => {
           //check message status ?
 
@@ -121,11 +97,8 @@ export default {
           const starSystemToUpdate = response.data.starSystem;
           const fuelMined = response.data.fuelmined;
           this.galaxy.galaxyMap[starSystemToUpdate.uuid]=starSystemToUpdate;
-
           this.ship.fuel += fuelMined;
-
-
-          console.log("mined " + this.selectedDestination.name+" and gained "+ fuelMined+" fuel");
+          console.log("mined " + this.ship.location+" and gained "+ fuelMined+" fuel");
         })
         .catch(err => {
           console.error(err)
@@ -136,13 +109,10 @@ export default {
   },
   computed:
   {
-    wrapButtonVisible()
-    {
-      return this.selectedDestination != undefined && this.ship.location != this.selectedDestination.uuid ;
-    },
     miningButtonVisible()
     {
-      return this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid ;
+      return this.ship.location;
+      //return this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid ;
     }
 
   }

@@ -2,6 +2,7 @@
 
 const StarSystem = require("./StarSystem");
 const Random = require("../helpers/Random");
+const EventManager = require("./EventManager");
 
 
 
@@ -11,6 +12,21 @@ class Galaxy {
       this.radius = 20;
       this.galaxyMap = {};
     }
+
+    ToObject()
+    {
+      let cleanMap = Object.entries(this.galaxyMap).map((v)=>{
+        return v[1].ToObject()
+      });
+
+      return {
+        starCount: this.starCount,
+        radius: this.radius,
+        galaxyMap : cleanMap
+      }
+    }
+
+
     static EmptyGalaxy() {
       let starCount = 5;
       let galaxy = new Galaxy(starCount);
@@ -33,8 +49,12 @@ class Galaxy {
 
       let starSystem = new StarSystem(StarSystem.getRandomName(),x,y);
       let type = StarSystem.getRandomType();
+
+      let event = EventManager.GenerateRandomEvent(starSystem);
+
       starSystem.type= type.name;
       starSystem.color= type.color;
+      starSystem.event= event;
       //x= r Cos i
       //y= r Sin i
       //r=sqrt(x²+y²)

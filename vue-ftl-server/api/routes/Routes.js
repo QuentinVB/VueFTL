@@ -1,13 +1,14 @@
 'use strict';
 module.exports = function(app) {
 
-const testController = require('../controllers/TestController')
+//const testController = require('../controllers/TestController')
 const galaxyController = require('../controllers/GalaxyController')
 const shipController = require('../controllers/ShipController')
 
 
 
 //Routes for testing
+/*
   app.route('/ping')
     .get((req, res)=> {
       res.json({ping : "pong", methode : req.method})}
@@ -20,7 +21,7 @@ const shipController = require('../controllers/ShipController')
   .get(testController.getstate);
   app.route('/updatemessage')
   .put(testController.updateMessage);
-
+*/
   app.route('/ship')
   .get(shipController.getShip);
   app.route('/ship/moverandom')
@@ -32,9 +33,10 @@ const shipController = require('../controllers/ShipController')
 
   app.route('/galaxy')
   .get(galaxyController.getGalaxy);
-
   app.route('/galaxy/:starsystemuuid')
   .get(galaxyController.getStarSystem);
+  app.route('/galaxy/:starsystemuuid/event')
+  .get(galaxyController.getStarSystemEvent);
   app.route('/galaxy/:starsystemuuid/mine')
   .get(galaxyController.mineStarSystem);
 //real routes
