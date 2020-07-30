@@ -10,8 +10,6 @@
 <script>
 // @ is an alias to /src
 import GalaxyMap from '@/components/GalaxyMap.vue'
-import ShipApiService from '../services/ShipApiServices'
-import GalaxyApiService from '../services/GalaxyApiServices'
 
 
 export default {
@@ -21,7 +19,6 @@ export default {
   },
   data: function () {
     return {
-      galaxy: GalaxyApiService.EmptyGalaxy,
       selectedDestination:undefined,
       errors: [],
     }
@@ -32,50 +29,13 @@ export default {
 
   },*/
   mounted() {
-    this.refreshGalaxy();
   },
   methods: {
-    refreshShip() {
-      ShipApiService.getShipAsync()
-        .then(response => {
-          this.ship = response.data.ship
-          //console.log(this.skill)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    refreshGalaxy() {
-      GalaxyApiService.getGalaxyAsync()
-        .then(response => {
-          this.galaxy = response.data.galaxy
-          //console.log(this.skill)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    
     moveShipToSelectedDestination()
     {
-      console.log("trying to move to " + this.selectedDestination.name);
-      //request moving to the destination
-      //check for
-      ShipApiService.postMoveShipToAsync(this.selectedDestination.uuid)
-        .then(response => {
-          //check message status ?
-          console.log(response.data.ship);
-          //on valid : update the ship using vuex !
-          //this.ship = response.data.ship
-          console.log("moved to " + this.selectedDestination.name);
-
-          //BAD : state should be changed using vuex (again)
-          this.$router.push({ name: 'MainScreen',query: { mode: 'event' } });//{ name: 'user', params: { userId: '123' } }
-        })
-        .catch(err => {
-          console.error(err)
-        });
-
+      this.$store.dispatch('moveShipToSelectedDestination',this.selectedDestination);
+      this.$router.push({ name: 'MainScreen' });//{ name: 'user', params: { userId: '123' } }
+      //this.$router.push({ name: 'MainScreen',query: { mode: 'event' } });//{ name: 'user', params: { userId: '123' } }
     },
     starSystemSelected(starSystem)
     {
@@ -100,10 +60,16 @@ export default {
   {
     wrapButtonVisible()
     {
-      return true;
-      //return this.selectedDestination != undefined && this.ship.location != this.selectedDestination.uuid ;
+      return this.selectedDestination != undefined && this.$store.state.ship.location != this.selectedDestination.uuid ;
     },
-    
+    ship()
+    {
+      return this.$store.state.ship;
+    },
+    galaxy()
+    {
+      return this.$store.state.galaxy;
+    }
 
   }
 }

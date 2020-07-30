@@ -1,21 +1,23 @@
 <template>
   <div class="mainscreen">
     <p>Captain on the bridge !</p>
+    <p>Current system is {{currentStarSystem.name}}</p>
     <h2>Actions</h2>
     <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
     <h2>Communications</h2>
     <p>Here lies the messages from strangers species</p>
-    <p v-if="mode == 'event'"> <!--should be modal !-->
+    <p v-if="event"> <!--should be modal !-->
       {{event.state.message}}
+      <ul>
+        <li v-for="(option,index) in event.state.options" :key="index" v-on:click="selectEventOption(index)">{{option.message}}</li>
+      </ul>
     </p>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import ShipApiService from '@/services/ShipApiServices'
-import GalaxyApiService from '@/services/GalaxyApiServices'
-import EventApiServices from '@/services/EventApiServices'
+import * as types from '@/store/mutation-types.js';
 
 
 export default {
@@ -31,10 +33,6 @@ export default {
   },
   data: function () {
     return {
-      event: EventApiServices.EmptyEvent,
-      ship: ShipApiService.EmptyShip,
-      galaxy: GalaxyApiService.EmptyGalaxy,
-      selectedDestination:undefined,
       errors: [],
     }
   },
@@ -44,67 +42,17 @@ export default {
 
   },*/
   mounted() {
-    this.refreshShip();
-    this.refreshGalaxy();
-    console.log(this.mode);
     //if(this.mode == 'event') this.refreshEvent();
   },
   methods: {
-    refreshShip() {
-      ShipApiService.getShipAsync()
-        .then(response => {
-          this.ship = response.data.ship
-          //console.log(this.skill)
-          if(this.mode == 'event') this.refreshEvent();
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    refreshGalaxy() {
-      GalaxyApiService.getGalaxyAsync()
-        .then(response => {
-          this.galaxy = response.data.galaxy
-          //console.log(this.skill)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    refreshEvent() {
-      
-      GalaxyApiService.getStarSystemEventAsync(this.ship.location)
-      .then(response => {
-        console.log(response.data.event);
-        this.event = response.data.event
-        //console.log(this.skill)
-      })
-      .catch(err => {
-        console.error(err)
-      })
-    },
-    
     mineSomeOre()
     {
-      //if(this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid)
-      if(this.ship.location)
-      {
-        GalaxyApiService.getMineStarSystemAsync(this.ship.location)
-        .then(response => {
-          //check message status ?
-
-          //on valid : update the ship
-          const starSystemToUpdate = response.data.starSystem;
-          const fuelMined = response.data.fuelmined;
-          this.galaxy.galaxyMap[starSystemToUpdate.uuid]=starSystemToUpdate;
-          this.ship.fuel += fuelMined;
-          console.log("mined " + this.ship.location+" and gained "+ fuelMined+" fuel");
-        })
-        .catch(err => {
-          console.error(err)
-        });
-        
-      }
+      this.$store.dispatch('mineSomeOre');
+    },
+    selectEventOption(idx)
+    {
+      console.log("clicked option "+idx);
+      this.$store.commit(types.RESOLVEEVENT);
     }
   },
   computed:
@@ -113,8 +61,23 @@ export default {
     {
       return this.ship.location;
       //return this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid ;
+    },
+    ship()
+    {
+      return this.$store.state.ship;
+    },
+    galaxy()
+    {
+      return this.$store.state.galaxy;
+    },
+    event()
+    {
+      return this.$store.state.event;
+    },
+    currentStarSystem()
+    {
+      return this.$store.getters.currentStarSystem;
     }
-
   }
 }
 </script>

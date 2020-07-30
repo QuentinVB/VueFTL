@@ -15,32 +15,25 @@
   </div>
 </template>
 <script>
-  import ShipApiService from '../services/ShipApiServices'
 
   export default {
   name: 'Ship',
 
   data: function () {
     return {
-      ship: ShipApiService.EmptyShip,
       errors: [],
     }
   },
+  computed:
+  {
+    ship()
+    {
+      return this.$store.state.ship;
+    }
+  },
   mounted() {
-    this.refreshShip();
   },
   methods: {
-    refreshShip() {
-      ShipApiService.getShipAsync()
-        .then(response => {
-          this.ship = response.data.ship
-          //console.log(this.skill)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
-    
     /*
     checkForm: function (e) {
       e.preventDefault();

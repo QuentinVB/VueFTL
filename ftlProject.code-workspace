@@ -1,0 +1,50 @@
+{
+	"folders": [
+		{
+			"name": "All",
+			"path": "."
+		},
+		/*{
+			"name": "Client",
+			"path": "D:\\Quentin_Data\\Documents\\03-projets\\VueFTL\\vue-ftl-app"
+		},
+		{
+			"name": "Server",
+			"path": "D:\\Quentin_Data\\Documents\\03-projets\\VueFTL\\vue-ftl-server"
+		},*/
+	],
+	"settings": {},
+	"launch": {
+        "configurations": [
+            {
+                "type": "node",
+                "request": "launch",
+                "name": "Launch Client",
+                "console": "integratedTerminal",
+                "runtimeExecutable": "npm",
+                "cwd": "D:\\Quentin_Data\\Documents\\03-projets\\VueFTL\\vue-ftl-app",//"D:\\Quentin_Data\\Documents\\03-projets\\VueFTL\\vue-ftl-app"
+                "runtimeArgs": ["run", "dev"],
+            },
+            {
+                "type": "node",
+                "request": "launch",
+                "name": "Launch Server",
+                "console": "integratedTerminal",
+                "runtimeExecutable": "npm",
+                "cwd": "D:\\Quentin_Data\\Documents\\03-projets\\VueFTL\\vue-ftl-server",//D:\\Quentin_Data\\Documents\\03-projets\\VueFTL\\vue-ftl-server",${workspaceFolder:Server}
+                "runtimeArgs": ["start"],
+            }
+        ],
+        "compounds": [{
+            "name": "Launch Server & Client",
+            "configurations": [
+                {
+					"name": "Launch Server"
+                },
+                {
+					"name": "Launch Client"
+                }
+            ]
+        }]
+    }
+}

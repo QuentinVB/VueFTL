@@ -15,8 +15,15 @@ class Galaxy {
 
     ToObject()
     {
-      let cleanMap = Object.entries(this.galaxyMap).map((v)=>{
+      let cleanMap ={}
+      /*
+      Object.entries(this.galaxyMap).map((v)=>{
         return v[1].ToObject()
+      });
+*/
+      Object.entries(this.galaxyMap).forEach(starSystem => {
+        console.log(starSystem);
+        cleanMap[starSystem[0]] = starSystem[1].ToObject();
       });
 
       return {

@@ -8,6 +8,31 @@
     <router-view/>
   </div>
 </template>
+<script>
+export default {
+  name: 'MainScreen',
+
+  data: function () {
+    return {
+      errors: [],
+    }
+  },
+  computed:
+  {
+    
+  },
+  mounted() {
+    if(!this.$store.getters.isLoaded)
+    {
+      console.log("force full reload");
+      this.$store.dispatch('RELOAD')
+    }
+  },
+  methods: {
+
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

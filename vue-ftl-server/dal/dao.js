@@ -13,3 +13,12 @@ var activeShip = Ship.EmptyShip();
 
 exports.ActiveShip = activeShip;
 exports.ActiveGalaxy = activeGalaxy;
+
+exports.getEvent = function (eventuuid)
+{
+    //filter more efficient => NOPE
+    for(let starSystem of Object.entries(activeGalaxy.galaxyMap))
+    {
+        if(starSystem.event && starSystem.event.uuid ==eventuuid ) return starSystem.event;
+    }
+};
