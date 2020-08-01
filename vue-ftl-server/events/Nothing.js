@@ -10,11 +10,11 @@ class Nothing extends Event{
   constructor(name,starSystem,statesData) {
     //procecss state data before injection
     let states= [
-      {message:"Il n'y a rien ici",options:[{message:"Continuer.",effects:[]}]}
+      {message:"Nothing to see here",options:[{message:"Continue.",effects:[]}]}
     ]
     super(name, starSystem,states)
     }
   }
-
+//add random "nothing to see" text generator ?
   
 module.exports = Nothing;

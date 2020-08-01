@@ -1,7 +1,7 @@
 <template>
   <div class="mainscreen">
     <p>Captain on the bridge !</p>
-    <p>Current system is {{currentStarSystem.name}}</p>
+    <p v-if="currentStarSystem.name !=''">Current system is {{currentStarSystem.name}}</p>
     <h2>Actions</h2>
     <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
     <h2>Communications</h2>

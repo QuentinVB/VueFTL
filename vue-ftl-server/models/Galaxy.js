@@ -2,7 +2,7 @@
 
 const StarSystem = require("./StarSystem");
 const Random = require("../helpers/Random");
-const EventManager = require("./EventManager");
+const EventManager = require("../events/EventManager");
 
 
 
@@ -22,7 +22,7 @@ class Galaxy {
       });
 */
       Object.entries(this.galaxyMap).forEach(starSystem => {
-        console.log(starSystem);
+        //console.log(starSystem);
         cleanMap[starSystem[0]] = starSystem[1].ToObject();
       });
 

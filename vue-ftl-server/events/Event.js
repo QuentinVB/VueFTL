@@ -10,7 +10,7 @@ class Event {
   
   constructor(name,starSystem,statesData) {
       this.name=name;
-      this.currentState = 0  ;
+      this.currentStateIdx = 0  ;
       this.isActive = false;
 
       this.states = statesData;
@@ -25,8 +25,17 @@ class Event {
         isActive : this.isActive,
         uuid:this.uuid,
         starSystemUUID: this.starSystem.uuid,
-        state:  this.states[this.currentState]
+        state:  this.states[this.currentStateIdx]
       }
+    }
+    get currentState()
+    {
+      if(this.states)
+      {
+        //TODO : cleanup state from result
+        return this.states[this.currentStateIdx];
+      }
+      throw "no states !";
     }
   }
 

@@ -21,8 +21,8 @@ const storage = {
     //asynchronous effectors
     actions: actuators,
     getters: {
-      currentStarSystem (state,getters) {
-        if(!getters.isLoaded) return GalaxyApiServices.EmptyStarSystem
+      currentStarSystem (state) {
+        if(!state.ship.location) return GalaxyApiServices.EmptyStarSystem
         const starSystemUUID = state.ship.location;
         return state.galaxy.galaxyMap[starSystemUUID];
       },

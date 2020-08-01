@@ -1,0 +1,52 @@
+//'use strict';
+
+import Random from "../helpers/Random"
+import Event from "./Event";
+import {REFUELSHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
+
+
+export default class FloatingFuel extends Event{
+  //TODO : inject fuel amount gained in state data
+  constructor(name,starSystem,statesData) {
+    
+    super(name, starSystem)
+    
+
+
+    this.states= [
+        {
+          message:"A floating fuel tank drifting in space...",
+          options:[
+            {
+              message:"Pick it.",
+              effects:[
+                {action:REFUELSHIP,payload:{amount:1} },//inject state data here
+                {action:SETEVENTSTATE,payload:{eventuuid:this.uuid,state:1} }
+              ]
+            },
+            {
+              message:"Leave it.",
+              effects:[
+                {action:SETEVENTSTATE,payload:{eventuuid:this.uuid,state:2} }
+              ]
+            }
+          ]
+        },
+        {
+          message:"You pick the fuel tank, to precious to spare !",
+          options:[{message:"Continue.",effects:[
+            {action:CLOSEEVENT,payload:{eventuuid:this.uuid} }
+          ]}]
+        },
+        {
+          message:"You left the tank alone in the void of space...",
+          options:[{message:"Continue.",effects:[
+            {action:CLOSEEVENT,payload:{eventuuid:this.uuid} }
+  
+          ]}]
+        }
+      ]
+    }
+  }
+
+  

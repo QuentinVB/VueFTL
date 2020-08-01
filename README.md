@@ -27,3 +27,5 @@ https://github.com/microsoft/vscode-recipes/tree/master/vuejs-cli
         "webpack:///./~/*": "${webRoot}/node_modules/*"
       }
     }
+
+    https://timonweb.com/tutorials/how-to-enable-ecmascript-6-imports-in-nodejs/

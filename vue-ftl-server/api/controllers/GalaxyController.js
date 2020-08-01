@@ -1,9 +1,8 @@
 'use strict';
-//var Game = require('../models/Game'); //created model loading here
-//var Player = require('../models/PLayer'); //created model loading here
-var Galaxy = require('../../models/Galaxy'); 
 
-const dao = require('../../dal/dao');
+import Galaxy from'../../models/Galaxy'; 
+
+import dao from '../../dal/dao';
 
 /*
 exports.getstate = function(req, res) {
@@ -41,7 +40,7 @@ exports.getStarSystemEvent = function(req, res) {
 
   const uuid = req.params.starsystemuuid;
   const starSystem = dao.ActiveGalaxy.galaxyMap[uuid];
-  const starSystemEvent = starSystem.event.ToObject();
+  
 
   if(!starSystem)
   {
@@ -49,6 +48,7 @@ exports.getStarSystemEvent = function(req, res) {
   }
   else
   {
+    const starSystemEvent = starSystem.event.ToObject();
     res.json({event : starSystemEvent, methode : req.method});
   }
 };
