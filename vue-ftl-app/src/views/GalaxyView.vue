@@ -41,14 +41,14 @@ export default {
     {
       if(starSystem)
       {
-        console.log("MainScreen here ! You selected "+starSystem.name);
+        //console.log("MainScreen here ! You selected "+starSystem.name);
         this.selectedDestination=starSystem;
         //this.$emit("onselectstarsystem", starSystem);
 
       }
       else
       {
-        console.log("MainScreen here ! You deselected " +this.selectedDestination.name);
+        //console.log("MainScreen here ! You deselected " +this.selectedDestination.name);
         this.selectedDestination = undefined;
         //this.$emit("onselectstarsystem");
 

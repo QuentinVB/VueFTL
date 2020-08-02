@@ -5,8 +5,8 @@
     <h2>Actions</h2>
     <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
     <h2>Communications</h2>
-    <p v-if="!event">Here lies the messages from strangers species</p>
-    <p v-if="event"> <!--should be modal !-->
+    <p v-if="!eventActive">Here lies the messages from stranger species</p>
+    <p v-if="eventActive"> <!--should be modal !-->
       {{event.state.message}}
       <ul>
         <li v-for="(option,index) in event.state.options" :key="index" v-on:click="selectEventOption(index)">{{option.message}}</li>
@@ -79,6 +79,11 @@ export default {
     currentStarSystem()
     {
       return this.$store.getters.currentStarSystem;
+    },
+    eventActive()
+    {
+      //console.log(this.$store.state.event);
+      return this.$store.state.event && this.$store.state.event.isActive
     }
   }
 }

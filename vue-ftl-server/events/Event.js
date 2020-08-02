@@ -1,17 +1,15 @@
 'use strict';
 const Random = require("../helpers/Random");
 const Uuid = require('uuid');
-
+const EventManager = require('./EventManager'); 
 
 
 //ABSTRACT !!
 class Event {
-  
-  
   constructor(name,starSystem,statesData) {
       this.name=name;
       this.currentStateIdx = 0  ;
-      this.isActive = false;
+      this.isActive = true;
 
       this.states = statesData;
       
@@ -40,9 +38,19 @@ class Event {
 
     triggerAnswer(idx)
     {
-      console.log("answer triggered "+ idx);
+      //console.log("answer triggered "+ idx);
+      //TODO ADD SAFETY
 
-      
+      const currentState = this.states[this.currentStateIdx];
+
+      if(0>idx || idx>= currentState.options.length) throw "idx should be inbetween";
+
+      const selectedOption = currentState.options[idx];
+
+      for (const effect of selectedOption.effects) {
+        EventManager.ProcessAction(effect.action,effect.payload);
+      }
+
     }
   }
 

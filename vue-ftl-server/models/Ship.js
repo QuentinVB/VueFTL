@@ -38,6 +38,13 @@ class Ship {
 
       return true;
     }
+    setLocationTo(uuid)
+    {
+      this.location = uuid;
+      //falsy because a ship has no
+      this.position = dao.ActiveGalaxy.galaxyMap[uuid].position;
+      return true;
+    }
     toObject()
     {
       //TODO ADD STATE MESSAGE ?

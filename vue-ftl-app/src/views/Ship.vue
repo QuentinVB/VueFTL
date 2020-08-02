@@ -4,7 +4,7 @@
     <ul>
       <li>Name : {{ship.name}}</li>
       <li>Fuel left  : {{ship.fuel}}</li>
-      <li>Location : {{ship.location}}</li>
+      <li>Location : {{currentStarSystem.name}}</li>
       <li>Position  : 
         <ul>
           <li>x : {{ship.position.x}}</li>
@@ -29,7 +29,11 @@
     ship()
     {
       return this.$store.state.ship;
-    }
+    },
+    currentStarSystem()
+    {
+      return this.$store.getters.currentStarSystem;
+    },
   },
   mounted() {
   },

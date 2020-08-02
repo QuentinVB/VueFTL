@@ -41,13 +41,13 @@
       if(starSystem.uuid != this.selectedSystem.uuid)
       {
         this.selectedSystem=starSystem;
-        console.log("GalaxyMap here ! You selected " +starSystem.name);
+        //console.log("GalaxyMap here ! You selected " +starSystem.name);
         this.$emit("onselectstarsystem", starSystem);
 
       }
       else
       {
-        console.log("GalaxyMap here ! You deselected " +starSystem.name);
+        //console.log("GalaxyMap here ! You deselected " +starSystem.name);
         this.selectedSystem = GalaxyApiService.EmptyStarSystem;
         this.$emit("onselectstarsystem");
 

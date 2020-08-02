@@ -33,6 +33,12 @@ class Galaxy {
       }
     }
 
+    pickRandomStarSystem()
+    {
+      if(Object.keys(this.galaxyMap).length == 0) throw "no star system in it !";
+      return Object.values(this.galaxyMap)[Random.getRandomIntInclusive(0,Object.keys(this.galaxyMap).length-1)];
+    }
+
 
     static EmptyGalaxy() {
       let starCount = 5;
