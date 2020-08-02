@@ -4,7 +4,6 @@ import Nothing from "../events/Nothing";
 import FloatingFuel from "../events/FloatingFuel";
 
 
-
 //ABSTRACT !!
 class EventManager {
  

@@ -1,9 +1,8 @@
 'use strict';
 
-import Galaxy from'../../models/Galaxy'; 
+//import Galaxy from'../../models/Galaxy'; 
 
-import dao from '../../dal/dao';
-
+const dao = require('../../dal/dao');
 /*
 exports.getstate = function(req, res) {
   res.json({message : message, methode : req.method});

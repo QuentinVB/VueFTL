@@ -17,8 +17,9 @@ exports.ActiveGalaxy = activeGalaxy;
 exports.getEvent = function (eventuuid)
 {
     //filter more efficient => NOPE
-    for(let starSystem of Object.entries(activeGalaxy.galaxyMap))
+    for(const starSystemuuid in activeGalaxy.galaxyMap)
     {
-        if(starSystem.event && starSystem.event.uuid ==eventuuid ) return starSystem.event;
+        const starSystem = activeGalaxy.galaxyMap[starSystemuuid];
+        if(starSystem.event && starSystem.event.uuid === eventuuid ) return starSystem.event;
     }
 };

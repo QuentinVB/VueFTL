@@ -1,8 +1,7 @@
 'use strict';
 var EventManager = require('../../events/EventManager'); 
 //const dao = require('../../dal/dao');
-
-import dao from '../../dal/dao'
+const dao = require('../../dal/dao');
 
 exports.getEvent = function(req, res) {
   const uuid = req.params.eventuuid;
@@ -21,24 +20,14 @@ exports.getEvent = function(req, res) {
 
 
 //POST
-exports.postEventAnswer= function(req, res) {
-  //destination = req.body.destination;
-  //in url : star system ?
-  const eventuuid = req.body.eventuuid;
-  const answerIdx = req.body.answerIdx;
-  //check action existence ?
-  /*
-  {
-
-  }
-  
-  */
-
+exports.getEventAnswer= function(req, res) {
+//destination = req.body.destination;
+//in url : star system ?
+  const eventuuid = req.params.eventuuid;
+  const answerIdx = req.params.answeridx;
   const event = dao.getEvent(eventuuid);
 
-  
-  //var eventUpdated= 
+  event.triggerAnswer(answerIdx);
 
-
-  res.json({event : eventUpdated, methode : req.method});
+  res.json({event : event.ToObject(), methode : req.method});
 };

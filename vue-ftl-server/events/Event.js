@@ -37,6 +37,13 @@ class Event {
       }
       throw "no states !";
     }
+
+    triggerAnswer(idx)
+    {
+      console.log("answer triggered "+ idx);
+
+      
+    }
   }
 
 

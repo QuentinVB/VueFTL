@@ -24,6 +24,7 @@ export default {
       [types.UPDATEEVENT] (state,event) {
         state.event=event;
       },
+      
       [types.RESOLVEEVENT] (state) {
         state.event=null;//yep
       },

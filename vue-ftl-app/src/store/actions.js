@@ -1,6 +1,7 @@
 import * as types from '@/store/mutation-types.js';
 import ShipApiServices from '@/services/ShipApiServices';
 import GalaxyApiServices from '@/services/GalaxyApiServices';
+import EventApiServices from '../services/EventApiServices';
 
 export default {
     RELOAD()
@@ -75,6 +76,19 @@ export default {
         GalaxyApiServices.getStarSystemEventAsync(ctx.state.ship.location)
         .then(response => {
           this.commit(types.UPDATEEVENT,response.data.event)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+      },
+      //TODO : should be a payload
+      answerEvent(ctx,{eventuuid,idx}) 
+      {
+        //console.log("action level, event:" + eventuuid+ " idx:"+idx)
+        EventApiServices.getEventAnswerAsync(eventuuid,idx)
+        .then(response => {
+          this.commit(types.UPDATEEVENT,response.data.event);
+          this.dispatch('refreshShip');
         })
         .catch(err => {
           console.error(err)

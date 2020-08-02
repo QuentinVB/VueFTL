@@ -4,6 +4,7 @@ module.exports = function(app) {
 //const testController = require('../controllers/TestController')
 const galaxyController = require('../controllers/GalaxyController')
 const shipController = require('../controllers/ShipController')
+const eventController = require('../controllers/EventController')
 
 
 
@@ -39,6 +40,9 @@ const shipController = require('../controllers/ShipController')
   .get(galaxyController.getStarSystemEvent);
   app.route('/galaxy/:starsystemuuid/mine')
   .get(galaxyController.mineStarSystem);
+
+  app.route('/event/:eventuuid/answer/:answeridx')
+  .get(eventController.getEventAnswer);
 //real routes
 
   /*join a new game, 

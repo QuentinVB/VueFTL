@@ -22,7 +22,7 @@ const storage = {
     actions: actuators,
     getters: {
       currentStarSystem (state) {
-        if(!state.ship.location) return GalaxyApiServices.EmptyStarSystem
+        if(!state.ship.location) return null;
         const starSystemUUID = state.ship.location;
         return state.galaxy.galaxyMap[starSystemUUID];
       },

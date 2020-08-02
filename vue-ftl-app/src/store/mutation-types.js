@@ -9,3 +9,4 @@ export const UPDATESTARSYSTEM = 'UPDATESTARSYSTEM';
 //event mutations
 export const UPDATEEVENT = 'UPDATEEVENT';
 export const RESOLVEEVENT = 'RESOLVEEVENT';
+export const ANSWERTOEVENT = 'ANSWERTOEVENT';
