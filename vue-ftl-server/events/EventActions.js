@@ -6,6 +6,8 @@ export const DAMAGESHIP = 'DAMAGESHIP';
 export const DRAINSHIPFUEL = 'DRAINSHIPFUEL';
 export const CLOSEEVENT = 'CLOSEEVENT';
 export const SETEVENTSTATE = 'SETEVENTSTATE';
+export const GAINCREDITS = 'GAINCREDITS';
+export const LOSECREDITS = 'LOSECREDITS';
 
 
 

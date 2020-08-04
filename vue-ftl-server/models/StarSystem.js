@@ -18,26 +18,43 @@ const STELLARTYPES = [
     {name:'Yellow Dwarf',color:{r:255,g:200,b:0}},
     {name:'Blackhole',color:{r:0,g:0,b:0}},
     {name:'Neutron Star',color:{r:230,g:230,b:255}},
-
   ]
 
 
 class StarSystem {
+    COOLDOWN = 120;//seconds
+
     constructor(name,x,y) {
       this.name=name;
       this.type="";
       this.color={r:0,g:0,b:0};
-      this.position = {x,y} ;
+      this.position = {x,y};
+
+
+      this.planetes = Random.getRandomIntInclusive(1,10);
+
       this.minerals = Math.round(Math.random()*100);
 
       this.anomaly="";
 
+      this.eventResetDate = Date.now();
+
       this.uuid = Uuid.v4();
+    }
+
+    get isCoolingDown()
+    {
+      return this.eventResetDate > Date.now();
+    }
+
+    resetCoolDown()
+    {
+      this.eventResetDate = new Date(Date.now()+this.COOLDOWN*1000)
     }
     
     ToObject()
     {
-      //event only on request !
+      //TODO : Add cooldown ?
       return {
         name:this.name,
         type:this.type,
@@ -48,6 +65,27 @@ class StarSystem {
         uuid:this.uuid
       }
     }
+    static generateRandomStarSystem(galaxyRadius)
+    {
+      let angular = Math.random()*Math.PI*2;
+      let radius = Math.random() * galaxyRadius;
+      
+      let x = Math.round(radius * Math.cos(angular));//Random.getRandomIntInclusive(-this.radius,this.radius);
+      let y = Math.round(radius * Math.sin(angular));
+
+      let starSystem = new StarSystem(this.getRandomName(),x,y);
+
+      let type = this.getRandomType();
+
+      starSystem.type= type.name;
+      starSystem.color= type.color;
+      //x= r Cos i
+      //y= r Sin i
+      //r=sqrt(x²+y²)
+      //i = atan (y/x)
+      return starSystem;
+    }
+    
     static EmptyStarSystem() {
       let emptySystem= new StarSystem(this.getRandomName(),0,0);
 

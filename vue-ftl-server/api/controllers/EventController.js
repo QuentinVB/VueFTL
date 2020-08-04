@@ -10,13 +10,21 @@ exports.getActiveEvent = function(req, res) {
   const uuid = req.params.playeruuid;
 
   let event = dao.ActivePlayer.activeEvent //dao.getEvent(uuid).ToObject();
-
+  
+  const currentStarSystem = dao.getCurrentStarSystem(dao.ActivePlayer.uuid);
+  console.log("current date : "+Date.now()+", resetDate : "+currentStarSystem.eventResetDate+", is cooling down : "+currentStarSystem.isCoolingDown);
+  
+  if(currentStarSystem.isCoolingDown)
+  {
+    event = EventManager.Nothing(dao.ActivePlayer.uuid);
+  }
   if(!event || !event.isActive)
   {
     event = EventManager.GenerateRandomEvent(dao.ActivePlayer.uuid);
     dao.ActivePlayer.activeEvent = event;
+    currentStarSystem.resetCoolDown();
   }
-
+  
   res.json({event : event.ToObject(), methode : req.method});
   
 };

@@ -12,14 +12,14 @@ export default class AsteroidField extends Event{
     //procecss state data before injection
     super(name, starSystem)
 
-    this.damages = Random.getRandomInt(10)+1;
+    const damages = Random.getRandomInt(10)+1;
     this.states= [
       {
-        message:"Your emerge from FTL right into an asteroid field and takes "+this.damages+" damages to your hull !",
+        message:"Your emerge from FTL right into an asteroid field and takes "+damages+" damages to your hull !",
         options:[
           {message:"Continue.",
           effects:[
-            {action:DAMAGESHIP,payload:{damages:this.damages} },
+            {action:DAMAGESHIP,payload:{damages:damages} },
             {action:CLOSEEVENT,payload:{eventuuid:this.uuid} }
           ]
         }]

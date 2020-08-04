@@ -27,3 +27,13 @@ exports.getEvent = function (eventuuid)
         if(starSystem.event && starSystem.event.uuid === eventuuid ) return starSystem.event;
     }
 };
+
+exports.getCurrentStarSystem= function(playeruuid)
+{
+    //get player then active ship
+
+    for(const starSystemuuid in activeGalaxy.galaxyMap)
+    {
+        if(starSystemuuid == activeShip.location) return activeGalaxy.galaxyMap[starSystemuuid];
+    }
+}

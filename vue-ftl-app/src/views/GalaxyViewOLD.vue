@@ -13,7 +13,7 @@ import GalaxyMap from '@/components/GalaxyMap.vue'
 
 
 export default {
-  name: 'GalaxyView',
+  name: 'MainScreen',
   components: {
     GalaxyMap
   },

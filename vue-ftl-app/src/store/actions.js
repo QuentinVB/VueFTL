@@ -111,6 +111,7 @@ export default {
         .then(response => {
           this.commit(types.UPDATEEVENT,response.data.event);
           this.dispatch('refreshShip');
+          this.dispatch('refreshPlayer');
         })
         .catch(err => {
           console.error(err)
