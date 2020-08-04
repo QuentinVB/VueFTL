@@ -6,14 +6,14 @@ const EventManager = require('./EventManager');
 
 //ABSTRACT !!
 class Event {
-  constructor(name,starSystem,statesData) {
+  constructor(name,player,statesData) {
       this.name=name;
       this.currentStateIdx = 0  ;
       this.isActive = true;
 
       this.states = statesData;
       
-      this.starSystem = starSystem;
+      this.player = player;
       this.uuid = Uuid.v4();
     }
     ToObject()
@@ -22,7 +22,7 @@ class Event {
         name : this.name,
         isActive : this.isActive,
         uuid:this.uuid,
-        starSystemUUID: this.starSystem.uuid,
+        playerUUID: this.player.uuid,
         state:  this.states[this.currentStateIdx]
       }
     }

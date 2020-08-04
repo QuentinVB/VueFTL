@@ -5,24 +5,14 @@ module.exports = function(app) {
 const galaxyController = require('../controllers/GalaxyController')
 const shipController = require('../controllers/ShipController')
 const eventController = require('../controllers/EventController')
+const playerController = require('../controllers/PlayerController')
 
 
 
 //Routes for testing
-/*
-  app.route('/ping')
-    .get((req, res)=> {
-      res.json({ping : "pong", methode : req.method})}
-      );
-  app.route('/time')
-    .get((req, res)=> {
-      res.json({timestamp : (new Date(Date.now())).toLocaleString('fr-FR'), methode : req.method})}
-      );
-  app.route('/getstate')
-  .get(testController.getstate);
-  app.route('/updatemessage')
-  .put(testController.updateMessage);
-*/
+
+//TODO : use the right verb !!
+
   app.route('/ship')
   .get(shipController.getShip);
   app.route('/ship/moverandom')
@@ -41,8 +31,15 @@ const eventController = require('../controllers/EventController')
   app.route('/galaxy/:starsystemuuid/mine')
   .get(galaxyController.mineStarSystem);
 
-  app.route('/event/:eventuuid/answer/:answeridx')
-  .get(eventController.getEventAnswer);
+  app.route('/event/:playeruuid')
+  .get(eventController.getActiveEvent);
+  app.route('/event/:playeruuid/answer/:answeridx')
+  .post(eventController.postEventAnswer);
+
+  app.route('/player')
+  .get(playerController.getPlayer);
+  app.route('/player')
+  .put(playerController.updatePlayer);
 //real routes
 
   /*join a new game, 

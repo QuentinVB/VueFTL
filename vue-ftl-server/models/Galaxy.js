@@ -63,11 +63,9 @@ class Galaxy {
       let starSystem = new StarSystem(StarSystem.getRandomName(),x,y);
       let type = StarSystem.getRandomType();
 
-      let event = EventManager.GenerateRandomEvent(starSystem);
 
       starSystem.type= type.name;
       starSystem.color= type.color;
-      starSystem.event= event;
       //x= r Cos i
       //y= r Sin i
       //r=sqrt(x²+y²)

@@ -2,12 +2,26 @@ import * as types from '@/store/mutation-types.js';
 import ShipApiServices from '@/services/ShipApiServices';
 import GalaxyApiServices from '@/services/GalaxyApiServices';
 import EventApiServices from '../services/EventApiServices';
+import PlayerApiServices from '../services/PlayerApiServices';
 
+//TODO : split actions
 export default {
     RELOAD()
       {
         this.dispatch('refreshShip');
         this.dispatch('refreshGalaxy');
+        this.dispatch('refreshPlayer');
+      },
+      refreshPlayer(ctx) {
+        PlayerApiServices.getPlayerAsync()
+          .then(response => {
+              ctx.commit(types.UPDATEPLAYER,response.data.player);
+            //console.log(this.skill)
+            //if(this.mode == 'event') this.refreshEvent();
+          })
+          .catch(err => {
+            console.error(err)
+          })
       },
       refreshShip(ctx) {
         ShipApiServices.getShipAsync()
@@ -73,19 +87,27 @@ export default {
         }
       },
       refreshEvent(ctx) {
-        GalaxyApiServices.getStarSystemEventAsync(ctx.state.ship.location)
+        EventApiServices.getEventAsync(ctx.state.player.uuid)
         .then(response => {
-          this.commit(types.UPDATEEVENT,response.data.event)
+          const returnedEvent = response.data.event;
+          if(returnedEvent.isActive == false)
+          {
+            if(ctx.commit(types.RESOLVEEVENT));
+          }
+          else
+          {
+            ctx.commit(types.UPDATEEVENT,returnedEvent);
+          }
         })
         .catch(err => {
           console.error(err)
         })
       },
       //TODO : should be a payload
-      answerEvent(ctx,{eventuuid,idx}) 
+      answerEvent(ctx,{playeruuid,idx}) 
       {
         //console.log("action level, event:" + eventuuid+ " idx:"+idx)
-        EventApiServices.getEventAnswerAsync(eventuuid,idx)
+        EventApiServices.postEventAnswerAsync(playeruuid,idx)
         .then(response => {
           this.commit(types.UPDATEEVENT,response.data.event);
           this.dispatch('refreshShip');

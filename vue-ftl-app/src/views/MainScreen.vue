@@ -9,7 +9,7 @@
     <p v-if="eventActive"> <!--should be modal !-->
       {{event.state.message}}
       <ul>
-        <li v-for="(option,index) in event.state.options" :key="index" v-on:click="selectEventOption(index)">{{option.message}}</li>
+        <li v-for="(option,index) in event.state.options" :key="index" v-on:click="selectEventOption(index)" class="eventOption">{{option.message}}</li>
       </ul>
     </p>
   </div>
@@ -51,9 +51,9 @@ export default {
     },
     selectEventOption(idx)
     {
-      console.log("clicked option "+idx +" on event:" + this.event.uuid);
+      console.log("clicked option "+idx +" for event of player :" + this.player.uuid);
 
-      this.$store.dispatch('answerEvent',{eventuuid:this.event.uuid,idx:idx});
+      this.$store.dispatch('answerEvent',{playeruuid:this.player.uuid,idx:idx});
       //this.$store.commit(types.RESOLVEEVENT);
     }
   },
@@ -76,6 +76,10 @@ export default {
     {
       return this.$store.state.event;
     },
+    player()
+    {
+      return this.$store.state.player;
+    },
     currentStarSystem()
     {
       return this.$store.getters.currentStarSystem;
@@ -83,8 +87,21 @@ export default {
     eventActive()
     {
       //console.log(this.$store.state.event);
+      //console.log(this.$store.state.event && this.$store.state.event.isActive);
       return this.$store.state.event && this.$store.state.event.isActive
     }
   }
 }
 </script>
+
+<style lang="scss">
+.eventOption
+{
+  text-decoration: underline;
+  cursor: pointer;
+}
+.eventOption:hover
+{
+  font-weight: bolder;
+}
+</style>

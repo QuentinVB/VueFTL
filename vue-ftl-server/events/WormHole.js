@@ -7,9 +7,9 @@ import {WARPSHIPTORANDOMDESTINATION,SETEVENTSTATE,CLOSEEVENT} from "./EventActio
 
 export default class WormHole extends Event{
   //TODO : inject fuel amount gained in state data
-  constructor(name,starSystem,statesData) {
+  constructor(name,player,statesData) {
     
-    super(name, starSystem)
+    super(name, player)
     
 
 

@@ -1,4 +1,4 @@
-import { getAsync} from '../helpers/apiHelpers'
+import { postAsync, getAsync} from '../helpers/apiHelpers'
 import Services from './Services'
 
 const endpoint = 'event'//message
@@ -8,7 +8,7 @@ class EventApiServices extends Services{
     name: "",
     isActive: false,
     uuid: "",
-    starSystemUUID: "",
+    playerUUID: "",
     state: {
         "message": "",
         "options": [
@@ -16,10 +16,15 @@ class EventApiServices extends Services{
     }
   }
     //event uuid
-  getEventAnswerAsync (eventuuid,answeridx) {
+  postEventAnswerAsync (playeruuid,answeridx) {
     //console.log("service level, event:" + eventuuid+ " idx:"+answeridx)
 
-    return getAsync(this.forgeUrl(`${endpoint}/${eventuuid}/answer/${answeridx}`));
+    return postAsync(this.forgeUrl(`${endpoint}/${playeruuid}/answer/${answeridx}`));
+  }
+  getEventAsync (playeruuid) {
+    //console.log("service level, event:" + eventuuid+ " idx:"+answeridx)
+
+    return getAsync(this.forgeUrl(`${endpoint}/${playeruuid}`));
   }
 
   /*

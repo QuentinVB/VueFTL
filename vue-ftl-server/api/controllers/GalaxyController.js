@@ -63,7 +63,10 @@ exports.mineStarSystem = function(req, res) {
   }
   else
   {
+    const fuel = dao.ActiveShip.fuel;
     var minedfuel = starSystem.mineSystem();
+
+    minedfuel = Math.abs(dao.ActiveShip.FUELMAX - (dao.ActiveShip.fuel + minedfuel));
     dao.ActiveShip.fuel+=minedfuel;
 
     res.json({starSystem : starSystem.ToObject(), fuelmined: minedfuel,  methode : req.method});

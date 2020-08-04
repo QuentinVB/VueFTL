@@ -2,16 +2,18 @@
 const Random = require("../helpers/Random");
 import Nothing from "../events/Nothing";
 import FloatingFuel from "../events/FloatingFuel";
-import * as actions from './EventActions'
+import AsteroidField from "../events/AsteroidField";
 import WormHole from "./WormHole";
+
+import * as actions from './EventActions'
 const dao = require('../dal/dao');
 
 //ABSTRACT !!
 
   exports.GenerateRandomEvent = function (starSystem)
     {
-      const token = Random.getRandomIntInclusive(0,2);
-      //const token = 2;
+      //const token = Random.getRandomIntInclusive(0,3);
+      const token = 3;
       switch (token) {
         case 0:
           return new Nothing("nothing",starSystem,[]);
@@ -19,6 +21,8 @@ const dao = require('../dal/dao');
           return new FloatingFuel("floating fuel",starSystem,[]);
         case 2:
           return new WormHole("wormhole",starSystem,[]);//set destination here ?
+        case 3:
+          return new AsteroidField("asteroid field",starSystem,[]);
         default: 
           return new Nothing("nothing",starSystem,[]);
       }
@@ -26,6 +30,9 @@ const dao = require('../dal/dao');
     exports.ProcessAction = function (action,payload)
     {
       switch (action) {
+        case actions.DAMAGESHIP:
+          dao.ActiveShip.takeDamage(payload.damages);
+          break;
         case actions.REFUELSHIP:
           dao.ActiveShip.fuel+=payload.amount;
           break;
@@ -33,10 +40,11 @@ const dao = require('../dal/dao');
           dao.ActiveShip.fuel-=payload.amount;
           break;
         case actions.SETEVENTSTATE:
-          dao.getEvent(payload.eventuuid).currentStateIdx = payload.state
+          dao.ActivePlayer.activeEvent.currentStateIdx = payload.state
             break;
         case actions.CLOSEEVENT:
-          dao.getEvent(payload.eventuuid).isActive = false;
+          //payload.eventuuid
+          dao.ActivePlayer.activeEvent.isActive = false;
           break;
         case actions.WARPSHIPTORANDOMDESTINATION:
           const randomdestination = dao.ActiveGalaxy.pickRandomStarSystem();
@@ -49,5 +57,5 @@ const dao = require('../dal/dao');
     }
     
 
-  
+    
 //module.exports = EventManager;

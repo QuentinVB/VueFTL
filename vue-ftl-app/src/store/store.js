@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 import ShipApiServices from '@/services/ShipApiServices';
 import GalaxyApiServices from '@/services/GalaxyApiServices';
+import PlayerApiServices from '@/services/PlayerApiServices';
+
 //import * as types from '@/store/mutation-types.js';
 import mutators from '@/store/mutations'
 import actuators from '@/store/actions'
@@ -14,6 +16,7 @@ const storage = {
     state: {
       ship:ShipApiServices.EmptyShip,
       galaxy:GalaxyApiServices.EmptyGalaxy,
+      player:PlayerApiServices.EmptyPlayer,
       event : null
     },
     //synchronous setter

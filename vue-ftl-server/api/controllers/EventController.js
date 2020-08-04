@@ -2,30 +2,33 @@
 var EventManager = require('../../events/EventManager'); 
 //const dao = require('../../dal/dao');
 const dao = require('../../dal/dao');
+const { default: Nothing } = require('../../events/Nothing');
 
-exports.getEvent = function(req, res) {
-  const uuid = req.params.eventuuid;
 
-  const event = dao.getEvent(uuid).ToObject();
 
-  if(!event)
+exports.getActiveEvent = function(req, res) {
+  const uuid = req.params.playeruuid;
+
+  let event = dao.ActivePlayer.activeEvent //dao.getEvent(uuid).ToObject();
+
+  if(!event || !event.isActive)
   {
-    res.status(404).send('event not found');
+    event = EventManager.GenerateRandomEvent(dao.ActivePlayer.uuid);
+    dao.ActivePlayer.activeEvent = event;
   }
-  else
-  {
-    res.json({event : event, methode : req.method});
-  }
+
+  res.json({event : event.ToObject(), methode : req.method});
+  
 };
 
 
 //POST
-exports.getEventAnswer= function(req, res) {
+exports.postEventAnswer= function(req, res) {
 //destination = req.body.destination;
 //in url : star system ?
-  const eventuuid = req.params.eventuuid;
+  const playeruuid = req.params.playeruuid;
   const answerIdx = req.params.answeridx;
-  const event = dao.getEvent(eventuuid);
+  const event = dao.ActivePlayer.activeEvent;
 
   event.triggerAnswer(answerIdx);
 

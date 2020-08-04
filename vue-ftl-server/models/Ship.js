@@ -2,24 +2,46 @@
 
 const StarSystem = require("./StarSystem");
 const dao = require('../dal/dao');
+const Uuid = require('uuid');
+
 
 class Ship {
-    constructor(name) {
-      this.idx = 0;
+    HULLMAX = 100;
+    FUELMAX = 100;
+    FUELCONSUMPTION = 5;
+
+    constructor(name,uuid) {
+      this.uuid = uuid;
       this.name=name;
       this.position = {x:0,y:0} ;
       this.location ="";//uuid of starsystem
-      this.fuel = 5;
+
+      this.fuel = this.FUELMAX;
+      this.fuelEfficiency = 0.8;
+
+      this.hull = this.HULLMAX;
+      this.hullFactor = 0.9;
     }
 
     static EmptyShip() {
-      return new Ship("Von Braun");
+      return new Ship("Von Braun",Uuid.v4());
+    }
+
+    consumeFuel()
+    {
+      if(this.fuel<=0) return false;
+      this.fuel -= this.FUELCONSUMPTION*this.fuelEfficiency;
+    }
+
+    takeDamage(damages)
+    {
+      this.hull -= Math.floor(damages*this.hullFactor);
     }
 
     moveTo(coordinate)
     {
-      if(this.fuel<=0) return false;
-      this.fuel--;
+      
+      this.consumeFuel();
 
       this.position.x = coordinate.x;
       this.position.y = coordinate.y;
@@ -28,9 +50,7 @@ class Ship {
 
     wrapTo(uuid)
     {
-      if(this.fuel<=0) return false;
-      this.fuel--;
-
+      this.consumeFuel();
       this.location = uuid;
       //falsy because a ship has no
       this.position = dao.ActiveGalaxy.galaxyMap[uuid].position;
@@ -52,7 +72,10 @@ class Ship {
         name:this.name,
         position: this.position,
         location:this.location,
-        fuel:this.fuel
+        fuel:this.fuel,
+        hull:this.hull,
+        fuelEfficiency:this.fuelEfficiency,
+        hullFactor:this.hullFactor
       }
     }
     canMove(destination)

@@ -1,25 +1,17 @@
 <template>
   <div class="about">
-    <h1>Ship status</h1>
+    <h1>Player status</h1>
     <ul>
-      <li>Name : {{ship.name}}</li>
-      <li>Fuel left  : {{ship.fuel}} | {{ship.fuelEfficiency}}</li>
-      <li>Hull  : {{ship.hull}} | {{ship.hullFactor}}</li>
-      <li v-if="currentStarSystem">Location : {{currentStarSystem.name}}</li>
-      <li v-else>Location : Unknown</li>
-      <li>Position  : 
-        <ul>
-          <li>x : {{ship.position.x}}</li>
-          <li>y : {{ship.position.y}}</li>
-        </ul>
-      </li>
+      <li>Name : {{player.username}}</li>
+      <li>Credits : {{player.credits}} </li>
+      <li v-if="player.ship">ShipUUID : {{player.ship}}</li>
     </ul>
   </div>
 </template>
 <script>
 
   export default {
-  name: 'Ship',
+  name: 'Player',
 
   data: function () {
     return {
@@ -28,14 +20,11 @@
   },
   computed:
   {
-    ship()
+    player()
     {
-      return this.$store.state.ship;
+      return this.$store.state.player;
     },
-    currentStarSystem()
-    {
-      return this.$store.getters.currentStarSystem;
-    },
+    
   },
   mounted() {
   },

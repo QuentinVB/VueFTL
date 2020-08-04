@@ -35,6 +35,11 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ '../views/Ship.vue')
   },
   {
+    path: '/player',
+    name: 'Player',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Player.vue')
+  },
+  {
     path: '/galaxymap',
     name: 'GalaxyMap',
 

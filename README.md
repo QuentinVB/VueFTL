@@ -48,16 +48,11 @@ Shop : sell or buy cargo
 Gift : abandonned cargo
 
 Ship :
- public readonly int FUELCONSUMPTION = 5;
-        public readonly int FUELMAX = 100;
 
         double _money = 100;
 
         bool _isAlive = true;
-        double _fuel = 100;
-        double _fuelEfficiency = 0.8;
-        double _hullFactor = 0.9;
-        int _hull = 100;
+        
         int _oxygenSupply = 100;
         readonly Atom _fuelType = Atom.Hydrogen;
         double _lifeSupportFactor = 0.4;
@@ -66,18 +61,6 @@ Ship :
         Cargo[] _cargoBay;
         int _cargoIdx=0;
 
-damage : hull = damage*hullfactor
-warp : fuel -= fuel consumption * fuel efficiency
 oxygen : oxygen -= life support * crew
 
-BrownDwarf,
-        WhiteDwarf,
-        RedDwarf,
-        YellowDwarf,
-        RedGiant,
-        RedSuperGiant,
-        BlueSuperGiant,
-        BinaryStar,
-        NeutronStar,
-        BlackHole,
-        RoguePlanet,
+https://out-there.fandom.com/wiki/Random_Encounters

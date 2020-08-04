@@ -7,14 +7,19 @@ const GREEKALPHABET=['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta','Thet
 const NAMESOURCE =['Andromeda','Antlia','Apus','Aquarius','Aquila','Ara','Aries','Auriga','Boötes','Caelum','Camelopardalis','Cancer','Canes Venatici','Canis Major','Canis Minor','Capricornus','Carina','Cassiopeia','Centaurus','Cepheus','Cetus','Chamaeleon','Circinus','Columba','Coma Berenices','Corona Australis','Corona Borealis','Corvus','Crater','Crux','Cygnus','Delphinus','Dorado','Draco','Equuleus','Eridanus','Fornax','Gemini','Grus','Hercules','Horologium','Hydra','Hydrus','Indus','Lacerta','Leo','Leo Minor','Lepus','Libra','Lupus','Lynx','Lyra','Mensa','Microscopium','Monoceros','Musca','Norma','Octans','Ophiuchus','Orion','Pavo','Pegasus','Perseus','Phoenix','Pictor','Pisces','Piscis Austrinus','Puppis','Pyxis','Reticulum','Sagitta','Sagittarius','Scorpius','Sculptor','Scutum','Serpens','Sextans','Taurus','Telescopium','Triangulum','Triangulum Australe','Tucana','Ursa Major','Ursa Minor','Vela','Virgo','Volans','Vulpecula']
 
 const STELLARTYPES = [
+    {name:'RoguePlanet',color:{r:128,g:0,b:0}},
     {name:'Brown Dwarf',color:{r:128,g:0,b:0}},
     {name:'Blue Super Giant',color:{r:0,g:100,b:255}},
+    {name:'Binary Star',color:{r:255,g:20,b:0}},
     {name:'Red Giant',color:{r:255,g:20,b:0}},
+    {name:'Red Super Giant',color:{r:255,g:20,b:0}},
     {name:'White Dwarf',color:{r:230,g:230,b:255}},
     {name:'Red Dwarf',color:{r:120,g:20,b:0}},
-    {name:'Yellow Star',color:{r:255,g:200,b:0}},
+    {name:'Yellow Dwarf',color:{r:255,g:200,b:0}},
     {name:'Blackhole',color:{r:0,g:0,b:0}},
-    {name:'Neutron Star',color:{r:230,g:230,b:255}}]
+    {name:'Neutron Star',color:{r:230,g:230,b:255}},
+
+  ]
 
 
 class StarSystem {
@@ -25,7 +30,7 @@ class StarSystem {
       this.position = {x,y} ;
       this.minerals = Math.round(Math.random()*100);
 
-      this.event;
+      this.anomaly="";
 
       this.uuid = Uuid.v4();
     }
@@ -33,14 +38,13 @@ class StarSystem {
     ToObject()
     {
       //event only on request !
-      var cleanEvent = this.event.name
       return {
         name:this.name,
         type:this.type,
         color:this.color,
         position :this.position,
         minerals:this.minerals,
-        event :cleanEvent ,
+        anomaly :this.anomaly ,
         uuid:this.uuid
       }
     }
@@ -60,7 +64,7 @@ class StarSystem {
       return STELLARTYPES[Random.getRandomInt(STELLARTYPES.length)];
     }
 
-    mineSystem()//TODO : add modificator ?
+    mineSystem(efficiency=1)//TODO : add modificator ?
     {
       const oreRatio = this.minerals / 100;
       this.minerals -- ; //or more if modifier
@@ -68,7 +72,7 @@ class StarSystem {
       if(Math.random() <oreRatio)
       {
         
-        return 1; //or more if modifier
+        return Math.floor(10*efficiency); //or more if modifier
       }
       return 0; //sry not sorry
     }

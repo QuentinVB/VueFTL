@@ -10,6 +10,9 @@ export default {
       [types.UPDATESHIP] (state,updatedShip) {
         state.ship=updatedShip;
       },
+      [types.UPDATEPLAYER] (state,updatedplayer) {
+        state.player=updatedplayer;
+      },
       [types.MOVESHIP] (state,destination) {
         state.ship.position = destination.position;
         state.ship.location = destination.location;
