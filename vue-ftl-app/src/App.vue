@@ -5,7 +5,7 @@
       <router-link to="/ship">Ship</router-link> |
       <router-link to="/player">Player</router-link> |
       <!-- user profile -->
-      <router-link to="/galaxymap">GalaxyMap</router-link>
+      <router-link to="/map">Navigation</router-link>
     </div>
     <router-view/>
   </div>
@@ -37,12 +37,17 @@ export default {
 </script>
 
 <style lang="scss">
+html
+{
+  background: rgb(149, 160, 170);
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  
 }
 
 #nav {

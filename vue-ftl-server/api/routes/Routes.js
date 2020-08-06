@@ -28,8 +28,10 @@ const playerController = require('../controllers/PlayerController')
   .get(galaxyController.getStarSystem);
   app.route('/galaxy/:starsystemuuid/event')
   .get(galaxyController.getStarSystemEvent);
-  app.route('/galaxy/:starsystemuuid/mine')
-  .get(galaxyController.mineStarSystem);
+  /*app.route('/galaxy/:starsystemuuid/mine')
+  .get(galaxyController.mineStarSystem);*/
+  app.route('/galaxy/:starsystemuuid/:planetuuid/mine')
+  .post(galaxyController.minePlanet);
 
   app.route('/event/:playeruuid')
   .get(eventController.getActiveEvent);

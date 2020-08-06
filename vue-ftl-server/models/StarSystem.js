@@ -1,5 +1,6 @@
 'use strict';
 const Random = require("../helpers/Random");
+const Planet = require("./Planet");
 //var hash = require('object-hash');
 const Uuid = require('uuid');
 
@@ -24,6 +25,9 @@ const STELLARTYPES = [
 class StarSystem {
     COOLDOWN = 120;//seconds
 
+    static MINPLANETORBIT = 0.2; //UA
+    static MAXPLANETORBIT = 30; //UA
+
     constructor(name,x,y) {
       this.name=name;
       this.type="";
@@ -31,9 +35,9 @@ class StarSystem {
       this.position = {x,y};
 
 
-      this.planetes = Random.getRandomIntInclusive(1,10);
+      this.planetesCount = Random.getRandomIntInclusive(1,10);
+      this.planets = []
 
-      this.minerals = Math.round(Math.random()*100);
 
       this.anomaly="";
 
@@ -54,15 +58,20 @@ class StarSystem {
     
     ToObject()
     {
+      let planetList =[];
+      this.planets.forEach(planet => {
+        planetList.push(planet.ToObject());
+      });
+
       //TODO : Add cooldown ?
       return {
         name:this.name,
         type:this.type,
         color:this.color,
         position :this.position,
-        minerals:this.minerals,
         anomaly :this.anomaly ,
-        uuid:this.uuid
+        uuid:this.uuid,
+        planets:planetList
       }
     }
     static generateRandomStarSystem(galaxyRadius)
@@ -79,13 +88,38 @@ class StarSystem {
 
       starSystem.type= type.name;
       starSystem.color= type.color;
+
+      const planetCount = starSystem.planetesCount;
+      const a = StarSystem.MINPLANETORBIT;
+      const b = Math.pow(StarSystem.MAXPLANETORBIT/StarSystem.MINPLANETORBIT, 1/planetCount);
+
+      for (let i = 0; i < planetCount; i++) {
+        const planet = Planet.generateRandomPlanet(starSystem,i);
+        let orbit = a * Math.pow(b,i);
+        orbit += orbit*(Math.random()*0.5);
+        planet.orbit = orbit;
+
+
+        //compute planetposition
+        
+        starSystem.planets.push(planet)
+      }
+      
+
       //x= r Cos i
       //y= r Sin i
       //r=sqrt(x²+y²)
       //i = atan (y/x)
       return starSystem;
     }
-    
+    getPlanet(planetuuid)
+    {
+      for(const planet of this.planets)
+      {
+          if(planet.uuid == planetuuid) return planet;
+      }
+      return undefined;
+    }
     static EmptyStarSystem() {
       let emptySystem= new StarSystem(this.getRandomName(),0,0);
 
@@ -102,18 +136,7 @@ class StarSystem {
       return STELLARTYPES[Random.getRandomInt(STELLARTYPES.length)];
     }
 
-    mineSystem(efficiency=1)//TODO : add modificator ?
-    {
-      const oreRatio = this.minerals / 100;
-      this.minerals -- ; //or more if modifier
-
-      if(Math.random() <oreRatio)
-      {
-        
-        return Math.floor(10*efficiency); //or more if modifier
-      }
-      return 0; //sry not sorry
-    }
+   
   }
 
   

@@ -52,19 +52,22 @@ exports.getStarSystemEvent = function(req, res) {
   }
 };
 
-exports.mineStarSystem = function(req, res) {
+//POST
+exports.minePlanet = function(req, res) {
 
-  const uuid = req.params.starsystemuuid;
-  const starSystem = dao.ActiveGalaxy.galaxyMap[uuid];
+  const planetuuid = req.params.planetuuid;
+  const starsystemuuid = req.params.starsystemuuid;
+  const starSystem = dao.ActiveGalaxy.galaxyMap[starsystemuuid];
+  const planet = starSystem.getPlanet(planetuuid);
 
-  if(!starSystem)
+  if(!planet || !starSystem)
   {
     res.status(404).send('not found');
   }
   else
   {
     const fuel = dao.ActiveShip.fuel;
-    var minedfuel = starSystem.mineSystem();
+    var minedfuel = planet.minePlanet();
 
     minedfuel = Math.abs(dao.ActiveShip.FUELMAX - (dao.ActiveShip.fuel + minedfuel));
     dao.ActiveShip.fuel+=minedfuel;

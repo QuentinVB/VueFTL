@@ -40,10 +40,15 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ '../views/Player.vue')
   },
   {
-    path: '/galaxymap',
-    name: 'GalaxyMap',
-
-    component: () => import(/* webpackChunkName: "about" */ '../views/GalaxyView.vue')
+    path: '/map/:mode',
+    name: 'MapMode',
+    props: true,
+    component: () => import(/* webpackChunkName: "about" */ '../views/MapView.vue')
+  },
+  {
+    path: '/map',
+    name: 'Map',
+    component: () => import(/* webpackChunkName: "about" */ '../views/MapView.vue')
   }
 ]
 

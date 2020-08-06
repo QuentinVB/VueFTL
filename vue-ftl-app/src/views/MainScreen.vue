@@ -3,7 +3,6 @@
     <p>Captain on the bridge !</p>
     <p v-if="currentStarSystem">Current system is {{currentStarSystem.name}}</p>
     <h2>Actions</h2>
-    <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
     <h2>Communications</h2>
     <p v-if="!eventActive">Here lies the messages from stranger species</p>
     <p v-if="eventActive"> <!--should be modal !-->
@@ -45,10 +44,6 @@ export default {
     //if(this.mode == 'event') this.refreshEvent();
   },
   methods: {
-    mineSomeOre()
-    {
-      this.$store.dispatch('mineSomeOre');
-    },
     selectEventOption(idx)
     {
       console.log("clicked option "+idx +" for event of player :" + this.player.uuid);
@@ -59,11 +54,7 @@ export default {
   },
   computed:
   {
-    miningButtonVisible()
-    {
-      return this.ship.location;
-      //return this.selectedDestination != undefined && this.ship.location == this.selectedDestination.uuid ;
-    },
+
     ship()
     {
       return this.$store.state.ship;

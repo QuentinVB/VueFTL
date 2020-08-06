@@ -11,7 +11,7 @@ export default class TreasureCache extends Event{
     
     super(name, player)
     
-    const threshold = 0.8;
+    const threshold = 0.4;
     const stateOutcome = (Math.random()<threshold)?1:2;
     const damages = Random.getRandomInt(10)+1;
 

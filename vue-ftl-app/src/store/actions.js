@@ -64,12 +64,11 @@ export default {
             console.error(err)
           });
       },
-      mineSomeOre(ctx)
+      mineSomeOre(ctx,planet)
       {
-
         if(ctx.getters.isLoaded)
         {
-          GalaxyApiServices.getMineStarSystemAsync(ctx.state.ship.location)
+          GalaxyApiServices.postMinePlanetAsync(planet)
           .then(response => {
 
             const starSystemToUpdate = response.data.starSystem;
@@ -78,7 +77,7 @@ export default {
             ctx.commit(types.REFUELSHIP,fuelMined)
             ctx.commit(types.UPDATESTARSYSTEM,starSystemToUpdate)
 
-            console.log("mined " + ctx.state.ship.location+" and gained "+ fuelMined+" fuel");
+            console.log("mined " + planet.name +" and gained "+ fuelMined+" fuel");
           })
           .catch(err => {
             console.error(err)

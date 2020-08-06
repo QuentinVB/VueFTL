@@ -1,4 +1,4 @@
-import { getAsync} from '../helpers/apiHelpers'
+import { getAsync,postAsync} from '../helpers/apiHelpers'
 import Services from './Services'
 
 const endpoint = 'galaxy'//message
@@ -15,18 +15,23 @@ class GalaxyApiServices extends Services{
       type:"",
       position:{x:0,y:0},
       minerals:0,
-      uuid:""
+      uuid:"",
+      planets:[]
     }
   
 
   getGalaxyAsync() {
     return getAsync(this.forgeUrl(`${endpoint}`));
   }
-  getMineStarSystemAsync(starSystem) {
-    return getAsync(this.forgeUrl(`${endpoint}/${starSystem}/mine`));
+  /*
+  getMineStarSystemAsync(starSystemuuid) {
+    return getAsync(this.forgeUrl(`${endpoint}/${starSystemuuid}/mine`));
+  }*/
+  postMinePlanetAsync(planet) {
+    return postAsync(this.forgeUrl(`${endpoint}/${planet.starSystem}/${planet.uuid}/mine`));
   }
-  getStarSystemEventAsync(starSystem) {
-    return getAsync(this.forgeUrl(`${endpoint}/${starSystem}/event`));
+  getStarSystemEventAsync(starSystemuuid) {
+    return getAsync(this.forgeUrl(`${endpoint}/${starSystemuuid}/event`));
   }
   /*
   getMoveShipAsync () {
