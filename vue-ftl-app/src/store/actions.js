@@ -44,21 +44,40 @@ export default {
             console.error(err)
           })
       },
-      moveShipToSelectedDestination(ctx,destination)
+      moveShipToSelectedDestination(ctx,starSystem)
       {
-        console.log("trying to move to " + destination.name);
+        console.log("trying to move to " + starSystem.name);
         //request moving to the destination
         //check for
-        ShipApiServices.postMoveShipToAsync(destination.uuid)
+        ShipApiServices.putWarpShipToAsync(starSystem.uuid)
           .then(response => {
             //check message status ?
             ctx.commit(types.UPDATESHIP,response.data.ship);
-            console.log("moved to " + destination.name);
+            console.log("moved to " + starSystem.name);
           })
           .then(() => {
             //TODO : set event status so the communicator will trigger
             ctx.dispatch('refreshEvent');
 
+          })
+          .catch(err => {
+            console.error(err)
+          });
+      },
+      travelShipToSelectedPlanet(ctx,planet)
+      {
+        console.log("trying to move to " + planet.name);
+        //request moving to the destination
+        //check for
+        ShipApiServices.putMoveShipToPlanetAsync(planet.starSystem,planet.uuid)
+          .then(response => {
+            //check message status ?
+            ctx.commit(types.UPDATESHIP,response.data.ship);
+            console.log("moved to " + planet.name);
+          })
+          .then(() => {
+            //TODO : set event status so the communicator will trigger
+            //ctx.dispatch('refreshEvent');
           })
           .catch(err => {
             console.error(err)

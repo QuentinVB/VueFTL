@@ -13,9 +13,13 @@ export default {
       [types.UPDATEPLAYER] (state,updatedplayer) {
         state.player=updatedplayer;
       },
-      [types.MOVESHIP] (state,destination) {
-        state.ship.position = destination.position;
-        state.ship.location = destination.location;
+      [types.WARPSHIPTO] (state,starsystem) {
+        state.ship.position = starsystem.position;
+        state.ship.location.starsystem = starsystem.uuid;
+      },
+      [types.MOVESHIPTO] (state,starsystem,planet) {
+        state.ship.location.starsystem = starsystem.uuid;
+        state.ship.location.planet = planet.uuid;
       },
       [types.UPDATEGALAXY] (state,updatedGalaxy) {
         state.galaxy=updatedGalaxy;

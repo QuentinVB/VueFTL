@@ -1,6 +1,6 @@
 //'use strict';
 
-import Random from "../helpers/Random"
+import Random from "../../helpers/Random"
 import Event from "./Event";
 import {REFUELSHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
 

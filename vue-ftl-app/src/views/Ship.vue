@@ -5,7 +5,8 @@
       <li>Name : {{ship.name}}</li>
       <li>Fuel left  : {{ship.fuel}} | {{ship.fuelEfficiency}}</li>
       <li>Hull  : {{ship.hull}} | {{ship.hullFactor}}</li>
-      <li v-if="currentStarSystem">Location : {{currentStarSystem.name}}</li>
+      <li v-if="currentStarSystem && !currentPlanet">Location : {{currentSituation}} {{currentStarSystem.name}}</li>
+      <li v-else-if="currentStarSystem && currentPlanet">Location : {{currentSituation}} {{currentPlanet.name}} in system {{currentStarSystem.name}}</li>
       <li v-else>Location : Unknown</li>
       <li>Position  : 
         <ul>
@@ -35,6 +36,14 @@
     currentStarSystem()
     {
       return this.$store.getters.currentStarSystem;
+    },
+    currentSituation()
+    {
+      return this.$store.state.ship.location.situation;
+    },
+    currentPlanet()
+    {
+      return this.$store.getters.currentPlanet;
     },
   },
   mounted() {

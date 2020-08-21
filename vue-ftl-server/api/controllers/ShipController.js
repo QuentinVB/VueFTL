@@ -5,9 +5,6 @@ var Ship = require('../../models/Ship');
 const dao = require('../../dal/dao')
 
 
-
-
-
 //GET
 exports.getShip = function(req, res) {
   res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
@@ -49,74 +46,60 @@ exports.moveShipTo= function(req, res) {
   res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
 };
 
-//POST
+//UPDATE
 exports.wrapShipTo= function(req, res) {
   //destination = req.body.destination;
-  var destination = req.body.destination;
+  const starsystemUUID = req.body.starsystem;
 
-  if(dao.ActiveShip.canMove(destination))
+  if(dao.ActiveShip.canMove(starsystemUUID))
   {
-    dao.ActiveShip.wrapTo(destination.uuid);
+    dao.ActiveShip.wrapToSystem(starsystemUUID);
   }
 
   res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
 };
 
 
-/*
-exports.list_all_tasks = function(req, res) {
-  Task.find({}, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
+//UPDATE
+exports.moveShipToPlanet= function(req, res) {
+  //destination = req.body.destination;
+  const starsystemUUID = req.body.starsystem;
+  const planetdestinationUUID = req.body.planetdestination;
+
+  if(dao.ActiveShip.canMove(starsystemUUID,planetdestinationUUID))
+  {
+    dao.ActiveShip.moveToPlanet(planetdestinationUUID);
+  }
+
+  res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
+};
+
+
+exports.changeSituation= function(req, res) {
+  //destination = req.body.destination;
+  const situation = req.params.situation;
+  let check = false;
+  switch (situation) {
+    case "orbit":
+      dao.ActiveShip.takeOffFromPlanet();
+      break;
+    case "land":
+      dao.ActiveShip.landOnPlanet();
+      break;
+    default:
+      
+      break;
+  }
+  
+  if(check)
+  {
+    res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
+  }
+  else
+  {
+    res.status(400).send('bad request');
+  }
 };
 
 
 
-
-exports.create_a_task = function(req, res) {
-  var new_task = new Task(req.body);
-  new_task.save(function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
-};
-
-
-exports.read_a_task = function(req, res) {
-  Task.findById(req.params.taskId, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
-};
-
-
-exports.update_a_task = function(req, res) {
-  Task.findOneAndUpdate({_id: req.params.taskId}, req.body, {new: true}, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
-};
-
-
-exports.delete_a_task = function(req, res) {
-
-
-  Task.remove({
-    _id: req.params.taskId
-  }, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json({ message: 'Task successfully deleted' });
-  });
-};
-
-
-
-
-
-*/

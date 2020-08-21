@@ -1,7 +1,8 @@
 //ship mutation
 export const REFUELSHIP = 'REFUELSHIP';
 export const DRAINSHIP = 'DRAINSHIP';
-export const MOVESHIP = 'MOVESHIP';
+export const WARPSHIPTO = 'WARPSHIPTO';
+export const MOVESHIPTO = 'MOVESHIPTO';
 export const UPDATESHIP = 'UPDATESSHIP';
 //galaxy mutations
 export const UPDATEGALAXY = 'UPDATEGALAXY';

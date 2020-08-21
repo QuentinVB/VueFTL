@@ -1,5 +1,5 @@
 'use strict';
-const Random = require("../helpers/Random");
+const Random = require("../../helpers/Random");
 const Event = require("./Event");
 import {CLOSEEVENT} from "./EventActions";
 

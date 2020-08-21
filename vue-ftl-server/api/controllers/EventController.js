@@ -1,8 +1,7 @@
 'use strict';
-var EventManager = require('../../events/EventManager'); 
+var EventManager = require('../../models/events/EventManager'); 
 //const dao = require('../../dal/dao');
 const dao = require('../../dal/dao');
-const { default: Nothing } = require('../../events/Nothing');
 
 
 

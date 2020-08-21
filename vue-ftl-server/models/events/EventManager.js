@@ -1,13 +1,13 @@
 'use strict';
-const Random = require("../helpers/Random");
-import Nothing from "../events/Nothing";
-import FloatingFuel from "../events/FloatingFuel";
-import AsteroidField from "../events/AsteroidField";
+const Random = require("../../helpers/Random");
+import Nothing from "./Nothing";
+import FloatingFuel from "./FloatingFuel";
+import AsteroidField from "./AsteroidField";
 import WormHole from "./WormHole";
 import TreasureCache from "./TreasureCache";
 
 import * as actions from './EventActions'
-const dao = require('../dal/dao');
+const dao = require('../../dal/dao');
 
 //ABSTRACT !!
 

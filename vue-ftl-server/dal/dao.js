@@ -34,6 +34,23 @@ exports.getCurrentStarSystem= function(playeruuid)
 
     for(const starSystemuuid in activeGalaxy.galaxyMap)
     {
-        if(starSystemuuid == activeShip.location) return activeGalaxy.galaxyMap[starSystemuuid];
+        if(starSystemuuid == activeShip.location.starsystem) return activeGalaxy.galaxyMap[starSystemuuid];
+    }
+
+
+
+}
+
+exports.getCurrentPlanet= function(playeruuid)
+{
+    if(activeShip.location.planet)
+    {
+        for(const starSystemuuid in activeGalaxy.galaxyMap)
+        {
+            if(starSystemuuid == activeShip.location.starsystem) 
+            {
+                return activeGalaxy.galaxyMap[starSystemuuid].planets.find(p=>p.uuid == activeShip.location.planet);
+            }
+        }
     }
 }

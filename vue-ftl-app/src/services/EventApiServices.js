@@ -27,16 +27,6 @@ class EventApiServices extends Services{
     return getAsync(this.forgeUrl(`${endpoint}/${playeruuid}`));
   }
 
-  /*
-  getShipAsync () {
-    return getAsync(this.forgeUrl(`${endpoint}`));
-  }
-  getMoveShipAsync () {
-    return getAsync(this.forgeUrl(`${endpoint}/moverandom`));
-  }
-  postMoveShipToAsync (uuid) {
-    return postAsync(this.forgeUrl(`${endpoint}/wrapto`),{destination : {uuid:uuid} });
-  }*/
 }
 
 export default new EventApiServices()

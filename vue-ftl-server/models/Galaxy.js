@@ -2,7 +2,7 @@
 
 const StarSystem = require("./StarSystem");
 const Random = require("../helpers/Random");
-const EventManager = require("../events/EventManager");
+const EventManager = require("./events/EventManager");
 
 
 

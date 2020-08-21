@@ -1,5 +1,5 @@
 'use strict';
-const Random = require("../helpers/Random");
+const Random = require("../../helpers/Random");
 const Uuid = require('uuid');
 const EventManager = require('./EventManager'); 
 

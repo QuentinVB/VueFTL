@@ -14,7 +14,7 @@ class Ship {
       this.uuid = uuid;
       this.name=name;
       this.position = {x:0,y:0} ;
-      this.location ="";//uuid of starsystem
+      this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
 
       this.fuel = this.FUELMAX;
       this.fuelEfficiency = 0.8;
@@ -48,20 +48,53 @@ class Ship {
       return true;
     }
 
-    wrapTo(uuid)
+    wrapToSystem(uuid)
     {
       this.consumeFuel();
-      this.location = uuid;
-      //falsy because a ship has no
+      
+      this.location.starsystem = uuid;
+      this.location.planet = "";
+      this.location.situation = "orbiting";
+
       this.position = dao.ActiveGalaxy.galaxyMap[uuid].position;
 
 
       return true;
     }
+    moveToPlanet(planetUUID)
+    {
+      this.consumeFuel();
+      this.location.planet = planetUUID;
+      this.location.situation = "orbiting";
+      return true;
+    }
+    landOnPlanet()
+    {
+      if(this.location.situation="orbiting" && this.location.planet)
+      {
+        //take damage ?
+        this.location.situation = "landed";
+        return true;
+      }
+      return false;
+    }
+    takeOffFromPlanet()
+    {
+      if(this.location.situation="landed" && this.location.planet)
+      {
+        this.consumeFuel();
+        this.location.situation = "orbiting";
+        return true;
+      }
+      return false;
+    }
+
     setLocationTo(uuid)
     {
-      this.location = uuid;
-      //falsy because a ship has no
+      this.location.starsystem = uuid;
+      this.location.planet = "";
+      this.location.situation = "orbiting";
+
       this.position = dao.ActiveGalaxy.galaxyMap[uuid].position;
       return true;
     }
@@ -78,20 +111,26 @@ class Ship {
         hullFactor:this.hullFactor
       }
     }
-    canMove(destination)
+    canMove(starsystemUUID,planetUUID)
     {
       //TODO : BEWAAARG, clean up cascading condition ?
       if(this.fuel<=0) return false;
+      /*
       if(destination.position)
       {
         if(destination.x == this.position.x)
         {
           if(destination.y == this.position.y) return false;
         }
-      }
-      if(destination.uuid)
+      }*/
+
+      if(starsystemUUID && !planetUUID)
       {
-        if(destination.uuid == this.location) return false;
+        if(starsystemUUID == this.location.starsystem) return false;
+      }
+      if(starsystemUUID && planetUUID)
+      {
+        if(planetUUID == this.location.planet) return false;
       }
       
       return true;

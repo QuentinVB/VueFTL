@@ -17,17 +17,28 @@ const storage = {
       ship:ShipApiServices.EmptyShip,
       galaxy:GalaxyApiServices.EmptyGalaxy,
       player:PlayerApiServices.EmptyPlayer,
+      //star system ?
+      //planet ?
       event : null
     },
     //synchronous setter
     mutations: mutators,
     //asynchronous effectors
     actions: actuators,
+    //TODO : getters should be lazy ?
     getters: {
       currentStarSystem (state) {
-        if(!state.ship.location) return null;
-        const starSystemUUID = state.ship.location;
+
+
+        if(!state.ship.location.starsystem) return null;
+
+        const starSystemUUID = state.ship.location.starsystem;
+
         return state.galaxy.galaxyMap[starSystemUUID];
+      },
+      currentPlanet (state) {
+        if(!state.ship.location.planet) return null;
+        return state.galaxy.galaxyMap[state.ship.location.starsystem].planets.find(p=>p.uuid =state.ship.location.planet );
       },
       isLoaded (state) {
         if(state.ship.name == "") return false

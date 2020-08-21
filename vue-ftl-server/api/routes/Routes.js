@@ -20,7 +20,12 @@ const playerController = require('../controllers/PlayerController')
   app.route('/ship/moveto')
   .post(shipController.moveShipTo);
   app.route('/ship/wrapto')
-  .post(shipController.wrapShipTo);
+  .put(shipController.wrapShipTo);
+  app.route('/ship/movetoplanet')
+  .put(shipController.moveShipToPlanet);
+  app.route('/ship/situation/:situation')
+  .put(shipController.changeSituation);
+
 
   app.route('/galaxy')
   .get(galaxyController.getGalaxy);
@@ -42,23 +47,4 @@ const playerController = require('../controllers/PlayerController')
   .get(playerController.getPlayer);
   app.route('/player')
   .put(playerController.updatePlayer);
-//real routes
-
-  /*join a new game, 
-  passing username in parameter, 
-  create a new game state if not exist, else join an existing one 
-  then return the game state.*/
-  /*
-  app.route('/new/:username')
-    .post(gamecontroller.joinNewGame);
-
-  /*get the current game state, 
-  passing game id in parameter 
-  app.route('/:gameid')
-    .get(gamecontroller.getgame);
-
-  /*post the clicked edge, 
-  passing game id, username and edge id in parameter 
-  app.route('/:gameid/:username/:edgeid')
-    .post(gamecontroller.playTurn);*/
 };

@@ -9,12 +9,13 @@
         
         <StarSystemInfo v-bind:selectedSystem="activeStarSystem" />
         <h2>Actions</h2>
-        <button v-if="wrapButtonVisible" v-on:click="moveShipToSelectedDestination">Move ship to destination</button>
-        <button v-if="miningButtonVisible && mapMode=='starsystem'" v-on:click="mineSomeOre">Search for ore</button>
+        <button v-if="wrapButtonVisible" v-on:click="warpShipToSelectedDestination">Move ship to destination</button>
+        <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
+        <button v-if="travelToPlanetButtonVisible && mapMode=='starsystem'" v-on:click="travelShipToSelectedPlanet">Travel to {{selectedPlanet.name}}</button>
         <h2>Map mode</h2>
         <ul>
           <li><router-link to="/map/galaxy">Galaxy view</router-link></li>
-          <li v-if="ship.location"><router-link to="/map/starsystem">Local System view</router-link></li>
+          <li v-if="currentStarSystem"><router-link to="/map/starsystem">Local System view</router-link></li>
         </ul>
       </div>
     </div>
@@ -54,10 +55,16 @@ export default {
     
   },
   methods: {
-    moveShipToSelectedDestination()
+    warpShipToSelectedDestination()
     {
       this.$store.dispatch('moveShipToSelectedDestination',this.selectedDestination);
       this.$router.push({ name: 'MainScreen' });//{ name: 'user', params: { userId: '123' } }
+      //this.$router.push({ name: 'MainScreen',query: { mode: 'event' } });//{ name: 'user', params: { userId: '123' } }
+    },
+    travelShipToSelectedPlanet()
+    {
+      this.$store.dispatch('travelShipToSelectedPlanet',this.selectedPlanet);
+      //this.$router.push({ name: 'MainScreen' });//{ name: 'user', params: { userId: '123' } }
       //this.$router.push({ name: 'MainScreen',query: { mode: 'event' } });//{ name: 'user', params: { userId: '123' } }
     },
     mineSomeOre()
@@ -83,7 +90,15 @@ export default {
     },
     miningButtonVisible()
     {
-      return this.selectedPlanet != null;
+      if(this.mapMode=='starsystem' && this.currentPlanet && this.selectedPlanet)
+      {
+        return this.currentPlanet.uuid == this.selectedPlanet.uuid;
+      }
+      return false;
+    },
+    travelToPlanetButtonVisible()
+    {
+      return this.selectedPlanet != null && this.ship.location.situation != "landed";
     },
     ship()
     {
@@ -96,12 +111,20 @@ export default {
     mapMode()
     {
       if(this.mode) return this.mode;
-      if(this.ship.location) return 'starsystem';
+      if(this.currentStarSystem) return 'starsystem';
       return 'galaxy';
     },
     currentStarSystem()
     {
       return this.$store.getters.currentStarSystem;
+    },
+    currentSituation()
+    {
+      return this.$store.state.ship.location.situation;
+    },
+    currentPlanet()
+    {
+      return this.$store.getters.currentPlanet;
     },
     activeStarSystem()
     {

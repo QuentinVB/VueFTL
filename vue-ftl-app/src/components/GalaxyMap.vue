@@ -6,7 +6,7 @@
       class="starSystem"
       v-bind:class="[ 
       selectedSystem.uuid == starSystem.uuid ? 'selected':'', 
-      ship.location == starSystem.uuid ? 'currentPosition':'', 
+      ship.location.starSystem == starSystem.uuid ? 'currentPosition':'', 
 
        ]"
       @click="onSelectStarSystem(starSystem)"
