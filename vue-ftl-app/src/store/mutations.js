@@ -17,9 +17,9 @@ export default {
         state.ship.position = starsystem.position;
         state.ship.location.starsystem = starsystem.uuid;
       },
-      [types.MOVESHIPTO] (state,starsystem,planet) {
-        state.ship.location.starsystem = starsystem.uuid;
-        state.ship.location.planet = planet.uuid;
+      [types.MOVESHIPTO] (state,starsystemUUID,planetUUID) {
+        state.ship.location.starsystem = starsystemUUID;
+        state.ship.location.planet = planetUUID;
       },
       [types.UPDATEGALAXY] (state,updatedGalaxy) {
         state.galaxy=updatedGalaxy;

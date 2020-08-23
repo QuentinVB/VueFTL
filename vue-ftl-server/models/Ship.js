@@ -17,7 +17,7 @@ class Ship {
       this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
 
       this.fuel = this.FUELMAX;
-      this.fuelEfficiency = 0.8;
+      this.fuelEfficiency = 0.2;//20%
 
       this.hull = this.HULLMAX;
       this.hullFactor = 0.9;
@@ -30,7 +30,7 @@ class Ship {
     consumeFuel()
     {
       if(this.fuel<=0) return false;
-      this.fuel -= this.FUELCONSUMPTION*this.fuelEfficiency;
+      this.fuel= (this.fuel - this.FUELCONSUMPTION*(1-this.fuelEfficiency)).toFixed(1);
     }
 
     takeDamage(damages)

@@ -11,7 +11,9 @@
         <h2>Actions</h2>
         <button v-if="wrapButtonVisible" v-on:click="warpShipToSelectedDestination">Move ship to destination</button>
         <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
-        <button v-if="travelToPlanetButtonVisible && mapMode=='starsystem'" v-on:click="travelShipToSelectedPlanet">Travel to {{selectedPlanet.name}}</button>
+        <button v-if="travelToPlanetButtonVisible" v-on:click="travelShipToSelectedPlanet">Travel to {{selectedPlanet.name}}</button>
+        <button v-if="landOnPlanetButtonVisible" v-on:click="landOnSelectedPlanet">Land on {{selectedPlanet.name}}</button>
+        <button v-if="takeOffPlanetButtonVisible" v-on:click="takeOffSelectedPlanet">Take off planet {{selectedPlanet.name}}</button>
         <h2>Map mode</h2>
         <ul>
           <li><router-link to="/map/galaxy">Galaxy view</router-link></li>
@@ -64,8 +66,14 @@ export default {
     travelShipToSelectedPlanet()
     {
       this.$store.dispatch('travelShipToSelectedPlanet',this.selectedPlanet);
-      //this.$router.push({ name: 'MainScreen' });//{ name: 'user', params: { userId: '123' } }
-      //this.$router.push({ name: 'MainScreen',query: { mode: 'event' } });//{ name: 'user', params: { userId: '123' } }
+    },
+    landOnSelectedPlanet()
+    {
+      this.$store.dispatch('landOnSelectedPlanet',this.selectedPlanet);
+    },
+    takeOffSelectedPlanet()
+    {
+      this.$store.dispatch('takeOffSelectedPlanet',this.selectedPlanet);
     },
     mineSomeOre()
     {
@@ -98,7 +106,27 @@ export default {
     },
     travelToPlanetButtonVisible()
     {
-      return this.selectedPlanet != null && this.ship.location.situation != "landed";
+      if(this.mapMode=='starsystem' && this.selectedPlanet)
+      {
+        return this.selectedPlanet != this.currentPlanet && this.currentSituation != "landed";
+      }
+      return false;
+    },
+    landOnPlanetButtonVisible()
+    {
+      if(this.mapMode=='starsystem' && this.selectedPlanet )
+      {
+        return this.selectedPlanet == this.currentPlanet && this.currentSituation == "orbiting";
+      }
+      return false;
+    },
+    takeOffPlanetButtonVisible()
+    {
+      if(this.mapMode=='starsystem' && this.selectedPlanet )
+      {
+        return this.selectedPlanet == this.currentPlanet && this.currentSituation == "landed";
+      }
+      return false;
     },
     ship()
     {
@@ -116,6 +144,7 @@ export default {
     },
     currentStarSystem()
     {
+
       return this.$store.getters.currentStarSystem;
     },
     currentSituation()

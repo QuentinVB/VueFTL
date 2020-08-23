@@ -66,3 +66,5 @@ oxygen : oxygen -= life support * crew
 https://out-there.fandom.com/wiki/Random_Encounters
 
 //civilisation level
+
+orbital event VS ground event

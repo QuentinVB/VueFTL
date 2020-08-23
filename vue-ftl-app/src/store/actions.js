@@ -69,19 +69,42 @@ export default {
         console.log("trying to move to " + planet.name);
         //request moving to the destination
         //check for
+        
         ShipApiServices.putMoveShipToPlanetAsync(planet.starSystem,planet.uuid)
           .then(response => {
             //check message status ?
+
             ctx.commit(types.UPDATESHIP,response.data.ship);
-            console.log("moved to " + planet.name);
-          })
-          .then(() => {
-            //TODO : set event status so the communicator will trigger
-            //ctx.dispatch('refreshEvent');
+            //ctx.commit(types.REFUELSHIP,10);
+            //console.log("moved to " + planet.name);
           })
           .catch(err => {
             console.error(err)
           });
+        
+      },
+      //todo make it dynmaic
+      landOnSelectedPlanet(ctx,planet)
+      {
+        console.log("trying to land on " + planet.name);
+        ShipApiServices.putChangeShipSituationAsync("land")
+        .then(response => {
+          ctx.commit(types.UPDATESHIP,response.data.ship);
+        })
+        .catch(err => {
+          console.error(err)
+        });
+      },
+      takeOffSelectedPlanet(ctx,planet)
+      {
+        console.log("trying to takeoff from " + planet.name);
+        ShipApiServices.putChangeShipSituationAsync("orbit")
+        .then(response => {
+          ctx.commit(types.UPDATESHIP,response.data.ship);
+        })
+        .catch(err => {
+          console.error(err)
+        });
       },
       mineSomeOre(ctx,planet)
       {

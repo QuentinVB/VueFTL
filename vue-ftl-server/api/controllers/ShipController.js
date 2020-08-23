@@ -82,9 +82,11 @@ exports.changeSituation= function(req, res) {
   switch (situation) {
     case "orbit":
       dao.ActiveShip.takeOffFromPlanet();
+      check = true;
       break;
     case "land":
       dao.ActiveShip.landOnPlanet();
+      check = true;
       break;
     default:
       

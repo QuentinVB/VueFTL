@@ -3,15 +3,26 @@
     <div class="flexContainer">
       <div 
       v-for="planet in starsystem.planets" 
-      :key="planet.uuid" 
+      :key="planet.name" 
       class="planetContainer"
       v-bind:class="[ 
         selectedPlanet && selectedPlanet.uuid == planet.uuid ? 'selected':'', 
-
        ]"
       @click="onSelectPlanet(planet)"
       >
         <div class="planet" v-bind:style="cssposition(planet)"></div>
+        <div v-if="orbitingPlanet && orbitingPlanet.uuid ==  planet.uuid ">
+          <svg width="33" height="33">
+            <polygon points="0,0 33,17 0,33 10,17"
+            style="fill:cyan;stroke:rgb(5, 165, 165);stroke-width:1;fill-rule:evenodd;" />
+          </svg>
+        </div>
+        <div v-if="landedOnPlanet && landedOnPlanet.uuid ==  planet.uuid ">
+          <svg width="33" height="33">
+            <polygon points="0,0 33,17 0,33 10,17"
+            style="fill:transparent;stroke:rgb(5, 165, 165);stroke-width:1;fill-rule:evenodd;" />
+          </svg>
+        </div>
         <p>{{planet.name}}</p>
         <p>{{planet.type}}</p>
         <p>Ore abbudancy : {{planet.minerals}}%</p>
@@ -28,7 +39,7 @@
   name: 'StarSystemMap',
   props: {
     starsystem: Object,
-    ship: Object
+    ship: Object,
   },
   data: function () {
     return {
@@ -36,6 +47,7 @@
     }
   },
   mounted() {
+    console.log(this.starsystem);
   },
   methods: {
     onSelectPlanet(planet)
@@ -43,20 +55,20 @@
       //console.log(planet)
       if(!this.selectedPlanet)
       {
-        this.selectedPlanet=planet;
-        //console.log("GalaxyMap here ! You selected " +starSystem.name);
+        this.selectedPlanet = planet;
+        //console.log("StarSystemMap here ! You selected " +this.selectedPlanet.name);
         this.$emit("onselectplanet", planet);
 
       }
       else if(this.selectedPlanet && planet.uuid != this.selectedPlanet.uuid)
       {
         this.selectedPlanet=planet;
-        //console.log("GalaxyMap here ! You selected " +starSystem.name);
+        //console.log("StarSystemMap here ! You selected " +this.selectedPlanet.name);
         this.$emit("onselectplanet", planet);
       }
       else
       {
-        //console.log("GalaxyMap here ! You deselected " +starSystem.name);
+        //console.log("StarSystemMap here ! You deselected " +this.selectedPlanet.name);
         this.selectedPlanet = null;
         this.$emit("onselectplanet");
       }
@@ -71,6 +83,19 @@
         background: "rgb("+planet.color.r+","+planet.color.g+","+planet.color.b+")"}
     }
     
+  },
+  computed:
+  {
+    orbitingPlanet()
+    {
+      if(this.$store.getters.currentPlanet && this.$store.state.ship.location.situation == "orbiting") return this.$store.getters.currentPlanet
+      return false;
+    },
+    landedOnPlanet()
+    {
+      if(this.$store.getters.currentPlanet && this.$store.state.ship.location.situation == "landed") return this.$store.getters.currentPlanet
+      return false ;
+    }
   }
 }
 // throw event : this.$emit("onselectimage", {}); // bubble up

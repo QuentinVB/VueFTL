@@ -22,7 +22,7 @@ export default class TreasureCache extends Event{
             {
               message:"Venture cautiously the ship close to the flying rocks.",
               effects:[
-                {action:GAINCREDITS,payload:{amount:1} },//inject state data here
+                //{action:GAINCREDITS,payload:{amount:1} },//inject state data here
                 {action:SETEVENTSTATE,payload:{eventuuid:this.uuid,state:stateOutcome} }
               ]
             },
