@@ -6,19 +6,25 @@
       <router-link to="/player">Player</router-link> |
       <!-- user profile -->
       <router-link to="/map">Navigation</router-link>
+      <MiniShip/>
     </div>
     <router-view/>
   </div>
 </template>
 <script>
+import MiniShip from '@/components/MiniShip.vue'
+
 export default {
   name: 'MainScreen',
-
+  components: {
+    MiniShip,
+  },
   data: function () {
     return {
       errors: [],
     }
   },
+  
   computed:
   {
     
@@ -62,4 +68,12 @@ html
     }
   }
 }
+.miniShip
+{
+  position:fixed;
+  top:0;
+  right:0;
+  
+}
 </style>
+

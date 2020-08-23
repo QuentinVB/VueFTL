@@ -9,6 +9,7 @@ export const SETEVENTSTATE = 'SETEVENTSTATE';
 export const GAINCREDITS = 'GAINCREDITS';
 export const LOSECREDITS = 'LOSECREDITS';
 export const INCREASEREACTOR = 'INCREASEREACTOR';
+export const LOADCARGO = 'LOADCARGO';
 
 
 

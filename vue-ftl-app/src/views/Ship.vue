@@ -1,20 +1,25 @@
 <template>
   <div class="about">
-    <h1>Ship status</h1>
+    <h1>{{ship.name}}  : ship status</h1>
     <ul>
-      <li>Name : {{ship.name}}</li>
-      <li>Fuel left  : {{ship.fuel}} | {{ship.fuelEfficiency}}</li>
-      <li>Hull  : {{ship.hull}} | {{ship.hullFactor}}</li>
+      <li>Fuel left  : {{Math.round(ship.fuel)}} | {{ship.fuelEfficiency}}</li>
+      <li>Hull  : {{Math.round(ship.hull)}} | {{ship.hullFactor}}</li>
       <li v-if="currentStarSystem && !currentPlanet">Location : {{currentSituation}} {{currentStarSystem.name}}</li>
-      <li v-else-if="currentStarSystem && currentPlanet">Location : {{currentSituation}} {{currentPlanet.name}} in system {{currentStarSystem.name}}</li>
+      <li v-else-if="currentStarSystem && currentPlanet">Location : {{currentSituation}} {{currentPlanet.name}}</li>
       <li v-else>Location : Unknown</li>
-      <li>Position  : 
-        <ul>
-          <li>x : {{ship.position.x}}</li>
-          <li>y : {{ship.position.y}}</li>
-        </ul>
-      </li>
+      <li>Position : {{ship.position.x}} : {{ship.position.y}}</li>
+      
     </ul>
+    <h2>Cargo Bay</h2>
+    <div v-if="ship.cargoBay" class="cargoContainer">
+        <div 
+          v-for="cargo in ship.cargoBay" 
+          :key="cargo.uuid" 
+          class="cargo">
+          <!--TODO : icons of cargo hooo yeah !-->
+          {{cargo.quantity}}t of {{cargo.content}}
+        </div>
+    </div>
   </div>
 </template>
 <script>
@@ -85,4 +90,17 @@ fetch(apiUrl + encodeURIComponent(this.name))
 
 */
 </script>
-
+<style lang="scss" scoped>
+.cargoContainer
+{
+  display: flex;
+  justify-content:center;
+}
+.cargo
+{
+  background:rgb(180, 180, 180);
+  padding:5px;
+  margin:2px;
+  border:black 1px solid;
+}
+</style>

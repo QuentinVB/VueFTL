@@ -128,7 +128,7 @@ class StarSystem {
 
     static getRandomName()
     {
-      return NAMESOURCE[Random.getRandomIntInclusive(0,NAMESOURCE.length)]+" "+GREEKALPHABET[Random.getRandomIntInclusive(0,GREEKALPHABET.length)]+"-"+Random.getRandomIntInclusive(1,9);
+      return NAMESOURCE[Random.getRandomInt(0,NAMESOURCE.length)]+" "+GREEKALPHABET[Random.getRandomInt(0,GREEKALPHABET.length)]+"-"+Random.getRandomIntInclusive(1,9);
     }
 
     static getRandomType()

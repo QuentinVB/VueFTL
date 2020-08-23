@@ -20,12 +20,15 @@ export default class AlienSchematics extends Event{
             {
               message:"Plug the chip into the system...",
               effects:[
+                {action:INCREASEREACTOR,payload:{factor:0.1} },
+
                 {action:SETEVENTSTATE,payload:{eventuuid:this.uuid,state:1} }
               ]
             },
             {
               message:"Recycle the chip into valuable elements.",
               effects:[
+                {action:GAINCREDITS,payload:{eventuuid:this.uuid,amount:this.worth} },
                 {action:SETEVENTSTATE,payload:{eventuuid:this.uuid,state:2} }
               ]
             },
@@ -40,14 +43,12 @@ export default class AlienSchematics extends Event{
         {
           message:"You plug the chip into your computer system. It contains simple instructions in your language to increase the ship main reactor power ! You quickly and easily make the change. The reactor gained 10% of efficiency !",
           options:[{message:"Continue.",effects:[
-            {action:INCREASEREACTOR,payload:{factor:0.1} },
             {action:CLOSEEVENT,payload:{eventuuid:this.uuid} }
           ]}]
         },
         {
           message:"You recycle the chip and extract rare elements from it. Total worth is "+this.worth+" credits",
           options:[{message:"Continue.",effects:[
-            {action:GAINCREDITS,payload:{eventuuid:this.uuid,amount:this.worth} },
             {action:CLOSEEVENT,payload:{eventuuid:this.uuid} }
           ]}]
         },

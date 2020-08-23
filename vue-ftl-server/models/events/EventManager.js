@@ -1,13 +1,13 @@
 'use strict';
 const Random = require("../../helpers/Random");
+import * as actions from './EventActions'
 import Nothing from "./Nothing";
 import FloatingFuel from "./FloatingFuel";
 import AsteroidField from "./AsteroidField";
 import WormHole from "./WormHole";
 import TreasureCache from "./TreasureCache";
 import AlienSchematics from "./AlienSchematics";
-
-import * as actions from './EventActions'
+import FloatingCargo from "./FloatingCargo";
 const dao = require('../../dal/dao');
 
 //ABSTRACT !!
@@ -18,8 +18,8 @@ exports.Nothing = function(playeruuid)
 }
 exports.GenerateRandomEvent = function (playeruuid)
 {
-  const token = Random.getRandomIntInclusive(0,5);
-  //const token = 5;
+  const token = Random.getRandomIntInclusive(0,6);
+  //const token = 6;
   switch (token) {
     case 0:
       return new Nothing("nothing",playeruuid,[]);
@@ -33,6 +33,8 @@ exports.GenerateRandomEvent = function (playeruuid)
       return new TreasureCache("treasure cache",playeruuid,[]);
     case 5:
       return new AlienSchematics("alien schematics",playeruuid,[]);
+    case 6:
+      return new FloatingCargo("floating cargo",playeruuid,[]);
     default: 
       return new Nothing("nothing",playeruuid,[]);
   }
@@ -44,6 +46,7 @@ exports.ProcessAction = function (action,payload)
       dao.ActiveShip.takeDamage(payload.damages);
       break;
     case actions.REFUELSHIP:
+      //TODO add security to avoid NaN or Null
       dao.ActiveShip.fuel+=payload.amount;
       break;
     case actions.DRAINSHIPFUEL:
@@ -70,6 +73,10 @@ exports.ProcessAction = function (action,payload)
       break;
     case actions.INCREASEREACTOR:
       dao.ActiveShip.fuelEfficiency= (dao.ActiveShip.fuelEfficiency * (1+payload.factor)).toFixed(2);
+      break;
+    case actions.LOADCARGO:
+      const cargo = payload.cargo;
+      dao.ActiveShip.loadCargo(cargo);
       break;
     default:
       console.log("lol wat r u trying ?");

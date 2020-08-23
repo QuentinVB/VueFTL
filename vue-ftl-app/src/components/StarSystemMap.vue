@@ -47,7 +47,7 @@
     }
   },
   mounted() {
-    console.log(this.starsystem);
+    //console.log(this.starsystem);
   },
   methods: {
     onSelectPlanet(planet)

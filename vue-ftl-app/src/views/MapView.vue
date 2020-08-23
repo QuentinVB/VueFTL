@@ -94,7 +94,11 @@ export default {
   {
     wrapButtonVisible()
     {
-      return this.selectedDestination && this.selectedDestination.uuid != "" &&  this.$store.state.ship.location != this.selectedDestination.uuid ;
+      if(this.mapMode=='galaxy' && this.selectedDestination && this.selectedDestination.uuid !="")
+      {
+        return this.$store.state.ship.location.situation != "landed" &&  this.$store.state.ship.location != this.selectedDestination.uuid ;
+      }
+      return false;
     },
     miningButtonVisible()
     {
@@ -106,25 +110,26 @@ export default {
     },
     travelToPlanetButtonVisible()
     {
-      if(this.mapMode=='starsystem' && this.selectedPlanet)
+      if(this.mapMode=='starsystem' && this.selectedPlanet && this.currentSituation == "orbiting" )
       {
-        return this.selectedPlanet != this.currentPlanet && this.currentSituation != "landed";
+        if(this.currentPlanet) return this.selectedPlanet.uuid != this.currentPlanet.uuid
+        return true ;
       }
       return false;
     },
     landOnPlanetButtonVisible()
     {
-      if(this.mapMode=='starsystem' && this.selectedPlanet )
+      if(this.mapMode=='starsystem' && this.selectedPlanet&& this.currentPlanet  )
       {
-        return this.selectedPlanet == this.currentPlanet && this.currentSituation == "orbiting";
+        return this.currentSituation == "orbiting"&& this.selectedPlanet.uuid == this.currentPlanet.uuid;
       }
       return false;
     },
     takeOffPlanetButtonVisible()
     {
-      if(this.mapMode=='starsystem' && this.selectedPlanet )
+      if(this.mapMode=='starsystem' && this.selectedPlanet&&this.currentPlanet  )
       {
-        return this.selectedPlanet == this.currentPlanet && this.currentSituation == "landed";
+        return this.currentSituation == "landed"&& this.selectedPlanet.uuid == this.currentPlanet.uuid;
       }
       return false;
     },

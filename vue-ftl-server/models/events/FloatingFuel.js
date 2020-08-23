@@ -4,7 +4,10 @@ import Random from "../../helpers/Random"
 import Event from "./Event";
 import {REFUELSHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
 
-
+/**
+ * Class representing floating fuel event.
+ * @extends Event
+ */
 export default class FloatingFuel extends Event{
   //TODO : inject fuel amount gained in state data
   constructor(name,player,statesData) {

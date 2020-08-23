@@ -2,29 +2,34 @@
 
 import Random from "../../helpers/Random"
 import Event from "./Event";
-import {WARPSHIPTORANDOMDESTINATION,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
+import {LOADCARGO,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
+import Cargo from "../Cargo";
 
-
-export default class WormHole extends Event{
+/**
+ * Class representing floating cargo event.
+ * @extends Event
+ */
+export default class FloatingCargo extends Event{
+  //TODO : inject fuel amount gained in state data
   constructor(name,player,statesData) {
     
     super(name, player)
     
-
+    this.cargo = Cargo.GetRandomCargo();
 
     this.states= [
         {
-          message:"A wormhole orbit the star, your sensor detect other star beyond",
+          message:"A floating cargo container drifting in space...",
           options:[
             {
-              message:"You boldly go inside !",
+              message:"Pick it.",
               effects:[
-                {action:WARPSHIPTORANDOMDESTINATION,payload:{} },
+                {action:LOADCARGO,payload:{cargo:this.cargo} },
                 {action:SETEVENTSTATE,payload:{eventuuid:this.uuid,state:1} }
               ]
             },
             {
-              message:"Too dangerous, you left it.",
+              message:"Leave it.",
               effects:[
                 {action:SETEVENTSTATE,payload:{eventuuid:this.uuid,state:2} }
               ]
@@ -32,16 +37,15 @@ export default class WormHole extends Event{
           ]
         },
         {
-          message:"You enter the spinning convex sphere and emerge in another star system",
+          message:"You load the container aboard your ship cargo bay, it contains "+this.cargo.quantity+"t of "+this.cargo.content+".",
           options:[{message:"Continue.",effects:[
             {action:CLOSEEVENT,payload:{eventuuid:this.uuid} }
           ]}]
         },
         {
-          message:"You left the wormhole, maybe someone else will use it ?",
+          message:"You left the container alone in the void of space...",
           options:[{message:"Continue.",effects:[
             {action:CLOSEEVENT,payload:{eventuuid:this.uuid} }
-  
           ]}]
         }
       ]

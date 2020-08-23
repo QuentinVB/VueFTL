@@ -3,6 +3,7 @@
 const StarSystem = require("./StarSystem");
 const dao = require('../dal/dao');
 const Uuid = require('uuid');
+const Cargo = require("./Cargo");
 
 
 class Ship {
@@ -21,16 +22,38 @@ class Ship {
 
       this.hull = this.HULLMAX;
       this.hullFactor = 0.9;
+
+      this.cargoBay=[];
     }
 
     static EmptyShip() {
-      return new Ship("Von Braun",Uuid.v4());
+      const ship = new Ship("Von Braun",Uuid.v4());
+      ship.loadCargo(new Cargo("Iron",80));
+      return ship;
     }
-
+    /**
+     * Try to load cargo into the cargo bay
+     * @param {Cargo} cargo cargo to load 
+     * @return {boolean} true if the loading succeded, else false
+     */
+    loadCargo(cargo)
+    {
+      //TODO : check if same cargo already exist, if so stack it correctly
+      this.cargoBay.push(cargo);
+    }
     consumeFuel()
     {
+      //TODO : the more cargo aboard, the more the fuel consumption !
       if(this.fuel<=0) return false;
       this.fuel= (this.fuel - this.FUELCONSUMPTION*(1-this.fuelEfficiency)).toFixed(1);
+    }
+    /**
+     * Refuel the ship with the specified amount of fuel
+     * @param {Number} amount amount of fuel to load into the ship
+     */
+    refuel(amount)
+    {
+      this.fuel = Math.min(this.fuel + amount,this.FUELMAX);
     }
 
     takeDamage(damages)
@@ -108,7 +131,8 @@ class Ship {
         fuel:this.fuel,
         hull:this.hull,
         fuelEfficiency:this.fuelEfficiency,
-        hullFactor:this.hullFactor
+        hullFactor:this.hullFactor,
+        cargoBay:this.cargoBay //should call a building function ?
       }
     }
     canMove(starsystemUUID,planetUUID)

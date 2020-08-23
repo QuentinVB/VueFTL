@@ -114,12 +114,14 @@ export default {
           .then(response => {
 
             const starSystemToUpdate = response.data.starSystem;
-            const fuelMined = response.data.fuelmined;
-
-            ctx.commit(types.REFUELSHIP,fuelMined)
+            //const fuelMined = response.data.fuelmined;
+            //const loadedFuel = response.data.loadedFuel;
+            const ship = response.data.ship;
+            ctx.commit(types.UPDATESHIP,ship);
+            //ctx.commit(types.REFUELSHIP,loadedFuel)
             ctx.commit(types.UPDATESTARSYSTEM,starSystemToUpdate)
 
-            console.log("mined " + planet.name +" and gained "+ fuelMined+" fuel");
+            console.log("mined " + planet.name +"and refuel the ship to "+ship.fuel);
           })
           .catch(err => {
             console.error(err)

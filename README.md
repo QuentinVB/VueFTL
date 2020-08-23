@@ -65,6 +65,30 @@ oxygen : oxygen -= life support * crew
 
 https://out-there.fandom.com/wiki/Random_Encounters
 
+Gray moon-like asteroid (Gathered 5 Oxygen)
+Leak in the liquid nitrogen line (Lose 15 Hull)
+Space Folder malfunctioned, went far away, used again and came back (Lose 10 Fuel)
+White elongated cloud (Gathered 15 Fuel)
+Path crossed a very dense asteroid field (Lose 20 Hull)
+Reactor shaking, something stuck in it, fuel filled ship (Lose 20 Fuel)
+Cosmic rays hit strong magnetic field creating a huge aurora, but the disturbance had erased entries in database (Forget 1 Technology)
+Small spot shining far away, comet coming fast straight at him. Size of a planet, used full power to escape. (Lose 20 Fuel)
+Cut off a bit of his finger, tried to cauterize the wound with a soldering iron, dropped iron onto device (Broke 1 Ship Module)
+Appears in a giant 3D spider web, flying between ropes next to frozen giant spiders, escaped with dents (Lose 15 Hull)
+Malfunction in oxygen line, saw everything red ten black (Lose 20 Oxygen)
+Noticed a weakness in the hull with a bizarre reflection of the hull, fixed it (Lose 5 Oxygen)
+Came across a huge energy ball, seemed alive, grabbed ship and teleported him outside of ship and examined. (Lose 20 Oxygen)
+Power surge occurred during the last jump, Space Folder is out of order (Broke Space Folder Ship Module)
+Opened a big gash into a large white space whale, internal fluids repaired the hull (Gain 20 Hull)
+Comet crashed on ship, was soft and filled with water and ice (Gathered 15 oxygen)
+Found a forgotten construction site deep inside the core of an iron moon, tried to enter but defended itself (Lose 20 Hull)
+Hit by cosmic rays, melted some of my devices. (Damage 1 Ship Module)
+Encountered small automated station. (Gain 30 Fuel)
+Found a hydrogen cloud which could have been born a star. (Gain 75 Fuel)
+Fuel tank bumped into the ship. (Gain 50 Fuel)
+Found a dead alien astronaut floating in space. (Gain 10 Oxygen)
+Flew through a moon made of liquid helium, went back to collect fuel. (Gain 100 Fuel)
+
 //civilisation level
 
 orbital event VS ground event

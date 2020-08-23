@@ -5,6 +5,9 @@ const EventManager = require('./EventManager');
 
 
 //ABSTRACT !!
+/**
+ * @abstract
+ */
 class Event {
   constructor(name,player,statesData) {
       this.name=name;
