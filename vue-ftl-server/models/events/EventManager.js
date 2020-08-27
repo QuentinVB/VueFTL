@@ -8,6 +8,7 @@ import WormHole from "./WormHole";
 import TreasureCache from "./TreasureCache";
 import AlienSchematics from "./AlienSchematics";
 import FloatingCargo from "./FloatingCargo";
+import AlienAutomate from './AlienAutomate';
 const dao = require('../../dal/dao');
 
 //ABSTRACT !!
@@ -19,26 +20,31 @@ exports.Nothing = function(playeruuid)
 exports.GenerateRandomEvent = function (playeruuid)
 {
   const token = Random.getRandomIntInclusive(0,6);
-  //const token = 6;
+  //const token = 7;
   switch (token) {
     case 0:
-      return new Nothing("nothing",playeruuid,[]);
+      return new Nothing("nothing",playeruuid);
     case 1:
-      return new FloatingFuel("floating fuel",playeruuid,[]);
+      return new FloatingFuel("floating fuel",playeruuid);
     case 2:
-      return new WormHole("wormhole",playeruuid,[]);//set destination here ?
+      return new WormHole("wormhole",playeruuid);//set destination here ?
     case 3:
-      return new AsteroidField("asteroid field",playeruuid,[]);
+      return new AsteroidField("asteroid field",playeruuid);
     case 4:
-      return new TreasureCache("treasure cache",playeruuid,[]);
+      return new TreasureCache("treasure cache",playeruuid);
     case 5:
-      return new AlienSchematics("alien schematics",playeruuid,[]);
+      return new AlienSchematics("alien schematics",playeruuid);
     case 6:
-      return new FloatingCargo("floating cargo",playeruuid,[]);
+      return new FloatingCargo("floating cargo",playeruuid);
+    case 7:
+      //todo make event self autonomous...
+      return new AlienAutomate("alien automate",playeruuid,{hasEnoughIron:dao.ActiveShip.getCargoOf("Iron").quantitySum>=10});
     default: 
-      return new Nothing("nothing",playeruuid,[]);
+      return new Nothing("nothing",playeruuid);
   }
 }
+
+
 exports.ProcessAction = function (action,payload)
 {
   switch (action) {
@@ -77,6 +83,12 @@ exports.ProcessAction = function (action,payload)
     case actions.LOADCARGO:
       const cargo = payload.cargo;
       dao.ActiveShip.loadCargo(cargo);
+      break;
+    case actions.UNLOADCARGO:
+      const cargoType = payload.type;
+      const quantity = payload.quantity;
+      dao.ActiveShip.unloadCargo(cargoType,quantity);
+      //TODO : put event behind the drop ? => drop!=unload !
       break;
     default:
       console.log("lol wat r u trying ?");

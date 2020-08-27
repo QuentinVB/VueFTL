@@ -10,6 +10,7 @@ export const GAINCREDITS = 'GAINCREDITS';
 export const LOSECREDITS = 'LOSECREDITS';
 export const INCREASEREACTOR = 'INCREASEREACTOR';
 export const LOADCARGO = 'LOADCARGO';
+export const UNLOADCARGO = 'UNLOADCARGO';
 
 
 

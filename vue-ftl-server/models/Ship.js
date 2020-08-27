@@ -23,24 +23,97 @@ class Ship {
       this.hull = this.HULLMAX;
       this.hullFactor = 0.9;
 
+
       this.cargoBay=[];
     }
 
-    static EmptyShip() {
-      const ship = new Ship("Von Braun",Uuid.v4());
-      ship.loadCargo(new Cargo("Iron",80));
-      return ship;
-    }
+    
     /**
-     * Try to load cargo into the cargo bay
+     * Try to load cargo into the cargo bay of the ship
      * @param {Cargo} cargo cargo to load 
      * @return {boolean} true if the loading succeded, else false
      */
     loadCargo(cargo)
     {
-      //TODO : check if same cargo already exist, if so stack it correctly
-      this.cargoBay.push(cargo);
+      const cargoNotFull = this.cargoBay.find(c=> c.content === cargo.content && c.quantity < Cargo.MAXCARGOCAPACITY);
+      //TODO : case if maximum capacity is reached , it return false
+      if(cargoNotFull)
+      {
+        const remainingStorage = Cargo.MAXCARGOCAPACITY-cargoNotFull.quantity;
+        if(remainingStorage >= cargo.quantity) 
+        {
+          cargoNotFull.quantity+=cargo.quantity;
+        }
+        else
+        {
+          cargo.quantity=cargo.quantity-remainingStorage;
+          cargoNotFull.quantity=cargoNotFull.quantity+remainingStorage;
+          this.cargoBay.push(cargo);
+        }
+        
+      }
+      else
+      {
+        this.cargoBay.push(cargo);
+      }
+      return true;
     }
+    /**
+     * Unload a cargo of the specified type and quantity
+     * @param {String} type the requested type of cargo
+     * @param {Number} quantityrequested the requested quantity of cargo
+     * @returns {(Cargo|Boolean)} the cargo unloaded or false
+     */
+    unloadCargo(type,quantityrequested)
+    {
+      if(quantityrequested>Cargo.MAXCARGOCAPACITY) throw "cant request a cargo with this quantity";
+      let {cargosWithRequiredContent,quantitySum} = this.getCargoOf(type);
+
+      if(quantityrequested>quantitySum || cargosWithRequiredContent.length ===0) return false;
+
+      cargosWithRequiredContent.sort((a,b)=> a.quantity -b.quantity);
+
+      let quantityToSubstract = 0;
+      for (let i = cargosWithRequiredContent.length-1; i >= 0 ; i--) {
+        const cargo = cargosWithRequiredContent[i];
+        if(cargo.quantity-quantityrequested>0)
+        {
+          cargo.quantity-=quantityrequested;
+          break;
+        }
+        else
+        {
+          quantityToSubstract=quantityrequested-cargo.quantity;
+          cargosWithRequiredContent.pop();
+        }
+      }
+
+      return new Cargo(type,quantityrequested);
+    }
+
+    /**
+     * Get all the cargo of requested type
+     * @param {String} type the requested type of cargo
+     * @returns {{cargosWithRequiredContent:Cargo[],quantitySum:Number}} an object with an array of requested cargo and summed quantity
+     */
+    getCargoOf(type)
+    {
+      
+      let cargosWithRequiredContent=[];
+      let quantitySum = 0;
+
+      for (const cargo of this.cargoBay) {
+        if(cargo.content === type)
+        {
+          cargosWithRequiredContent.push(cargo);
+          quantitySum+= cargo.quantity;
+        }
+      }
+
+      return {cargosWithRequiredContent,quantitySum}
+    }
+
+    //FUEL MANAGEMENT
     consumeFuel()
     {
       //TODO : the more cargo aboard, the more the fuel consumption !
@@ -56,11 +129,13 @@ class Ship {
       this.fuel = Math.min(this.fuel + amount,this.FUELMAX);
     }
 
+    //HULL MANAGEMENT
     takeDamage(damages)
     {
       this.hull -= Math.floor(damages*this.hullFactor);
     }
 
+    //LOCATION MANAGEMENT
     moveTo(coordinate)
     {
       
@@ -121,20 +196,6 @@ class Ship {
       this.position = dao.ActiveGalaxy.galaxyMap[uuid].position;
       return true;
     }
-    toObject()
-    {
-      //TODO ADD STATE MESSAGE ?
-      return {
-        name:this.name,
-        position: this.position,
-        location:this.location,
-        fuel:this.fuel,
-        hull:this.hull,
-        fuelEfficiency:this.fuelEfficiency,
-        hullFactor:this.hullFactor,
-        cargoBay:this.cargoBay //should call a building function ?
-      }
-    }
     canMove(starsystemUUID,planetUUID)
     {
       //TODO : BEWAAARG, clean up cascading condition ?
@@ -158,6 +219,27 @@ class Ship {
       }
       
       return true;
+    }
+
+    //COMMON METHODS
+    toObject()
+    {
+      //TODO ADD STATE MESSAGE ?
+      return {
+        name:this.name,
+        position: this.position,
+        location:this.location,
+        fuel:this.fuel,
+        hull:this.hull,
+        fuelEfficiency:this.fuelEfficiency,
+        hullFactor:this.hullFactor,
+        cargoBay:this.cargoBay //should call a building function ?
+      }
+    }
+    static EmptyShip() {
+      const ship = new Ship("Von Braun",Uuid.v4());
+      ship.loadCargo(new Cargo("Iron",25));
+      return ship;
     }
   }
 module.exports = Ship;

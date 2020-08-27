@@ -9,12 +9,12 @@ const EventManager = require('./EventManager');
  * @abstract
  */
 class Event {
-  constructor(name,player,statesData) {
+  constructor(name,player) {
       this.name=name;
       this.currentStateIdx = 0  ;
       this.isActive = true;
 
-      this.states = statesData;
+      this.states = [];
       
       this.player = player;
       this.uuid = Uuid.v4();

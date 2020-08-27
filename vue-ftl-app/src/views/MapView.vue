@@ -10,7 +10,7 @@
         <StarSystemInfo v-bind:selectedSystem="activeStarSystem" />
         <h2>Actions</h2>
         <button v-if="wrapButtonVisible" v-on:click="warpShipToSelectedDestination">Move ship to destination</button>
-        <button v-if="miningButtonVisible" v-on:click="mineSomeOre">Search for ore</button>
+        <button v-if="miningButtonVisible" v-on:click="mineSomeOre">{{this.currentPlanet.landable?"Mine":"Probe"}} for ore</button>
         <button v-if="travelToPlanetButtonVisible" v-on:click="travelShipToSelectedPlanet">Travel to {{selectedPlanet.name}}</button>
         <button v-if="landOnPlanetButtonVisible" v-on:click="landOnSelectedPlanet">Land on {{selectedPlanet.name}}</button>
         <button v-if="takeOffPlanetButtonVisible" v-on:click="takeOffSelectedPlanet">Take off planet {{selectedPlanet.name}}</button>
@@ -121,7 +121,7 @@ export default {
     {
       if(this.mapMode=='starsystem' && this.selectedPlanet&& this.currentPlanet  )
       {
-        return this.currentSituation == "orbiting"&& this.selectedPlanet.uuid == this.currentPlanet.uuid;
+        return this.currentSituation == "orbiting"&& this.selectedPlanet.uuid == this.currentPlanet.uuid&&this.currentPlanet.landable;
       }
       return false;
     },

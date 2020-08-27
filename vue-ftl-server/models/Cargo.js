@@ -23,7 +23,7 @@ const CARGOTYPES = ["Hydrogen","Helium","Iron","Silicon","Thorium","Hafnium","Pl
 /** Class representing a cargo container, with its content*/
 class Cargo {
 
-    MAXCARGOCAPACITY = 25;
+    static MAXCARGOCAPACITY = 25;
     // ?
     content= "";
     quantity=0;
@@ -36,7 +36,7 @@ class Cargo {
     constructor(content,quantity) {
       this.content = content;
       if(quantity<0) throw "cant fill a negative quantity"
-      this.quantity = Math.min(quantity,this.MAXCARGOCAPACITY);
+      this.quantity = Math.min(quantity,Cargo.MAXCARGOCAPACITY);
       this.uuid =  Uuid.v4()
     }
     /**
@@ -55,7 +55,7 @@ class Cargo {
     {
       if(value<0) throw "cant fill a negative quantity"
       //TODO : throw if quantity above ?
-      this.quantity = Math.min(value,this.MAXCARGOCAPACITY);
+      this.quantity = Math.min(value,Cargo.MAXCARGOCAPACITY);
     }
     /**
      * Generate a random cargo container

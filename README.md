@@ -1,15 +1,3 @@
-Charge utile du vaisseau
-{
-    name:"",//le nom du vaisseau
-    coordinates: 
-    {
-        y:0,
-        y:0,
-        //secteur ?
-    },
-    fuel: 5//le carburant
-}
-
 building an universal "message" payload system ?
 
 https://github.com/microsoft/vscode-recipes/tree/master/vuejs-cli
@@ -49,17 +37,12 @@ Gift : abandonned cargo
 
 Ship :
 
-        double _money = 100;
-
         bool _isAlive = true;
         
         int _oxygenSupply = 100;
         readonly Atom _fuelType = Atom.Hydrogen;
         double _lifeSupportFactor = 0.4;
         int _crew = 10;
-
-        Cargo[] _cargoBay;
-        int _cargoIdx=0;
 
 oxygen : oxygen -= life support * crew
 
@@ -92,3 +75,5 @@ Flew through a moon made of liquid helium, went back to collect fuel. (Gain 100 
 //civilisation level
 
 orbital event VS ground event
+
+UX : mark visited system and current position
