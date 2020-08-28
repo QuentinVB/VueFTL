@@ -7,9 +7,9 @@ const Cargo = require("./Cargo");
 
 
 class Ship {
-    HULLMAX = 100;
-    FUELMAX = 100;
-    FUELCONSUMPTION = 5;
+    static HULLMAX = 100;
+    static FUELMAX = 100;
+    static FUELCONSUMPTION = 5;
 
     constructor(name,uuid) {
       this.uuid = uuid;
@@ -17,10 +17,10 @@ class Ship {
       this.position = {x:0,y:0} ;
       this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
 
-      this.fuel = this.FUELMAX;
+      this.fuel = Ship.FUELMAX;
       this.fuelEfficiency = 0.2;//20%
 
-      this.hull = this.HULLMAX;
+      this.hull = Ship.HULLMAX;
       this.hullFactor = 0.9;
 
 
@@ -118,7 +118,7 @@ class Ship {
     {
       //TODO : the more cargo aboard, the more the fuel consumption !
       if(this.fuel<=0) return false;
-      this.fuel= (this.fuel - this.FUELCONSUMPTION*(1-this.fuelEfficiency)).toFixed(1);
+      this.fuel= (this.fuel - Ship.FUELCONSUMPTION*(1-this.fuelEfficiency)).toFixed(1);
     }
     /**
      * Refuel the ship with the specified amount of fuel
@@ -126,7 +126,7 @@ class Ship {
      */
     refuel(amount)
     {
-      this.fuel = Math.min(this.fuel + amount,this.FUELMAX);
+      this.fuel = Math.min(this.fuel + amount,Ship.FUELMAX);
     }
 
     //HULL MANAGEMENT

@@ -129,7 +129,7 @@ class StarSystem {
     static getRandomName()
     {
       //TODO : name from same sector have the same "constellation name" then different greek alphabet, and number
-      return NAMESOURCE[Random.getRandomInt(0,NAMESOURCE.length)]+" "+GREEKALPHABET[Random.getRandomInt(0,GREEKALPHABET.length)]+"-"+Random.getRandomIntInclusive(1,9);
+      return GREEKALPHABET[Random.getRandomInt(0,GREEKALPHABET.length)]+" "+NAMESOURCE[Random.getRandomInt(0,NAMESOURCE.length)]+"-"+Random.getRandomIntInclusive(1,9);
     }
 
     static getRandomType()

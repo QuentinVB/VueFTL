@@ -4,12 +4,14 @@
   "description": "backend for vue ftl project",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -r esm",
     "start": "nodemon -r esm server.js"
   },
   "author": "Quentin vanbutsele",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.2",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
