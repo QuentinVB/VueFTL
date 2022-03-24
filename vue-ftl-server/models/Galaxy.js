@@ -52,10 +52,6 @@ class Galaxy {
       }
       return galaxy;
     }
+}
 
-    
-
-  
-    
-  }
 module.exports = Galaxy;

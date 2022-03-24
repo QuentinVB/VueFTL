@@ -1,7 +1,7 @@
 //'use strict';
 
-import Random from "../../helpers/Random"
-import Event from "./Event";
+
+const Event = require("./Event");
 import {INCREASEREACTOR,UNLOADCARGO,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
 
 
@@ -61,4 +61,3 @@ export default class AlienAutomate extends Event{
     }
   }
 
-  

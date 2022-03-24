@@ -4,13 +4,15 @@
     <p v-if="currentStarSystem">Current system is {{currentStarSystem.name}}</p>
     <h2>Actions</h2>
     <h2>Communications</h2>
-    <p v-if="!eventActive">Here lies the messages from stranger species</p>
-    <p v-if="eventActive"> <!--should be modal !-->
-      {{event.state.message}}
-      <ul>
-        <li v-for="(option,index) in event.state.options" :key="index" v-on:click="selectEventOption(index)" class="eventOption">{{option.message}}</li>
-      </ul>
-    </p>
+    <section class="com">
+      <p v-if="!eventActive">Here lies the messages from stranger species</p>
+      <p v-if="eventActive"> <!--should be modal !-->
+        {{event.state.message}}
+        <ul>
+          <li v-for="(option,index) in event.state.options" :key="index" v-on:click="selectEventOption(index)" class="eventOption">{{option.message}}</li>
+        </ul>
+      </p>
+    </section>
   </div>
 </template>
 
@@ -94,5 +96,17 @@ export default {
 .eventOption:hover
 {
   font-weight: bolder;
+}
+.com
+{
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  p
+  {
+    max-width: 15cm;
+    text-align:left;
+  }
 }
 </style>

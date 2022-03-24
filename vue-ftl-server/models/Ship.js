@@ -1,12 +1,10 @@
 'use strict';
 
-const StarSystem = require("./StarSystem");
-const dao = require('../dal/dao');
 const Uuid = require('uuid');
 const Cargo = require("./Cargo");
 
 
-class Ship {
+module.exports = class Ship {
     static HULLMAX = 100;
     static FUELMAX = 100;
     static FUELCONSUMPTION = 5;
@@ -27,7 +25,7 @@ class Ship {
       this.cargoBay=[];
     }
 
-    
+    //Cargo manangement
     /**
      * Try to load cargo into the cargo bay of the ship
      * @param {Cargo} cargo cargo to load 
@@ -114,11 +112,17 @@ class Ship {
     }
 
     //FUEL MANAGEMENT
+    /**
+     * Consume the fuel of the ship, according the the fuel consumption and efficiency
+     * @returns {Number|boolean} the consumed fuel, else false
+     */
     consumeFuel()
     {
       //TODO : the more cargo aboard, the more the fuel consumption !
       if(this.fuel<=0) return false;
-      this.fuel= (this.fuel - Ship.FUELCONSUMPTION*(1-this.fuelEfficiency)).toFixed(1);
+      let consumedFuel = Ship.FUELCONSUMPTION*(1-this.fuelEfficiency);
+      this.fuel= (this.fuel - consumedFuel).toFixed(1);
+      return consumedFuel;
     }
     /**
      * Refuel the ship with the specified amount of fuel
@@ -126,38 +130,56 @@ class Ship {
      */
     refuel(amount)
     {
+      if(amount<=0) throw "cant refill an negative amount !"
       this.fuel = Math.min(this.fuel + amount,Ship.FUELMAX);
     }
 
     //HULL MANAGEMENT
     takeDamage(damages)
     {
-      this.hull -= Math.floor(damages*this.hullFactor);
+      if(damages<=0) throw "cant refill an negative or null amount !"
+      const realDamages = Math.floor(damages*this.hullFactor);
+      this.hull -= (realDamages).toFixed(1);
+      //TODO : if hull <0 : ship is destroyed, gameover !!!
+      return realDamages;
+    }
+    /**
+     * Repair the ship with the specified amount of points
+     * @param {Number} amount amount of point to restore
+     */
+    repair(amount)
+    {
+      if(amount<=0) throw "cant refill an negative amount !"
+      this.hull = Math.min(this.hull + amount,Ship.HULLMAX);
     }
 
+
     //LOCATION MANAGEMENT
+    /**
+     * move the ship to the designated coordinate and consume fuel
+     * @param {{x:number,y:number}} coordinate 
+     * @return {boolean} true if the ship moved, else false
+     */
     moveTo(coordinate)
     {
-      
-      this.consumeFuel();
-
+      if(!this.consumeFuel()) return false;
+      //TODO check for realistic coordinates
       this.position.x = coordinate.x;
       this.position.y = coordinate.y;
       return true;
     }
-
-    wrapToSystem(uuid)
+    setLocationTo(starSystem)
     {
-      this.consumeFuel();
-      
-      this.location.starsystem = uuid;
+      this.location.starsystem = starSystem.uuid;
       this.location.planet = "";
       this.location.situation = "orbiting";
-
-      this.position = dao.ActiveGalaxy.galaxyMap[uuid].position;
-
-
+      this.position = starSystem.position;
       return true;
+    }
+    wrapToSystem(starSystem)
+    {
+      this.consumeFuel();
+      return this.setLocationTo(starSystem);
     }
     moveToPlanet(planetUUID)
     {
@@ -168,7 +190,7 @@ class Ship {
     }
     landOnPlanet()
     {
-      if(this.location.situation="orbiting" && this.location.planet)
+      if(this.location.situation==="orbiting" && this.location.planet)
       {
         //take damage ?
         this.location.situation = "landed";
@@ -176,9 +198,10 @@ class Ship {
       }
       return false;
     }
+
     takeOffFromPlanet()
     {
-      if(this.location.situation="landed" && this.location.planet)
+      if(this.location.situation==="landed" && this.location.planet)
       {
         this.consumeFuel();
         this.location.situation = "orbiting";
@@ -187,19 +210,17 @@ class Ship {
       return false;
     }
 
-    setLocationTo(uuid)
-    {
-      this.location.starsystem = uuid;
-      this.location.planet = "";
-      this.location.situation = "orbiting";
-
-      this.position = dao.ActiveGalaxy.galaxyMap[uuid].position;
-      return true;
-    }
+    /**
+     * Check if the ship can move
+     * @param {string=} starsystemUUID 
+     * @param {string=} planetUUID 
+     */
     canMove(starsystemUUID,planetUUID)
     {
       //TODO : BEWAAARG, clean up cascading condition ?
+      //TODO : damaged reactor will be here ;)
       if(this.fuel<=0) return false;
+      if(this.location.situation==="landed") return false;
       /*
       if(destination.position)
       {
@@ -225,6 +246,12 @@ class Ship {
     toObject()
     {
       //TODO ADD STATE MESSAGE ?
+
+      let cargoList =[];
+      this.cargoBay.forEach(cargo => {
+        cargoList.push(cargo.ToObject());
+      });
+
       return {
         name:this.name,
         position: this.position,
@@ -233,13 +260,13 @@ class Ship {
         hull:this.hull,
         fuelEfficiency:this.fuelEfficiency,
         hullFactor:this.hullFactor,
-        cargoBay:this.cargoBay //should call a building function ?
+        cargoBay:cargoList
       }
     }
+
     static EmptyShip() {
       const ship = new Ship("Von Braun",Uuid.v4());
       ship.loadCargo(new Cargo("Iron",25));
       return ship;
     }
-  }
-module.exports = Ship;
+}

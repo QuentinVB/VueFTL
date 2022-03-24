@@ -8,7 +8,7 @@ const dao = require('../../dal/dao');
 
 //GET
 exports.getPlayer = function(req, res) {
-  res.json({player : dao.ActivePlayer, methode : req.method});
+  res.json({player : dao.ActivePlayer.ToObject(), methode : req.method});
 };
 
 //PUT
@@ -17,6 +17,6 @@ exports.updatePlayer= function(req, res) {
 
   dao.ActivePlayer = player;
 
-  res.json({player : player, methode : req.method});
+  res.json({player : player.ToObject(), methode : req.method});
 };
 

@@ -9,6 +9,9 @@ import TreasureCache from "./TreasureCache";
 import AlienSchematics from "./AlienSchematics";
 import FloatingCargo from "./FloatingCargo";
 import AlienAutomate from './AlienAutomate';
+import RepairStation from './RepairStation';
+import Ship from '../Ship';
+
 const dao = require('../../dal/dao');
 
 //ABSTRACT !!
@@ -19,8 +22,8 @@ exports.Nothing = function(playeruuid)
 }
 exports.GenerateRandomEvent = function (playeruuid)
 {
-  const token = Random.getRandomIntInclusive(0,6);
-  //const token = 7;
+  const token = Random.getRandomIntInclusive(0,8);
+  //const token = 8;
   switch (token) {
     case 0:
       return new Nothing("nothing",playeruuid);
@@ -39,6 +42,12 @@ exports.GenerateRandomEvent = function (playeruuid)
     case 7:
       //todo make event self autonomous...
       return new AlienAutomate("alien automate",playeruuid,{hasEnoughIron:dao.ActiveShip.getCargoOf("Iron").quantitySum>=10});
+    case 8:
+      //todo make event self autonomous...
+      return new RepairStation("repair station",playeruuid,{
+        hasEnoughCredits:dao.ActivePlayer.credits>=100,
+        hasADamagedShip:dao.ActiveShip.hull<Ship.HULLMAX
+      });
     default: 
       return new Nothing("nothing",playeruuid);
   }
@@ -50,6 +59,9 @@ exports.ProcessAction = function (action,payload)
   switch (action) {
     case actions.DAMAGESHIP:
       dao.ActiveShip.takeDamage(payload.damages);
+      break;
+    case actions.REPAIRSHIP:
+      dao.ActiveShip.repair(payload.repairPoints);
       break;
     case actions.REFUELSHIP:
       //TODO add security to avoid NaN or Null
@@ -75,7 +87,7 @@ exports.ProcessAction = function (action,payload)
       break;
     case actions.WARPSHIPTORANDOMDESTINATION:
       const randomdestination = dao.ActiveGalaxy.pickRandomStarSystem();
-      dao.ActiveShip.setLocationTo(randomdestination.uuid);
+      dao.ActiveShip.setLocationTo(randomdestination);
       break;
     case actions.INCREASEREACTOR:
       dao.ActiveShip.fuelEfficiency= (dao.ActiveShip.fuelEfficiency * (1+payload.factor)).toFixed(2);

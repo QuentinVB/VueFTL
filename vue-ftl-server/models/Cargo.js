@@ -78,5 +78,14 @@ class Cargo {
     static EmptyCargo() {
       return new Cargo("Vaccum",0);
     }
+
+    ToObject()
+    {
+      return {
+        uuid:this.uuid,
+        content:this._content,
+        quantity:this._quantity
+      }
+    }
   }
 module.exports = Cargo;

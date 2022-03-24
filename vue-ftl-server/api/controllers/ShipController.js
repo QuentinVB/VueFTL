@@ -53,7 +53,7 @@ exports.wrapShipTo= function(req, res) {
 
   if(dao.ActiveShip.canMove(starsystemUUID))
   {
-    dao.ActiveShip.wrapToSystem(starsystemUUID);
+    dao.ActiveShip.wrapToSystem(dao.ActiveGalaxy.galaxyMap[starsystemUUID]);
   }
 
   res.json({ship : dao.ActiveShip.toObject(), methode : req.method});
