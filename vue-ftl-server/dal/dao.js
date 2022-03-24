@@ -36,9 +36,6 @@ exports.getCurrentStarSystem= function(playeruuid)
     {
         if(starSystemuuid == activeShip.location.starsystem) return activeGalaxy.galaxyMap[starSystemuuid];
     }
-
-
-
 }
 
 exports.getCurrentPlanet= function(playeruuid)

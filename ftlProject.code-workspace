@@ -6,12 +6,12 @@
 		},
 		{
 			"name": "Client",
-			"path": "D:\\Quentin_Data\\Documents\\03-projets\\VueFTL\\vue-ftl-app"
-		},/*
+			"path": "./vue-ftl-app"
+		},
 		{
 			"name": "Server",
-			"path": "D:\\Quentin_Data\\Documents\\03-projets\\VueFTL\\vue-ftl-server"
-		},*/
+			"path": "./vue-ftl-server"
+		},
 	],
 	"settings": {},
 	"launch": {

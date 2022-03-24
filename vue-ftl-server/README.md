@@ -1,19 +1,37 @@
-https://www.codementor.io/@olatundegaruba/nodejs-restful-apis-in-10-minutes-q0sgsfhbd
+# Vue FTL Server
 
-event : alien space station : trade iron for technology !:
+Expose REST API for SPA Client
 
-# global install
+## Commands
+
+### run
+```
+npm run start
+```
+
+### global install
 npm install mocha -g
-# project install
+### project install
 npm install mocha --save-dev
-# chai install
+### chai install
 npm install --save-dev chai
+
+## Tutorials
+
+https://www.codementor.io/@olatundegaruba/nodejs-restful-apis-in-10-minutes-q0sgsfhbd
 
 https://medium.com/serverlessguru/how-to-unit-test-with-nodejs-76967019ba56
 
-building an universal "message" payload system ?
-
 https://github.com/microsoft/vscode-recipes/tree/master/vuejs-cli
+
+https://timonweb.com/tutorials/how-to-enable-ecmascript-6-imports-in-nodejs/
+
+https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Set
+
+https://www.toptal.com/javascript/es6-class-chaos-keeps-js-developer-up
+
+https://github.com/axios/axios
+
 {
       "type": "chrome",
       "request": "launch",
@@ -29,9 +47,16 @@ https://github.com/microsoft/vscode-recipes/tree/master/vuejs-cli
       }
     }
 
-    https://timonweb.com/tutorials/how-to-enable-ecmascript-6-imports-in-nodejs/
 
-    Feature VS Event VS Anomaly
+## Structure
+
+building an universal "message" payload system ?
+
+Feature VS Event VS Anomaly
+
+## Scenarios
+
+event : alien space station : trade iron for technology !:
 
 Alien Tech : increase motor
 Alien Temple : 
@@ -89,8 +114,3 @@ Flew through a moon made of liquid helium, went back to collect fuel. (Gain 100 
 
 orbital event VS ground event
 
-UX : mark visited system and current position
-
-https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Set
-
-https://www.toptal.com/javascript/es6-class-chaos-keeps-js-developer-up

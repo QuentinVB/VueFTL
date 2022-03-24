@@ -1,12 +1,12 @@
 'use strict';
+const User = require("./User");
 const Uuid = require('uuid');
 
-
-class Player {
+class Player extends User{
     static STARTCREDITS = 500;
     constructor(username,uuid) {
-      this.username = username;
-      this.uuid =  uuid
+      super(username,uuid);
+
       this._credits = 0;
       this.ship="";
 
