@@ -1,17 +1,14 @@
 'use strict';
-module.exports = function(app) {
 
-//const testController = require('../controllers/TestController')
-const galaxyController = require('../controllers/GalaxyController')
-const shipController = require('../controllers/ShipController')
-const eventController = require('../controllers/EventController')
-const playerController = require('../controllers/PlayerController')
-
-
+import galaxyController from '../controllers/GalaxyController.js';
+import shipController from '../controllers/ShipController.js';
+import eventController from '../controllers/EventController.js';
+import playerController from '../controllers/PlayerController.js';
 
 //Routes for testing
 
 //TODO : use the right verb !!
+export default function(app) {
 
   app.route('/ship')
   .get(shipController.getShip);

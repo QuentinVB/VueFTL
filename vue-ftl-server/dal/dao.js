@@ -1,34 +1,33 @@
 'use strict';
 
-const Uuid = require('uuid');
-
-const StarSystem = require("../models/StarSystem");
-const Galaxy = require("../models/Galaxy");
-const Ship = require("../models/Ship");
-const Player = require('../models/Player');
+import Uuid from 'uuid';
+import StarSystem from "../models/StarSystem.js";
+import { EmptyGalaxy } from "../models/Galaxy.js";
+import { EmptyShip } from "../models/Ship.js";
+import { EmptyPlayer } from '../models/Player.js';
 
 //should be a way to the database & session
 
-var activeGalaxy = Galaxy.EmptyGalaxy();
-var activeShip = Ship.EmptyShip();
-var activePlayer = Player.EmptyPlayer();
+var activeGalaxy = EmptyGalaxy();
+var activeShip = EmptyShip();
+var activePlayer = EmptyPlayer();
 
 activePlayer.ship = activeShip.uuid
 
-exports.ActiveShip = activeShip;
-exports.ActiveGalaxy = activeGalaxy;
-exports.ActivePlayer = activePlayer;
+export const ActiveShip = activeShip;
+export const ActiveGalaxy = activeGalaxy;
+export const ActivePlayer = activePlayer;
 
-exports.getEvent = function (eventuuid)
+export function getEvent (eventuuid)
 {
     for(const starSystemuuid in activeGalaxy.galaxyMap)
     {
         const starSystem = activeGalaxy.galaxyMap[starSystemuuid];
         if(starSystem.event && starSystem.event.uuid === eventuuid ) return starSystem.event;
     }
-};
+}
 
-exports.getCurrentStarSystem= function(playeruuid)
+export function getCurrentStarSystem(playeruuid)
 {
     //get player then active ship
 
@@ -38,7 +37,7 @@ exports.getCurrentStarSystem= function(playeruuid)
     }
 }
 
-exports.getCurrentPlanet= function(playeruuid)
+export function getCurrentPlanet(playeruuid)
 {
     if(activeShip.location.planet)
     {

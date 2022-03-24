@@ -1,14 +1,12 @@
 'use strict';
-const Random = require("../../helpers/Random");
-const Uuid = require('uuid');
-const EventManager = require('./EventManager'); 
-
+import { v4 } from 'uuid';
+import { ProcessAction } from './EventManager'; 
 
 //ABSTRACT !!
-class Anomaly {
+export default class Anomaly {
   constructor(name,planet,effectData) {
       this.name=name;
-      this.uuid = Uuid.v4();
+      this.uuid = v4();
       this.effects = effectData;
       this.planet = planet;
     }
@@ -26,12 +24,8 @@ class Anomaly {
     triggerEffects(player)
     {
       for (const effect of this.effects) {
-        EventManager.ProcessAction(effect.action,effect.payload);
+        ProcessAction(effect.action,effect.payload);
       }
 
     }
   }
-
-
-  
-module.exports = Anomaly;

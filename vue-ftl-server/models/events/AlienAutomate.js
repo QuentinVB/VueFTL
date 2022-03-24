@@ -1,9 +1,7 @@
 //'use strict';
 
-
-const Event = require("./Event");
+import Event from "./Event.js";
 import {INCREASEREACTOR,UNLOADCARGO,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
-
 
 export default class AlienAutomate extends Event{
   constructor(name,player,statesData) {

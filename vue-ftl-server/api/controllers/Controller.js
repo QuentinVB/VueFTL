@@ -1,6 +1,6 @@
 'use strict';
-var Game = require('../models/Game'); //created model loading here
-var Player = require('../models/PLayer'); //created model loading here
+import Game from '../models/Game.js'; //created model loading here
+import Player from '../models/Player.js'; //created model loading here
 
 var games = {};
 
@@ -8,7 +8,7 @@ var games = {};
   using username in parameter, 
   create a new game state if not exist, else join an existing one 
   then return the game state. */
-exports.joinNewGame = function(req, res) {
+export function joinNewGame(req, res) {
     let username = req.params.username;
     
     let game;
@@ -39,7 +39,7 @@ exports.joinNewGame = function(req, res) {
 
     res.json({game : game.getGameState(), methode : req.method});
 
-};
+}
 
 
 
@@ -47,20 +47,20 @@ exports.joinNewGame = function(req, res) {
 
 /*get the current game state, 
 using game id in parameter */
-exports.getgame = function(req, res) {
+export function getgame(req, res) {
   let gameid = req.params.gameid;
   let game = games[gameid];
   if(!game) throw 'invalidOperation, no game with this id';
 
   res.json({game : game.getGameState(), methode : req.method});
-};
+}
 
 
 
 
 /*recieve a clicked edge, 
 using game id, username and edge id in parameter */
-exports.playTurn = function(req, res) {
+export function playTurn(req, res) {
   let gameid = req.params.gameid;
   let userName = req.params.username;
   let edgeId = parseInt(req.params.edgeid);//parse int
@@ -74,4 +74,4 @@ exports.playTurn = function(req, res) {
 
   res.json({game : game.getGameState(), methode : req.method});
 
-};
+}

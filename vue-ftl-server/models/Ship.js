@@ -1,10 +1,9 @@
 'use strict';
 
-const Uuid = require('uuid');
-const Cargo = require("./Cargo");
+import {v4 as Uuidv4} from 'uuid';
+import Cargo from './Cargo.js';
 
-
-module.exports = class Ship {
+export default class Ship {
     static HULLMAX = 100;
     static FUELMAX = 100;
     static FUELCONSUMPTION = 5;
@@ -265,7 +264,7 @@ module.exports = class Ship {
     }
 
     static EmptyShip() {
-      const ship = new Ship("Von Braun",Uuid.v4());
+      const ship = new Ship("Von Braun",Uuidv4());
       ship.loadCargo(new Cargo("Iron",25));
       return ship;
     }

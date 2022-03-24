@@ -1,6 +1,6 @@
 'use strict';
-const Random = require("../../helpers/Random");
-import * as actions from './EventActions'
+import Random  from "../../helpers/Random.js";
+import * as actions from './EventActions.js'
 import Nothing from "./Nothing";
 import FloatingFuel from "./FloatingFuel";
 import AsteroidField from "./AsteroidField";
@@ -12,7 +12,7 @@ import AlienAutomate from './AlienAutomate';
 import RepairStation from './RepairStation';
 import Ship from '../Ship';
 
-const dao = require('../../dal/dao');
+import dao from '../../dal/dao.js';
 
 //ABSTRACT !!
 

@@ -1,7 +1,7 @@
 import assert from 'assert';
 import {expect} from 'chai';
 
-import Player from '../models/Player';
+import Player from '../models/Player.js';
 
 describe('Player tests', () => {
     describe('Empty Player Test', () => {

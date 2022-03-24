@@ -1,11 +1,11 @@
 'use strict';
-const Uuid = require('uuid');
-const { getRandomInt } = require('../helpers/Random');
+import * as Uuid from 'uuid' ;
+import { getRandomInt } from '../helpers/Random.js';
 
 //stackoverflow.com/questions/22156326/private-properties-in-javascript-es6-classes
 
 /** Class representing a cargo container, with its content*/
-class Cargo {
+export default class Cargo {
 
     static MAXCARGOCAPACITY = 25;
     static CARGOTYPES = ["Hydrogen","Helium","Iron","Silicon","Thorium","Hafnium","Platinum","Tungsten","Carbon","Oxygen","Cobalt","Copper","Gold"]
@@ -88,4 +88,4 @@ class Cargo {
       }
     }
   }
-module.exports = Cargo;
+//module.exports = Cargo;

@@ -2,7 +2,7 @@
 
 //import Galaxy from'../../models/Galaxy'; 
 
-const dao = require('../../dal/dao');
+import { ActiveGalaxy, ActiveShip } from '../../dal/dao.js';
 /*
 exports.getstate = function(req, res) {
   res.json({message : message, methode : req.method});
@@ -16,14 +16,14 @@ exports.updateMessage = function(req, res) {
   res.json({message : message, methode : req.method});
 };*/
 
-exports.getGalaxy = function(req, res) {
-  res.json({galaxy : dao.ActiveGalaxy.ToObject(), methode : req.method});
-};
+export function getGalaxy(req, res) {
+  res.json({galaxy : ActiveGalaxy.ToObject(), methode : req.method});
+}
 
-exports.getStarSystem = function(req, res) {
+export function getStarSystem(req, res) {
 
   const uuid = req.params.starsystemuuid;
-  const starSystem = dao.ActiveGalaxy.galaxyMap[uuid].ToObject();
+  const starSystem = ActiveGalaxy.galaxyMap[uuid].ToObject();
 
   if(!starSystem)
   {
@@ -33,12 +33,12 @@ exports.getStarSystem = function(req, res) {
   {
     res.json({starSystem : starSystem, methode : req.method});
   }
-};
+}
 
-exports.getStarSystemEvent = function(req, res) {
+export function getStarSystemEvent(req, res) {
 
   const uuid = req.params.starsystemuuid;
-  const starSystem = dao.ActiveGalaxy.galaxyMap[uuid];
+  const starSystem = ActiveGalaxy.galaxyMap[uuid];
   
 
   if(!starSystem)
@@ -50,12 +50,12 @@ exports.getStarSystemEvent = function(req, res) {
     const starSystemEvent = starSystem.event.ToObject();
     res.json({event : starSystemEvent, methode : req.method});
   }
-};
+}
 
 //POST
-exports.minePlanet = function(req, res) {
+export function minePlanet(req, res) {
 
-  const starSystem = dao.ActiveGalaxy.galaxyMap[req.params.starsystemuuid];
+  const starSystem = ActiveGalaxy.galaxyMap[req.params.starsystemuuid];
   const planet = starSystem.getPlanet(req.params.planetuuid);
 
   if(!starSystem||!planet)
@@ -65,11 +65,11 @@ exports.minePlanet = function(req, res) {
   else
   {
     let fuelmined = planet.minePlanet();
-    dao.ActiveShip.refuel(fuelmined);
+    ActiveShip.refuel(fuelmined);
 
-    res.json({starSystem : starSystem.ToObject(),ship : dao.ActiveShip.toObject(),  methode : req.method});
+    res.json({starSystem : starSystem.ToObject(),ship : ActiveShip.toObject(),  methode : req.method});
   }
-};
+}
 
 /*
 exports.list_all_tasks = function(req, res) {

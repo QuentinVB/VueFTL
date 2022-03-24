@@ -1,22 +1,19 @@
 'use strict';
-//var Game = require('../models/Game'); //created model loading here
-//var Player = require('../models/PLayer'); //created model loading here
-var Player = require('../../models/Player'); 
-const dao = require('../../dal/dao');
+import { ActivePlayer } from '../../dal/dao.js';
 
-//calle should be async !!!
+//caller should be async !!!
 
 //GET
-exports.getPlayer = function(req, res) {
-  res.json({player : dao.ActivePlayer.ToObject(), methode : req.method});
-};
+export function getPlayer(req, res) {
+  res.json({player : ActivePlayer.ToObject(), methode : req.method});
+}
 
 //PUT
-exports.updatePlayer= function(req, res) {
+export function updatePlayer(req, res) {
   const player = req.body.player;
 
-  dao.ActivePlayer = player;
+  ActivePlayer = player;
 
   res.json({player : player.ToObject(), methode : req.method});
-};
+}
 

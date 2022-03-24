@@ -1,7 +1,7 @@
 import assert from 'assert';
 import {expect} from 'chai';
 import * as Uuid from 'uuid';
-import Ship from '../models/Ship';
+import Ship from '../models/Ship.js';
 
 describe('Ship tests', () => {
     describe('Empty Ship Tests', () => {

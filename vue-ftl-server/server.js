@@ -1,11 +1,13 @@
-var express = require('express'),
-app = express(),
-port = process.env.PORT || 3000,
+import express from 'express';
+import { urlencoded, json } from 'body-parser';
+import cors from 'cors';
+import routes from './api/routes/Routes.js'; //importing route
 
-//setup body parsing
-bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+var app = express();
+var port = process.env.PORT || 3000;
+
+app.use(urlencoded({ extended: true }));
+app.use(json());
 
 //set up http header
 app.use(function(req, res, next) {
@@ -13,11 +15,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-let cors = require('cors')
 app.use(cors())
 
 //routes
-var routes = require('./api/routes/Routes'); //importing route
 routes(app); //register the route
 
 //setup 404
@@ -27,6 +27,5 @@ app.use(function(req, res) {
 
   //run server
 app.listen(port);
-
 
 console.log('FTL RESTful API server started on: ' + port);

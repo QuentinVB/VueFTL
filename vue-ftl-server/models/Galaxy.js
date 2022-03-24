@@ -1,10 +1,8 @@
 'use strict';
 
-const StarSystem = require("./StarSystem");
-const Random = require("../helpers/Random");
-const EventManager = require("./events/EventManager");
-
-
+import { generateRandomStarSystem } from "./StarSystem.js";
+import { getRandomIntInclusive } from "../helpers/Random.js";
+import EventManager from "./events/EventManager.js";
 
 class Galaxy {
     constructor(starCount,radius=20) {
@@ -36,7 +34,7 @@ class Galaxy {
     pickRandomStarSystem()
     {
       if(Object.keys(this.galaxyMap).length == 0) throw "no star system in it !";
-      return Object.values(this.galaxyMap)[Random.getRandomIntInclusive(0,Object.keys(this.galaxyMap).length-1)];
+      return Object.values(this.galaxyMap)[getRandomIntInclusive(0,Object.keys(this.galaxyMap).length-1)];
     }
 
 
@@ -46,7 +44,7 @@ class Galaxy {
       let galaxy = new Galaxy(starCount,radius);
 
       for (let i = 0; i < starCount; i++) {
-        const starSystem = StarSystem.generateRandomStarSystem(galaxy.radius);
+        const starSystem = generateRandomStarSystem(galaxy.radius);
 
         galaxy.galaxyMap[starSystem.uuid]=starSystem;
       }
@@ -54,4 +52,4 @@ class Galaxy {
     }
 }
 
-module.exports = Galaxy;
+export default Galaxy;

@@ -1,14 +1,13 @@
 'use strict';
-const Random = require("../../helpers/Random");
-const Uuid = require('uuid');
-const EventManager = require('./EventManager'); 
-
+import Random from "../../helpers/Random.js";
+import Uuid from 'uuid';
+import EventManager from './EventManager.js'; 
 
 //ABSTRACT !!
 /**
  * @abstract
  */
-class Event {
+export default class Event {
   constructor(name,player) {
       this.name=name;
       this.currentStateIdx = 0  ;
@@ -57,6 +56,3 @@ class Event {
     }
   }
 
-
-  
-module.exports = Event;

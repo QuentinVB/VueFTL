@@ -1,7 +1,6 @@
 import assert from 'assert';
 import {expect} from 'chai';
-
-import Cargo from '../models/Cargo';
+import Cargo from '../models/Cargo.js';
 
 describe('Cargo tests', () => {
     describe('Empty Cargo Test', () => {

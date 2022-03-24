@@ -1,8 +1,8 @@
 'use strict';
-const User = require("./User");
-const Uuid = require('uuid');
+import User from "./User.js";
+import { v4 as uuidv4 } from 'uuid';
 
-class Player extends User{
+export default class Player extends User{
     static STARTCREDITS = 500;
     constructor(username,uuid) {
       super(username,uuid);
@@ -22,7 +22,7 @@ class Player extends User{
       if(this._credits <= 0) this._credits = 0;
     }
     static EmptyPlayer() {
-      const player = new Player("John Doe",Uuid.v4());
+      const player = new Player("John Doe",uuidv4());
       player.credits = Player.STARTCREDITS;
       return player;
     }
@@ -36,4 +36,3 @@ class Player extends User{
       }
     }
   }
-module.exports = Player;

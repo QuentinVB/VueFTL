@@ -1,9 +1,7 @@
 'use strict';
-const Random = require("../../helpers/Random");
-const Event = require("./Event");
+import Random from "../../helpers/Random.js";
+import Event from "./Event.js";
 import {CLOSEEVENT,DAMAGESHIP} from "./EventActions";
-
-
 
 //ABSTRACT !!
 export default class AsteroidField extends Event{

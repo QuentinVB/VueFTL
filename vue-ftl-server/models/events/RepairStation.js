@@ -1,9 +1,7 @@
-//'use strict';
+'use strict';
 
-
-const Event = require("./Event");
+import Event from "./Event.js";
 import {REPAIRSHIP,LOSECREDITS,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
-
 
 export default class RepairStation extends Event{
   constructor(name,player,statesData) {

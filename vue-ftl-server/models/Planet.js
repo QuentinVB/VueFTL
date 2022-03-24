@@ -1,7 +1,6 @@
 'use strict';
-const Random = require("../helpers/Random");
-//var hash = require('object-hash');
-const Uuid = require('uuid');
+import { v4 } from 'uuid';
+import { getRandomInt } from "../helpers/Random.js";
 
 //https://fr.wikipedia.org/wiki/Planète
 const PLANETTYPES = [
@@ -38,7 +37,7 @@ class Planet {
 
       this.anomaly="";
 
-      this.uuid = Uuid.v4();
+      this.uuid = v4();
     }
 
     
@@ -93,7 +92,7 @@ class Planet {
     static getRandomType(position, count)
     {
       const a = PLANETTYPES.length / count;
-      const idx = Math.floor(a*position) + Random.getRandomInt(1);
+      const idx = Math.floor(a*position) + getRandomInt(1);
       //Random.getRandomInt(PLANETTYPES.length)
       return PLANETTYPES[idx];
     }
@@ -113,4 +112,4 @@ class Planet {
   }
 
   
-module.exports = Planet;
+export default Planet;
