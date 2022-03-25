@@ -3,18 +3,20 @@
 import Galaxy from "../models/Galaxy.js";
 import Ship from "../models/Ship.js";
 import Player from '../models/Player.js';
+import User from '../models/User.js';
+import DBConnection, {sequelize} from "./DBConnection.js";
 
 //should be a way to the database & session
-
+/*
 var activeGalaxy = Galaxy.EmptyGalaxy();
 var activeShip = Ship.EmptyShip();
 var activePlayer = Player.EmptyPlayer();
 
 activePlayer.ship = activeShip.uuid
-
-export const ActiveShip = activeShip;
-export const ActiveGalaxy = activeGalaxy;
-export const ActivePlayer = activePlayer;
+*/
+export const ActiveShip = null;
+export const ActiveGalaxy = null;
+export const ActivePlayer = null;
 
 export function getEvent(eventuuid)
 {
@@ -47,4 +49,16 @@ export function getCurrentPlanet(playeruuid)
             }
         }
     }
+}
+
+export function InitModels()
+{
+    User.init(sequelize);
+    /*Group.init(sequelize);
+    Group.hasMany(User);
+    User.belongsTo(Group);*/
+    DBConnection.Query(async()=>{
+        await User.sync();
+        console.log(User === sequelize.models.User);
+    })
 }

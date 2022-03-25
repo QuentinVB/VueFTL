@@ -26,6 +26,7 @@ export default class Player extends User{
       player.credits = Player.STARTCREDITS;
       return player;
     }
+    //TODO : TO JSON/To ViewModel
     ToObject()
     {
       return{

@@ -3,6 +3,7 @@ import BodyParser from 'body-parser';
 const { urlencoded, json } = BodyParser;
 import cors from 'cors';
 import routes from './api/routes/Routes.js'; //importing route
+import { InitModels } from './dal/dao.js';
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -16,7 +17,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(cors())
+app.use(cors());
+
+InitModels()
 
 //routes
 routes(app); //register the route
