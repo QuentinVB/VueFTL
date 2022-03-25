@@ -1,5 +1,6 @@
 import express from 'express';
-import { urlencoded, json } from 'body-parser';
+import BodyParser from 'body-parser';
+const { urlencoded, json } = BodyParser;
 import cors from 'cors';
 import routes from './api/routes/Routes.js'; //importing route
 

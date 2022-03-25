@@ -1,7 +1,7 @@
 //'use strict';
 
 import Event from "./Event.js";
-import {INCREASEREACTOR,UNLOADCARGO,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
+import {INCREASEREACTOR,UNLOADCARGO,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 export default class AlienAutomate extends Event{
   constructor(name,player,statesData) {

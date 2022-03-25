@@ -1,7 +1,6 @@
 'use strict';
-import Random from "../../helpers/Random.js";
 import Event from "./Event.js";
-import {CLOSEEVENT} from "./EventActions";
+import {CLOSEEVENT} from "./EventActions.js";
 
 //ABSTRACT !!
 export default class Nothing extends Event{

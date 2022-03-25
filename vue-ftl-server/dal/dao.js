@@ -1,16 +1,14 @@
 'use strict';
 
-import Uuid from 'uuid';
-import StarSystem from "../models/StarSystem.js";
-import { EmptyGalaxy } from "../models/Galaxy.js";
-import { EmptyShip } from "../models/Ship.js";
-import { EmptyPlayer } from '../models/Player.js';
+import Galaxy from "../models/Galaxy.js";
+import Ship from "../models/Ship.js";
+import Player from '../models/Player.js';
 
 //should be a way to the database & session
 
-var activeGalaxy = EmptyGalaxy();
-var activeShip = EmptyShip();
-var activePlayer = EmptyPlayer();
+var activeGalaxy = Galaxy.EmptyGalaxy();
+var activeShip = Ship.EmptyShip();
+var activePlayer = Player.EmptyPlayer();
 
 activePlayer.ship = activeShip.uuid
 
@@ -18,7 +16,7 @@ export const ActiveShip = activeShip;
 export const ActiveGalaxy = activeGalaxy;
 export const ActivePlayer = activePlayer;
 
-export function getEvent (eventuuid)
+export function getEvent(eventuuid)
 {
     for(const starSystemuuid in activeGalaxy.galaxyMap)
     {

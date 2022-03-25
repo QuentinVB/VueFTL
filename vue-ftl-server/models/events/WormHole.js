@@ -1,9 +1,6 @@
-//'use strict';
-
-import Random from "../../helpers/Random"
-import Event from "./Event";
-import {WARPSHIPTORANDOMDESTINATION,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
-
+'use strict';
+import Event from "./Event.js";
+import {WARPSHIPTORANDOMDESTINATION,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 export default class WormHole extends Event{
   constructor(name,player,statesData) {

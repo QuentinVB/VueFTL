@@ -1,26 +1,25 @@
 'use strict';
-import Random  from "../../helpers/Random.js";
+import * as Random from "../../helpers/Random.js";
 import * as actions from './EventActions.js'
-import Nothing from "./Nothing";
-import FloatingFuel from "./FloatingFuel";
-import AsteroidField from "./AsteroidField";
-import WormHole from "./WormHole";
-import TreasureCache from "./TreasureCache";
-import AlienSchematics from "./AlienSchematics";
-import FloatingCargo from "./FloatingCargo";
-import AlienAutomate from './AlienAutomate';
-import RepairStation from './RepairStation';
-import Ship from '../Ship';
-
-import dao from '../../dal/dao.js';
+import Nothing from "./Nothing.js";
+import FloatingFuel from "./FloatingFuel.js";
+import AsteroidField from "./AsteroidField.js";
+import WormHole from "./WormHole.js";
+import TreasureCache from "./TreasureCache.js";
+import AlienSchematics from "./AlienSchematics.js";
+import FloatingCargo from "./FloatingCargo.js";
+import AlienAutomate from './AlienAutomate.js';
+import RepairStation from './RepairStation.js';
+import Ship from '../Ship.js';
+import * as dao from '../../dal/dao.js';
 
 //ABSTRACT !!
 
-exports.Nothing = function(playeruuid)
+export function NothingEvent(playeruuid)
 {
   return new Nothing("nothing",playeruuid);
 }
-exports.GenerateRandomEvent = function (playeruuid)
+export function GenerateRandomEvent(playeruuid)
 {
   const token = Random.getRandomIntInclusive(0,8);
   //const token = 8;
@@ -54,7 +53,7 @@ exports.GenerateRandomEvent = function (playeruuid)
 }
 
 
-exports.ProcessAction = function (action,payload)
+export function ProcessAction(action,payload)
 {
   switch (action) {
     case actions.DAMAGESHIP:
@@ -108,6 +107,3 @@ exports.ProcessAction = function (action,payload)
   }
 }
 
-
-    
-//module.exports = EventManager;

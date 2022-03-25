@@ -55,9 +55,6 @@ export function getgame(req, res) {
   res.json({game : game.getGameState(), methode : req.method});
 }
 
-
-
-
 /*recieve a clicked edge, 
 using game id, username and edge id in parameter */
 export function playTurn(req, res) {

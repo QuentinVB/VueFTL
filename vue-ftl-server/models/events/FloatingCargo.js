@@ -1,9 +1,7 @@
-//'use strict';
-
-import Random from "../../helpers/Random"
-import Event from "./Event";
-import {LOADCARGO,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
-import Cargo from "../Cargo";
+'use strict';
+import Event from "./Event.js";
+import {LOADCARGO,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
+import Cargo from "../Cargo.js";
 
 /**
  * Class representing floating cargo event.

@@ -1,9 +1,9 @@
 'use strict';
 
-import galaxyController from '../controllers/GalaxyController.js';
-import shipController from '../controllers/ShipController.js';
-import eventController from '../controllers/EventController.js';
-import playerController from '../controllers/PlayerController.js';
+import * as GalaxyController from '../controllers/GalaxyController.js';
+import * as ShipController from '../controllers/ShipController.js';
+import * as EventController from '../controllers/EventController.js';
+import * as PlayerController from '../controllers/PlayerController.js';
 
 //Routes for testing
 
@@ -11,37 +11,37 @@ import playerController from '../controllers/PlayerController.js';
 export default function(app) {
 
   app.route('/ship')
-  .get(shipController.getShip);
+  .get(ShipController.getShip);
   app.route('/ship/moverandom')
-  .get(shipController.moveShipRandom);
+  .get(ShipController.moveShipRandom);
   app.route('/ship/moveto')
-  .post(shipController.moveShipTo);
+  .post(ShipController.moveShipTo);
   app.route('/ship/wrapto')
-  .put(shipController.wrapShipTo);
+  .put(ShipController.wrapShipTo);
   app.route('/ship/movetoplanet')
-  .put(shipController.moveShipToPlanet);
+  .put(ShipController.moveShipToPlanet);
   app.route('/ship/situation/:situation')
-  .put(shipController.changeSituation);
+  .put(ShipController.changeSituation);
 
 
   app.route('/galaxy')
-  .get(galaxyController.getGalaxy);
+  .get(GalaxyController.getGalaxy);
   app.route('/galaxy/:starsystemuuid')
-  .get(galaxyController.getStarSystem);
+  .get(GalaxyController.getStarSystem);
   app.route('/galaxy/:starsystemuuid/event')
-  .get(galaxyController.getStarSystemEvent);
+  .get(GalaxyController.getStarSystemEvent);
   /*app.route('/galaxy/:starsystemuuid/mine')
-  .get(galaxyController.mineStarSystem);*/
+  .get(GalaxyController.mineStarSystem);*/
   app.route('/galaxy/:starsystemuuid/:planetuuid/mine')
-  .post(galaxyController.minePlanet);
+  .post(GalaxyController.minePlanet);
 
   app.route('/event/:playeruuid')
-  .get(eventController.getActiveEvent);
+  .get(EventController.getActiveEvent);
   app.route('/event/:playeruuid/answer/:answeridx')
-  .post(eventController.postEventAnswer);
+  .post(EventController.postEventAnswer);
 
   app.route('/player')
-  .get(playerController.getPlayer);
+  .get(PlayerController.getPlayer);
   app.route('/player')
-  .put(playerController.updatePlayer);
+  .put(PlayerController.updatePlayer);
 };

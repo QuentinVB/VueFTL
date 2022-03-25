@@ -1,7 +1,7 @@
 'use strict';
 
 import Event from "./Event.js";
-import {REPAIRSHIP,LOSECREDITS,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
+import {REPAIRSHIP,LOSECREDITS,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 export default class RepairStation extends Event{
   constructor(name,player,statesData) {

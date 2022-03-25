@@ -1,9 +1,7 @@
-//'use strict';
-
-import Random from "../../helpers/Random"
-import Event from "./Event";
-import {GAINCREDITS,DAMAGESHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
-
+'use strict';
+import * as Random from "../../helpers/Random.js"
+import Event from "./Event.js";
+import {GAINCREDITS,DAMAGESHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 export default class TreasureCache extends Event{
   //TODO : inject fuel amount gained in state data

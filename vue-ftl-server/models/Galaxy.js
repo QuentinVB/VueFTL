@@ -1,8 +1,6 @@
 'use strict';
-
-import { generateRandomStarSystem } from "./StarSystem.js";
+import StarSystem from "./StarSystem.js";
 import { getRandomIntInclusive } from "../helpers/Random.js";
-import EventManager from "./events/EventManager.js";
 
 class Galaxy {
     constructor(starCount,radius=20) {
@@ -44,7 +42,7 @@ class Galaxy {
       let galaxy = new Galaxy(starCount,radius);
 
       for (let i = 0; i < starCount; i++) {
-        const starSystem = generateRandomStarSystem(galaxy.radius);
+        const starSystem = StarSystem.generateRandomStarSystem(galaxy.radius);
 
         galaxy.galaxyMap[starSystem.uuid]=starSystem;
       }

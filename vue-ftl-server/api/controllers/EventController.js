@@ -1,6 +1,6 @@
 'use strict';
-import { Nothing, GenerateRandomEvent } from '../../models/events/EventManager.js'; 
-import { ActivePlayer, getCurrentStarSystem } from '../../dal/dao.js';
+import * as EventManager from '../../models/events/EventManager.js'; 
+import * as dao from '../../dal/dao.js';
 
 export function getActiveEvent(req, res) {
   const uuid = req.params.playeruuid;
@@ -12,7 +12,7 @@ export function getActiveEvent(req, res) {
   
   if(currentStarSystem.isCoolingDown)
   {
-    event = Nothing(ActivePlayer.uuid);
+    event = NothingEvent(ActivePlayer.uuid);
   }
   if(!event || !event.isActive)
   {

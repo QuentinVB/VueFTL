@@ -1,8 +1,6 @@
-//'use strict';
-
-import Random from "../../helpers/Random"
-import Event from "./Event";
-import {REFUELSHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
+'use strict';
+import Event from "./Event.js";
+import {REFUELSHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 /**
  * Class representing floating fuel event.

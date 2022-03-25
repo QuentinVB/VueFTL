@@ -1,6 +1,6 @@
 'use strict';
 import { getRandomIntInclusive, getRandomInt } from "../helpers/Random.js";
-import Planet from "./Planet";
+import Planet from "./Planet.js";
 import { v4 as Uuidv4 } from 'uuid';
 
 const GREEKALPHABET=['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta','Theta','Iota','Kappa','Lambda','Mu','Nu','Xi','Omicron','Pi','Rho','Sigma','Tau','Upsilon','Phi','Chi','Psi','Omega']
@@ -21,7 +21,7 @@ const STELLARTYPES = [
   ]
 
 
-class StarSystem {
+export default class StarSystem {
     COOLDOWN = 120;//seconds
 
     static MINPLANETORBIT = 0.2; //UA
@@ -138,6 +138,3 @@ class StarSystem {
 
    
   }
-
-  
-export default StarSystem;

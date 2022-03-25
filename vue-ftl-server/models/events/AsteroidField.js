@@ -1,7 +1,7 @@
 'use strict';
-import Random from "../../helpers/Random.js";
+import * as Random from "../../helpers/Random.js";
 import Event from "./Event.js";
-import {CLOSEEVENT,DAMAGESHIP} from "./EventActions";
+import {CLOSEEVENT,DAMAGESHIP} from "./EventActions.js";
 
 //ABSTRACT !!
 export default class AsteroidField extends Event{

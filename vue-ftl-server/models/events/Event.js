@@ -1,7 +1,6 @@
 'use strict';
-import Random from "../../helpers/Random.js";
-import Uuid from 'uuid';
-import EventManager from './EventManager.js'; 
+import * as Uuid from 'uuid';
+import * as EventManager from './EventManager.js'; 
 
 //ABSTRACT !!
 /**

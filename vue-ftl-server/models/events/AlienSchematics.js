@@ -1,9 +1,6 @@
-//'use strict';
-
-import Random from "../../helpers/Random"
-import Event from "./Event";
-import {INCREASEREACTOR,GAINCREDITS,SETEVENTSTATE,CLOSEEVENT} from "./EventActions";
-
+'use strict';
+import Event from "./Event.js";
+import {INCREASEREACTOR,GAINCREDITS,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 export default class AlienSchematics extends Event{
   //TODO : inject fuel amount gained in state data
