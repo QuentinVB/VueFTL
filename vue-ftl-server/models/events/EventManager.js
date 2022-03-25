@@ -11,7 +11,7 @@ import FloatingCargo from "./FloatingCargo.js";
 import AlienAutomate from './AlienAutomate.js';
 import RepairStation from './RepairStation.js';
 import Ship from '../Ship.js';
-import * as dao from '../../dal/dao.js';
+import { ActivePlayer,ActiveGalaxy,ActiveShip } from "../../dal/dao.js";
 
 //ABSTRACT !!
 
@@ -40,12 +40,12 @@ export function GenerateRandomEvent(playeruuid)
       return new FloatingCargo("floating cargo",playeruuid);
     case 7:
       //todo make event self autonomous...
-      return new AlienAutomate("alien automate",playeruuid,{hasEnoughIron:dao.ActiveShip.getCargoOf("Iron").quantitySum>=10});
+      return new AlienAutomate("alien automate",playeruuid,{hasEnoughIron:ActiveShip.getCargoOf("Iron").quantitySum>=10});
     case 8:
       //todo make event self autonomous...
       return new RepairStation("repair station",playeruuid,{
-        hasEnoughCredits:dao.ActivePlayer.credits>=100,
-        hasADamagedShip:dao.ActiveShip.hull<Ship.HULLMAX
+        hasEnoughCredits:ActivePlayer.credits>=100,
+        hasADamagedShip:ActiveShip.hull<Ship.HULLMAX
       });
     default: 
       return new Nothing("nothing",playeruuid);
@@ -57,48 +57,48 @@ export function ProcessAction(action,payload)
 {
   switch (action) {
     case actions.DAMAGESHIP:
-      dao.ActiveShip.takeDamage(payload.damages);
+      ActiveShip.takeDamage(payload.damages);
       break;
     case actions.REPAIRSHIP:
-      dao.ActiveShip.repair(payload.repairPoints);
+      ActiveShip.repair(payload.repairPoints);
       break;
     case actions.REFUELSHIP:
       //TODO add security to avoid NaN or Null
-      dao.ActiveShip.fuel+=payload.amount;
+      ActiveShip.fuel+=payload.amount;
       break;
     case actions.DRAINSHIPFUEL:
-      dao.ActiveShip.fuel-=payload.amount;
+      ActiveShip.fuel-=payload.amount;
       break;
     case actions.SETEVENTSTATE:
-      dao.ActivePlayer.activeEvent.currentStateIdx = payload.state
+      ActivePlayer.activeEvent.currentStateIdx = payload.state
         break;
     case actions.CLOSEEVENT:
       //payload.eventuuid
-      dao.ActivePlayer.activeEvent.isActive = false;
+      ActivePlayer.activeEvent.isActive = false;
       break;
     case actions.GAINCREDITS:
       //payload.eventuuid
-      dao.ActivePlayer.credits+=payload.amount;
+      ActivePlayer.credits+=payload.amount;
       break;
     case actions.LOSECREDITS:
       //payload.eventuuid
-      dao.ActivePlayer.credits-=payload.amount;
+      ActivePlayer.credits-=payload.amount;
       break;
     case actions.WARPSHIPTORANDOMDESTINATION:
-      const randomdestination = dao.ActiveGalaxy.pickRandomStarSystem();
-      dao.ActiveShip.setLocationTo(randomdestination);
+      const randomdestination = ActiveGalaxy.pickRandomStarSystem();
+      ActiveShip.setLocationTo(randomdestination);
       break;
     case actions.INCREASEREACTOR:
-      dao.ActiveShip.fuelEfficiency= (dao.ActiveShip.fuelEfficiency * (1+payload.factor)).toFixed(2);
+      ActiveShip.fuelEfficiency= (ActiveShip.fuelEfficiency * (1+payload.factor)).toFixed(2);
       break;
     case actions.LOADCARGO:
       const cargo = payload.cargo;
-      dao.ActiveShip.loadCargo(cargo);
+      ActiveShip.loadCargo(cargo);
       break;
     case actions.UNLOADCARGO:
       const cargoType = payload.type;
       const quantity = payload.quantity;
-      dao.ActiveShip.unloadCargo(cargoType,quantity);
+      ActiveShip.unloadCargo(cargoType,quantity);
       //TODO : put event behind the drop ? => drop!=unload !
       break;
     default:

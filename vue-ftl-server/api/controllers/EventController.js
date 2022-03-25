@@ -1,6 +1,6 @@
 'use strict';
 import * as EventManager from '../../models/events/EventManager.js'; 
-import * as dao from '../../dal/dao.js';
+import {ActivePlayer} from '../../dal/dao.js';
 
 export function getActiveEvent(req, res) {
   const uuid = req.params.playeruuid;

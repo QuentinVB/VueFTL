@@ -8,6 +8,7 @@ import * as PlayerController from '../controllers/PlayerController.js';
 //Routes for testing
 
 //TODO : use the right verb !!
+//TODO : should split routes
 export default function(app) {
 
   app.route('/ship')
