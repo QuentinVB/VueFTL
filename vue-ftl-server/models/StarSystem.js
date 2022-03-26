@@ -135,6 +135,4 @@ export default class StarSystem {
     {
       return STELLARTYPES[getRandomInt(STELLARTYPES.length)];
     }
-
-   
   }

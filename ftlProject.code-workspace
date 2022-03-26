@@ -12,6 +12,10 @@
 			"name": "Server",
 			"path": "./vue-ftl-server"
 		},
+        {
+			"name": "Database",
+			"path": "./vue-ftl-database"
+		},
 	],
 	"settings": {},
 	"launch": {

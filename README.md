@@ -10,9 +10,9 @@ An experimental game project allowing the player to journey through the stars, t
 
 [ReadMe Server](./vue-ftl-server/README.md)
 
-## Server
+## Database
 
-[ReadMe Database](./vue-ftl-server/README.md)
+[ReadMe Database](./vue-ftl-database/README.md)
 
 ## TODO
 - Backend Test (with Mocha & Chai)

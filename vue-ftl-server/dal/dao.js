@@ -5,6 +5,7 @@ import Ship from "../models/Ship.js";
 import Player from '../models/Player.js';
 import User from '../models/User.js';
 import DBConnection, {sequelize} from "./DBConnection.js";
+import { v4 } from "uuid";
 
 //should be a way to the database & session
 /*
@@ -61,4 +62,13 @@ export function InitModels()
         await User.sync();
         console.log(User === sequelize.models.User);
     })
+}
+
+export function CreateUser(){
+    DBConnection.Query(async()=>{
+        const jane = await User.create({ username: "jane", uuid: v4() });
+       // await jane.setGroup(role);
+        //await jane.save();
+        console.log("Jane's auto-generated ID:", jane.id);
+    });
 }
