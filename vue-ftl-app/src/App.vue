@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/ship">Ship</router-link> |
-      <router-link to="/player">Player</router-link> |
+      <router-link to="/User">User</router-link> |
       <!-- user profile -->
       <router-link to="/map">Navigation</router-link>
       <MiniShip/>

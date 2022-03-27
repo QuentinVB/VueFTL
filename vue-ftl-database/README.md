@@ -1,20 +1,17 @@
 # VUE FTL Database
 
+This project is only there to store the sqlite Database for developpement, sequelize testing and data schema
+
 ## Database Schema
 
 ```mermaid
 erDiagram
-    USER ||--|| PLAYER : is
-    USER ||--|| ADMIN : is
+    USER ||--|| SHIP : owns
     USER {
         string userName
+        string email
+        string password
         string uuid
-    }
-    ADMIN {
-    }
-    PLAYER ||--|| SHIP : owned
-    PLAYER {
-        int userId FK
         int credits
         int shipId
     }
@@ -36,6 +33,7 @@ erDiagram
         string uuid
         float quantity
         int cargoTypeId
+        int shipId
     }
     CARGOTYPE {
         string name
@@ -56,6 +54,7 @@ erDiagram
         float positionX
         float positionY
         string anomaly
+        int galaxyId
     }
     STELLARTYPE {
         string name

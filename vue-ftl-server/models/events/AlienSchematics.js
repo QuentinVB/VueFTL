@@ -4,9 +4,9 @@ import {INCREASEREACTOR,GAINCREDITS,SETEVENTSTATE,CLOSEEVENT} from "./EventActio
 
 export default class AlienSchematics extends Event{
   //TODO : inject fuel amount gained in state data
-  constructor(name,player,statesData) {
+  constructor(name,User,statesData) {
     
-    super(name, player)
+    super(name, User)
     this.worth= 500+Math.floor(1000*Math.random());
 
 

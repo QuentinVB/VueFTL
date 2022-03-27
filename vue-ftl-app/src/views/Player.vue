@@ -1,17 +1,17 @@
 <template>
   <div class="about">
-    <h1>Player status</h1>
+    <h1>User status</h1>
     <ul>
-      <li>Name : {{player.username}}</li>
-      <li>Credits : {{player.credits}} </li>
-      <li v-if="player.ship">ShipUUID : {{player.ship}}</li>
+      <li>Name : {{User.username}}</li>
+      <li>Credits : {{User.credits}} </li>
+      <li v-if="User.ship">ShipUUID : {{User.ship}}</li>
     </ul>
   </div>
 </template>
 <script>
 
   export default {
-  name: 'Player',
+  name: 'User',
 
   data: function () {
     return {
@@ -20,9 +20,9 @@
   },
   computed:
   {
-    player()
+    User()
     {
-      return this.$store.state.player;
+      return this.$store.state.User;
     },
     
   },

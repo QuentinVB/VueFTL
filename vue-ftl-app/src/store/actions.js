@@ -2,7 +2,7 @@ import * as types from '@/store/mutation-types.js';
 import ShipApiServices from '@/services/ShipApiServices';
 import GalaxyApiServices from '@/services/GalaxyApiServices';
 import EventApiServices from '../services/EventApiServices';
-import PlayerApiServices from '../services/PlayerApiServices';
+import UserApiServices from '../services/UserApiServices';
 
 //TODO : split actions
 export default {
@@ -10,12 +10,12 @@ export default {
       {
         this.dispatch('refreshShip');
         this.dispatch('refreshGalaxy');
-        this.dispatch('refreshPlayer');
+        this.dispatch('refreshUser');
       },
-      refreshPlayer(ctx) {
-        PlayerApiServices.getPlayerAsync()
+      refreshUser(ctx) {
+        UserApiServices.getUserAsync()
           .then(response => {
-              ctx.commit(types.UPDATEPLAYER,response.data.player);
+              ctx.commit(types.UPDATEUser,response.data.User);
             //console.log(this.skill)
             //if(this.mode == 'event') this.refreshEvent();
           })
@@ -130,7 +130,7 @@ export default {
         }
       },
       refreshEvent(ctx) {
-        EventApiServices.getEventAsync(ctx.state.player.uuid)
+        EventApiServices.getEventAsync(ctx.state.User.uuid)
         .then(response => {
           const returnedEvent = response.data.event;
           if(returnedEvent.isActive == false)
@@ -147,14 +147,14 @@ export default {
         })
       },
       //TODO : should be a payload
-      answerEvent(ctx,{playeruuid,idx}) 
+      answerEvent(ctx,{Useruuid,idx}) 
       {
         //console.log("action level, event:" + eventuuid+ " idx:"+idx)
-        EventApiServices.postEventAnswerAsync(playeruuid,idx)
+        EventApiServices.postEventAnswerAsync(Useruuid,idx)
         .then(response => {
           this.commit(types.UPDATEEVENT,response.data.event);
           this.dispatch('refreshShip');
-          this.dispatch('refreshPlayer');
+          this.dispatch('refreshUser');
         })
         .catch(err => {
           console.error(err)

@@ -8,7 +8,7 @@ class EventApiServices extends Services{
     name: "",
     isActive: false,
     uuid: "",
-    playerUUID: "",
+    UserUUID: "",
     state: {
         "message": "",
         "options": [
@@ -16,15 +16,15 @@ class EventApiServices extends Services{
     }
   }
     //event uuid
-  postEventAnswerAsync (playeruuid,answeridx) {
+  postEventAnswerAsync (Useruuid,answeridx) {
     //console.log("service level, event:" + eventuuid+ " idx:"+answeridx)
 
-    return postAsync(this.forgeUrl(`${endpoint}/${playeruuid}/answer/${answeridx}`));
+    return postAsync(this.forgeUrl(`${endpoint}/${Useruuid}/answer/${answeridx}`));
   }
-  getEventAsync (playeruuid) {
+  getEventAsync (Useruuid) {
     //console.log("service level, event:" + eventuuid+ " idx:"+answeridx)
 
-    return getAsync(this.forgeUrl(`${endpoint}/${playeruuid}`));
+    return getAsync(this.forgeUrl(`${endpoint}/${Useruuid}`));
   }
 
 }

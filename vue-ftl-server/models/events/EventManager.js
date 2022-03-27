@@ -11,44 +11,44 @@ import FloatingCargo from "./FloatingCargo.js";
 import AlienAutomate from './AlienAutomate.js';
 import RepairStation from './RepairStation.js';
 import Ship from '../Ship.js';
-import { ActivePlayer,ActiveGalaxy,ActiveShip } from "../../dal/dao.js";
+import { ActiveUser,ActiveGalaxy,ActiveShip } from "../../dal/dao.js";
 
 //ABSTRACT !!
 
-export function NothingEvent(playeruuid)
+export function NothingEvent(Useruuid)
 {
-  return new Nothing("nothing",playeruuid);
+  return new Nothing("nothing",Useruuid);
 }
-export function GenerateRandomEvent(playeruuid)
+export function GenerateRandomEvent(Useruuid)
 {
   const token = Random.getRandomIntInclusive(0,8);
   //const token = 8;
   switch (token) {
     case 0:
-      return new Nothing("nothing",playeruuid);
+      return new Nothing("nothing",Useruuid);
     case 1:
-      return new FloatingFuel("floating fuel",playeruuid);
+      return new FloatingFuel("floating fuel",Useruuid);
     case 2:
-      return new WormHole("wormhole",playeruuid);//set destination here ?
+      return new WormHole("wormhole",Useruuid);//set destination here ?
     case 3:
-      return new AsteroidField("asteroid field",playeruuid);
+      return new AsteroidField("asteroid field",Useruuid);
     case 4:
-      return new TreasureCache("treasure cache",playeruuid);
+      return new TreasureCache("treasure cache",Useruuid);
     case 5:
-      return new AlienSchematics("alien schematics",playeruuid);
+      return new AlienSchematics("alien schematics",Useruuid);
     case 6:
-      return new FloatingCargo("floating cargo",playeruuid);
+      return new FloatingCargo("floating cargo",Useruuid);
     case 7:
       //todo make event self autonomous...
-      return new AlienAutomate("alien automate",playeruuid,{hasEnoughIron:ActiveShip.getCargoOf("Iron").quantitySum>=10});
+      return new AlienAutomate("alien automate",Useruuid,{hasEnoughIron:ActiveShip.getCargoOf("Iron").quantitySum>=10});
     case 8:
       //todo make event self autonomous...
-      return new RepairStation("repair station",playeruuid,{
-        hasEnoughCredits:ActivePlayer.credits>=100,
+      return new RepairStation("repair station",Useruuid,{
+        hasEnoughCredits:ActiveUser.credits>=100,
         hasADamagedShip:ActiveShip.hull<Ship.HULLMAX
       });
     default: 
-      return new Nothing("nothing",playeruuid);
+      return new Nothing("nothing",Useruuid);
   }
 }
 
@@ -70,19 +70,19 @@ export function ProcessAction(action,payload)
       ActiveShip.fuel-=payload.amount;
       break;
     case actions.SETEVENTSTATE:
-      ActivePlayer.activeEvent.currentStateIdx = payload.state
+      ActiveUser.activeEvent.currentStateIdx = payload.state
         break;
     case actions.CLOSEEVENT:
       //payload.eventuuid
-      ActivePlayer.activeEvent.isActive = false;
+      ActiveUser.activeEvent.isActive = false;
       break;
     case actions.GAINCREDITS:
       //payload.eventuuid
-      ActivePlayer.credits+=payload.amount;
+      ActiveUser.credits+=payload.amount;
       break;
     case actions.LOSECREDITS:
       //payload.eventuuid
-      ActivePlayer.credits-=payload.amount;
+      ActiveUser.credits-=payload.amount;
       break;
     case actions.WARPSHIPTORANDOMDESTINATION:
       const randomdestination = ActiveGalaxy.pickRandomStarSystem();

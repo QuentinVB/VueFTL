@@ -1,17 +1,19 @@
 'use strict';
-
+import { Model, DataTypes } from "sequelize";
 import {v4 as Uuidv4} from 'uuid';
 import Cargo from './Cargo.js';
 
-export default class Ship {
+export default class Ship extends Model{
     static HULLMAX = 100;
     static FUELMAX = 100;
     static FUELCONSUMPTION = 5;
 
-    constructor(name,uuid) {
-      this.uuid = uuid;
-      this.name=name;
-      this.position = {x:0,y:0} ;
+    static EmptyShip() {
+      const ship = Ship.build({
+        name:"Von Braun",
+        uuid:Uuidv4()
+      });
+      /*this.position = {x:0,y:0} ;
       this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
 
       this.fuel = Ship.FUELMAX;
@@ -20,9 +22,28 @@ export default class Ship {
       this.hull = Ship.HULLMAX;
       this.hullFactor = 0.9;
 
-
       this.cargoBay=[];
+    */
+      ship.loadCargo(new Cargo("Iron",25));
+      return ship;
     }
+
+
+    static init(sequelize) {
+      return super.init(
+          {
+              name: {type: DataTypes.STRING},
+              uuid: {type: DataTypes.STRING,allowNull: false}, //uuid
+              fuel:{type: DataTypes.FLOAT,defaultValue:this.FUELMAX},
+              fuelEfficiency:{type: DataTypes.FLOAT,defaultValue:0.2},//TODO should be const
+              hull:{type: DataTypes.FLOAT,defaultValue:this.HULLMAX},
+              hullFactor:{type: DataTypes.FLOAT,defaultValue:0.9},//TODO should be const
+          }, 
+          { 
+              sequelize 
+          }
+      );
+  }
 
     //Cargo manangement
     /**
@@ -263,9 +284,4 @@ export default class Ship {
       }
     }
 
-    static EmptyShip() {
-      const ship = new Ship("Von Braun",Uuidv4());
-      ship.loadCargo(new Cargo("Iron",25));
-      return ship;
-    }
 }

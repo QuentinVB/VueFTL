@@ -11,5 +11,5 @@ export const UPDATESTARSYSTEM = 'UPDATESTARSYSTEM';
 export const UPDATEEVENT = 'UPDATEEVENT';
 export const RESOLVEEVENT = 'RESOLVEEVENT';
 export const ANSWERTOEVENT = 'ANSWERTOEVENT';
-//player
-export const UPDATEPLAYER = 'UPDATESHIP';
+//User
+export const UPDATEUser = 'UPDATESHIP';

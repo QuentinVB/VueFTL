@@ -10,8 +10,8 @@ export default {
       [types.UPDATESHIP] (state,updatedShip) {
         state.ship=updatedShip;
       },
-      [types.UPDATEPLAYER] (state,updatedplayer) {
-        state.player=updatedplayer;
+      [types.UPDATEUser] (state,updatedUser) {
+        state.User=updatedUser;
       },
       [types.WARPSHIPTO] (state,starsystem) {
         state.ship.position = starsystem.position;

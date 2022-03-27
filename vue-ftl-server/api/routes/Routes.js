@@ -3,7 +3,7 @@
 import * as GalaxyController from '../controllers/GalaxyController.js';
 import * as ShipController from '../controllers/ShipController.js';
 import * as EventController from '../controllers/EventController.js';
-import * as PlayerController from '../controllers/PlayerController.js';
+import * as UserController from '../controllers/UserController.js';
 
 //Routes for testing
 
@@ -36,13 +36,13 @@ export default function(app) {
   app.route('/galaxy/:starsystemuuid/:planetuuid/mine')
   .post(GalaxyController.minePlanet);
 
-  app.route('/event/:playeruuid')
+  app.route('/event/:Useruuid')
   .get(EventController.getActiveEvent);
-  app.route('/event/:playeruuid/answer/:answeridx')
+  app.route('/event/:Useruuid/answer/:answeridx')
   .post(EventController.postEventAnswer);
 
-  app.route('/player')
-  .get(PlayerController.getPlayer);
-  app.route('/player')
-  .put(PlayerController.updatePlayer);
+  app.route('/User')
+  .get(UserController.getUser);
+  app.route('/User')
+  .put(UserController.updateUser);
 };

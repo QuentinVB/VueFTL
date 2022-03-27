@@ -1,6 +1,6 @@
 'use strict';
 import Game from '../models/Game.js'; //created model loading here
-import Player from '../models/Player.js'; //created model loading here
+import User from '../models/User.js'; //created model loading here
 
 var games = {};
 
@@ -15,7 +15,7 @@ export function joinNewGame(req, res) {
 
     var gamesWithoutOpponnent;
     for (var g in games) {
-      if(games[g].players.length == 1)
+      if(games[g].Users.length == 1)
       {
         gamesWithoutOpponnent = games[g];
         break;
@@ -34,8 +34,8 @@ export function joinNewGame(req, res) {
       console.log(username+" joined game "+game.gameid+", may the odd be ever in your favor !")
     }
 
-    game.players.push(new Player(username,0));
-    if(game.players.length>2)throw "the game cant have more than 2 players ! But has "+game.players.length;
+    game.Users.push(new User(username,0));
+    if(game.Users.length>2)throw "the game cant have more than 2 Users ! But has "+game.Users.length;
 
     res.json({game : game.getGameState(), methode : req.method});
 

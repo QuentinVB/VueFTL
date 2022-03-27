@@ -2,7 +2,6 @@
 
 import Galaxy from "../models/Galaxy.js";
 import Ship from "../models/Ship.js";
-import Player from '../models/Player.js';
 import User from '../models/User.js';
 import DBConnection, {sequelize} from "./DBConnection.js";
 import { v4 } from "uuid";
@@ -11,13 +10,13 @@ import { v4 } from "uuid";
 /*
 var activeGalaxy = Galaxy.EmptyGalaxy();
 var activeShip = Ship.EmptyShip();
-var activePlayer = Player.EmptyPlayer();
+var activeUser = User.EmptyUser();
 
-activePlayer.ship = activeShip.uuid
+activeUser.ship = activeShip.uuid
 */
 export const ActiveShip = null;
 export const ActiveGalaxy = null;
-export const ActivePlayer = null;
+export const ActiveUser = null;
 
 export function getEvent(eventuuid)
 {
@@ -28,9 +27,9 @@ export function getEvent(eventuuid)
     }
 }
 
-export function getCurrentStarSystem(playeruuid)
+export function getCurrentStarSystem(Useruuid)
 {
-    //get player then active ship
+    //get User then active ship
 
     for(const starSystemuuid in activeGalaxy.galaxyMap)
     {
@@ -38,7 +37,7 @@ export function getCurrentStarSystem(playeruuid)
     }
 }
 
-export function getCurrentPlanet(playeruuid)
+export function getCurrentPlanet(Useruuid)
 {
     if(activeShip.location.planet)
     {
@@ -55,12 +54,15 @@ export function getCurrentPlanet(playeruuid)
 export function InitModels()
 {
     User.init(sequelize);
-    /*Group.init(sequelize);
-    Group.hasMany(User);
-    User.belongsTo(Group);*/
+    Ship.init(sequelize);
+    User.hasOne(Ship);
+    Ship.belongsTo(User);
+    
     DBConnection.Query(async()=>{
         await User.sync();
+        await Ship.sync();
         console.log(User === sequelize.models.User);
+        console.log(Ship === sequelize.models.Ship);
     })
 }
 

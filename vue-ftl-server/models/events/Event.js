@@ -7,14 +7,14 @@ import * as EventManager from './EventManager.js';
  * @abstract
  */
 export default class Event {
-  constructor(name,player) {
+  constructor(name,User) {
       this.name=name;
       this.currentStateIdx = 0  ;
       this.isActive = true;
 
       this.states = [];
       
-      this.player = player;
+      this.User = User;
       this.uuid = Uuid.v4();
     }
     ToObject()
@@ -23,7 +23,7 @@ export default class Event {
         name : this.name,
         isActive : this.isActive,
         uuid:this.uuid,
-        playerUUID: this.player.uuid,
+        UserUUID: this.User.uuid,
         state:  this.states[this.currentStateIdx]
       }
     }

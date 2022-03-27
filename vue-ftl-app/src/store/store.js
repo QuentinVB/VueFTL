@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 import ShipApiServices from '@/services/ShipApiServices';
 import GalaxyApiServices from '@/services/GalaxyApiServices';
-import PlayerApiServices from '@/services/PlayerApiServices';
+import UserApiServices from '@/services/UserApiServices';
 
 //import * as types from '@/store/mutation-types.js';
 import mutators from '@/store/mutations'
@@ -16,7 +16,7 @@ const storage = {
     state: {
       ship:ShipApiServices.EmptyShip,
       galaxy:GalaxyApiServices.EmptyGalaxy,
-      player:PlayerApiServices.EmptyPlayer,
+      User:UserApiServices.EmptyUser,
       //star system ?
       //planet ?
       event : null

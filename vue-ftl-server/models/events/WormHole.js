@@ -3,9 +3,9 @@ import Event from "./Event.js";
 import {WARPSHIPTORANDOMDESTINATION,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 export default class WormHole extends Event{
-  constructor(name,player,statesData) {
+  constructor(name,User,statesData) {
     
-    super(name, player)
+    super(name, User)
     
 
 

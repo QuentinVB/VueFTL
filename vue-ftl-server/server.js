@@ -20,7 +20,6 @@ app.use(function(req, res, next) {
 app.use(cors());
 
 InitModels();
-CreateUser();
 
 //routes
 routes(app); //register the route

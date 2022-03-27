@@ -48,9 +48,9 @@ export default {
   methods: {
     selectEventOption(idx)
     {
-      console.log("clicked option "+idx +" for event of player :" + this.player.uuid);
+      console.log("clicked option "+idx +" for event of User :" + this.User.uuid);
 
-      this.$store.dispatch('answerEvent',{playeruuid:this.player.uuid,idx:idx});
+      this.$store.dispatch('answerEvent',{Useruuid:this.User.uuid,idx:idx});
       //this.$store.commit(types.RESOLVEEVENT);
     }
   },
@@ -69,9 +69,9 @@ export default {
     {
       return this.$store.state.event;
     },
-    player()
+    User()
     {
-      return this.$store.state.player;
+      return this.$store.state.User;
     },
     currentStarSystem()
     {

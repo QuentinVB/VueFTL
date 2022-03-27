@@ -8,9 +8,9 @@ import {REFUELSHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
  */
 export default class FloatingFuel extends Event{
   //TODO : inject fuel amount gained in state data
-  constructor(name,player,statesData) {
+  constructor(name,User,statesData) {
     
-    super(name, player)
+    super(name, User)
     
 
 

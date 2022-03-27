@@ -21,7 +21,7 @@ export default class Anomaly {
       }
     }
     
-    triggerEffects(player)
+    triggerEffects(User)
     {
       for (const effect of this.effects) {
         ProcessAction(effect.action,effect.payload);

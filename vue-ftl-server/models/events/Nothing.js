@@ -5,10 +5,10 @@ import {CLOSEEVENT} from "./EventActions.js";
 //ABSTRACT !!
 export default class Nothing extends Event{
   
-  constructor(name,player,statesData) {
+  constructor(name,User,statesData) {
     //procecss state data before injection
    
-    super(name, player)
+    super(name, User)
     this.states= [
       {
         message:"Nothing to see here",

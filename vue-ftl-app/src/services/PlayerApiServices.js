@@ -1,22 +1,22 @@
 import { getAsync,putAsync} from '../helpers/apiHelpers'
 import Services from './Services'
 
-const endpoint = 'player'//message
+const endpoint = 'User'//message
 
-class PlayerApiServices extends Services{
-  EmptyPlayer= {
+class UserApiServices extends Services{
+  EmptyUser= {
       name:"",
       position: {x:0,y:0},
       fuel:0
     }
   
-  getPlayerAsync () {
+  getUserAsync () {
     return getAsync(this.forgeUrl(`${endpoint}`));
   }
-  putMoveShipAsync (player) {
-    return putAsync(this.forgeUrl(`${endpoint}`), {player : player});
+  putMoveShipAsync (User) {
+    return putAsync(this.forgeUrl(`${endpoint}`), {User : User});
   }
   
 }
 
-export default new PlayerApiServices()
+export default new UserApiServices()

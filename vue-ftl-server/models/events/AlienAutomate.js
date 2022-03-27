@@ -4,9 +4,9 @@ import Event from "./Event.js";
 import {INCREASEREACTOR,UNLOADCARGO,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 export default class AlienAutomate extends Event{
-  constructor(name,player,statesData) {
+  constructor(name,User,statesData) {
     
-    super(name, player)
+    super(name, User)
     this.iron= 10;
     this.gain= 0.2;
     this.hasEnoughIron = statesData.hasEnoughIron;

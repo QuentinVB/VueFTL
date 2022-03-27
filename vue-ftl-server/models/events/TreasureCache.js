@@ -5,9 +5,9 @@ import {GAINCREDITS,DAMAGESHIP,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js
 
 export default class TreasureCache extends Event{
   //TODO : inject fuel amount gained in state data
-  constructor(name,player,statesData) {
+  constructor(name,User,statesData) {
     
-    super(name, player)
+    super(name, User)
     
     const threshold = 0.4;
     const stateOutcome = (Math.random()<threshold)?1:2;

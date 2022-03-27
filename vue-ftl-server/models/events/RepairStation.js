@@ -4,9 +4,9 @@ import Event from "./Event.js";
 import {REPAIRSHIP,LOSECREDITS,SETEVENTSTATE,CLOSEEVENT} from "./EventActions.js";
 
 export default class RepairStation extends Event{
-  constructor(name,player,statesData) {
+  constructor(name,User,statesData) {
     
-    super(name, player)
+    super(name, User)
     this.repairPoints= 20;
     this.cost = 100;
     this.hasEnoughCredits = statesData.hasEnoughCredits;
