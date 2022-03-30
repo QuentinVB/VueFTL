@@ -1,11 +1,20 @@
 import assert from 'assert';
 import {expect} from 'chai';
+import { Sequelize } from 'sequelize';
 import * as Uuid from 'uuid';
 import Ship from '../models/Ship.js';
+
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: ':memory'
+})
+sequelize.authenticate();
+Ship.init(sequelize);
 
 describe('Ship tests', () => {
     describe('Empty Ship Tests', () => {
         //arrange
+        
         //act
         const sut = Ship.EmptyShip();
 

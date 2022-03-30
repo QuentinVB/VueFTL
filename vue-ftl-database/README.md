@@ -28,7 +28,7 @@ erDiagram
         int planetId
         string situation
     }
-    CARGO ||--|| CARGOTYPE : is
+    CARGO }|--|| CARGOTYPE : is
     CARGO {
         string uuid
         float quantity

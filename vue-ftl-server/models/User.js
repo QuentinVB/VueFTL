@@ -4,14 +4,7 @@ import { Model, DataTypes } from "sequelize";
 
 export default class User extends Model{
     static STARTCREDITS = 500;
-    constructor(username, uuid)
-    {
-      super({
-        username: username,
-        uuid: uuid
-      });
 
-    }
     //TODO : getter/setter from SEQUELIZE
     get credits()
     {
@@ -24,7 +17,13 @@ export default class User extends Model{
     }
 
     static EmptyUser() {
-      const User = new User("John Doe",uuidv4());
+      const user = User.build(
+        {
+          username:"John Doe",
+          email:"john.doe@example.com",
+          password:"****",
+          uuid:uuidv4()
+      });
       return User;
     }
     //TODO : TO JSON/To ViewModel

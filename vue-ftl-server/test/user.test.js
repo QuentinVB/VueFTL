@@ -1,7 +1,14 @@
 import assert from 'assert';
 import {expect} from 'chai';
-
+import { Sequelize } from 'sequelize';
 import User from '../models/User.js';
+
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: ':memory'
+})
+sequelize.authenticate();
+User.init(sequelize);
 
 describe('User tests', () => {
     describe('Empty User Test', () => {

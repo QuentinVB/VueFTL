@@ -1,22 +1,27 @@
 {
 	"folders": [
 		{
-			"name": "All",
-			"path": "."
-		},
-		{
 			"name": "Client",
 			"path": "./vue-ftl-app"
 		},
 		{
 			"name": "Server",
-			"path": "./vue-ftl-server"
+			"path": "./vue-ftl-server",
 		},
         {
 			"name": "Database",
 			"path": "./vue-ftl-database"
 		},
 	],
+    "extensions": {
+       "recommendations": [
+           "bierner.markdown-mermaid",
+           "hbenl.vscode-test-explorer",
+           "hbenl.vscode-mocha-test-adapter",
+           "alexcvzz.vscode-sqlite",
+           "octref.vetur",
+        ],
+    },
 	"settings": {},
 	"launch": {
         /*
