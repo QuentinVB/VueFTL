@@ -4,7 +4,7 @@
   "description": "backend for vue ftl project",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha ",
     "start": "nodemon server.js"
   },
   "type": "module",

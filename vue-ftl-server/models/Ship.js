@@ -9,9 +9,10 @@ export default class Ship extends Model{
     static FUELCONSUMPTION = 5;
 
     static EmptyShip() {
+      let uuid = Uuidv4();
       const ship = Ship.build({
         name:"Von Braun",
-        uuid:Uuidv4()
+        uuid:uuid
       });
       /*this.position = {x:0,y:0} ;
       this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
