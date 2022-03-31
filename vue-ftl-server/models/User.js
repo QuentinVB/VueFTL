@@ -21,10 +21,10 @@ export default class User extends Model{
         {
           username:"John Doe",
           email:"john.doe@example.com",
-          password:"****",
+          passwordHash:"",
           uuid:uuidv4()
       });
-      return User;
+      return user;
     }
     //TODO : TO JSON/To ViewModel
     ToObject()
@@ -47,7 +47,7 @@ export default class User extends Model{
                   type: DataTypes.STRING,
                   allowNull: false,
               },
-              password: {
+              passwordHash: {
                   type: DataTypes.STRING,
                   allowNull: false,
               },

@@ -32,6 +32,8 @@ https://www.toptal.com/javascript/es6-class-chaos-keeps-js-developer-up
 
 https://github.com/axios/axios
 
+https://www.npmjs.com/package/bcrypt
+
 {
       "type": "chrome",
       "request": "launch",
