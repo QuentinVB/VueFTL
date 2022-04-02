@@ -5,37 +5,6 @@ import { Model, DataTypes } from "sequelize";
 export default class User extends Model{
     static STARTCREDITS = 500;
 
-    //TODO : getter/setter from SEQUELIZE
-    get credits()
-    {
-      return this._credits;
-    }
-    set credits(value)
-    {
-      this._credits=value;
-      if(this._credits <= 0) this._credits = 0;
-    }
-
-    static EmptyUser() {
-      const user = User.build(
-        {
-          username:"John Doe",
-          email:"john.doe@example.com",
-          passwordHash:"",
-          uuid:uuidv4()
-      });
-      return user;
-    }
-    //TODO : TO JSON/To ViewModel
-    ToObject()
-    {
-      return{
-        username:this.username,
-        uuid:this.uuid,
-        credits:this._credits,
-        ship:this.ship,
-      }
-    }
     static init(sequelize) {
       return super.init(
           {
@@ -58,11 +27,36 @@ export default class User extends Model{
               credits: {
                 type: DataTypes.INTEGER,
                 defaultValue:this.STARTCREDITS,
+                set(value)
+                {
+                 this.setDataValue('credits',value <= 0 ? 0 : value)
+                }
             },
           }, 
           { 
               sequelize 
           }
       );
-  }
+    }
+
+    static EmptyUser() {
+      const user = User.build(
+        {
+          username:"John Doe",
+          email:"john.doe@example.com",
+          passwordHash:"",
+          uuid:uuidv4()
+      });
+      return user;
+    }
+    //TODO : TO JSON/To ViewModel
+    ToObject()
+    {
+      return{
+        username:this.username,
+        uuid:this.uuid,
+        credits:this._credits,
+        ship:this.ship,
+      }
+    }
 }

@@ -32,6 +32,7 @@ describe('User tests', () => {
             expect(sut.credits).to.equal(User.STARTCREDITS);
         });
     });
+    //TODO : will use auth library
     describe('User Password tests', () => {
         //arrange
         const sut = User.EmptyUser();
@@ -43,7 +44,16 @@ describe('User tests', () => {
         });
        
     });
-    describe('Falsy credits tests', () => {
+    describe('Credits tests', () => {
+        it('Increment should add', () => {
+            //arrange
+            const sut = User.EmptyUser();
+            sut.credits = 50;
+            //act 
+            sut.credits++;
+            //assert
+            expect(sut.credits).to.equal(51);
+        });
         it('should equal 0', () => {
             //arrange
             const sut = User.EmptyUser();
