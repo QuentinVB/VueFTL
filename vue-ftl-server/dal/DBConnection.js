@@ -7,14 +7,22 @@ export const sequelize = new Sequelize({
 });
 
 export default class DBConnection{
-  static async Query(query)
+  static async TestConnection()
   {
     try {
       await sequelize.authenticate();
       console.log('Connection has been established successfully.');
-      await query(sequelize);
     } catch (error) {
       console.error('Unable to connect to the database:', error);
+    }
+  }
+  static async Query(query)
+  {
+    try {
+      console.log('Execute Query.');
+      await query(sequelize);
+    } catch (error) {
+      console.error('Unable to execute Query', error);
     }
     finally
     {

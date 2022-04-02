@@ -51,18 +51,16 @@ export function getCurrentPlanet(Useruuid)
     }
 }
 
-export function InitModels()
+export function InitModels(sequelizeInstance)
 {
-    User.init(sequelize);
-    Ship.init(sequelize);
+    User.init(sequelizeInstance);
+    Ship.init(sequelizeInstance);
     User.hasOne(Ship);
     Ship.belongsTo(User);
     
     DBConnection.Query(async()=>{
         await User.sync();
         await Ship.sync();
-        console.log(User === sequelize.models.User);
-        console.log(Ship === sequelize.models.Ship);
     })
 }
 
