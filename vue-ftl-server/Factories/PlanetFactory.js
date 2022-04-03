@@ -25,7 +25,7 @@ export function GenerateRandomPlanetAt(starSystem,position) {
     const idx = Math.floor(a * position) + getRandomInt(1);
     const planetType = planetTypes[idx];
 
-    return GetPlanet(starSystem, position, planetType);
+    return await GeneratePlanet(starSystem, position, planetType);
   })
 }
 
@@ -36,23 +36,22 @@ export function GenerateRandomPlanetAt(starSystem,position) {
  * @param {PlanetType} planetType 
  * @returns 
  */
-export function GetPlanet(starSystem, position, planetType) {
+export async function GeneratePlanet(starSystem, position, planetType) {
   //TODO check star system integrity
-  const name = starSystem.name + ALPHABET[position];
-  const radius = planetType.radius + (planetType.radius + Math.random() * 0.05);
+  const name = `${starSystem.name}-${ALPHABET[position-1]}`;
+  const radius = planetType.baseRadius + (planetType.baseRadius + Math.random() * 0.05);
   const minerals = Math.round(Math.random() * 100);
 
-  const planet = Planet.build(
-    {
+  const planet = await Planet.create(
+  {
       uuid: uuidv4(),
       name: name,
-      color: planetType.baseColor,//TODO: should randomise
+      color: planetType.baseColor,//TODO: should randomize using Color package
       orbit: position,
       radius: radius,
       minerals: minerals,
-      planetTypeId: planetType.id,
-      starSystemId: starSystem.id
-    });
+  });
+  await planet.setPlanetType(planetType);
   return planet;
 }
 

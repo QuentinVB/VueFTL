@@ -34,6 +34,8 @@ https://github.com/axios/axios
 
 https://www.npmjs.com/package/bcrypt
 
+https://www.npmjs.com/package/color
+
 {
       "type": "chrome",
       "request": "launch",

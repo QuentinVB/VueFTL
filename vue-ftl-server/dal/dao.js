@@ -3,6 +3,8 @@
 import Galaxy from "../models/Galaxy.js";
 import Ship from "../models/Ship.js";
 import User from '../models/User.js';
+import Planet from '../models/Planet.js';
+import PlanetType from '../models/PlanetType.js';
 import DBConnection, {sequelize} from "./DBConnection.js";
 import { v4 } from "uuid";
 
@@ -57,10 +59,17 @@ export function InitModels(sequelizeInstance)
     Ship.init(sequelizeInstance);
     User.hasOne(Ship);
     Ship.belongsTo(User);
+
+    Planet.init(sequelize);
+    PlanetType.init(sequelize);
+    Planet.belongsTo(PlanetType);
+    PlanetType.hasMany(Planet);
     
     DBConnection.Query(async()=>{
         await User.sync();
         await Ship.sync();
+        await Planet.sync();
+        await PlanetType.sync();
     })
 }
 
