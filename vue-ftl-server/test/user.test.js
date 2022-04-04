@@ -1,23 +1,20 @@
-import assert from 'assert';
 import {expect} from 'chai';
-import { Sequelize } from 'sequelize';
 import bcrypt from 'bcrypt';
 import User from '../models/User.js';
 
+/*
 const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: ':memory'
 })
 sequelize.authenticate();
 User.init(sequelize);
-
+*/
 const saltRounds = 2;
 const testPassword = "thisIsATestPassword";
 
 describe('User tests', () => {
     describe('Empty User tests', () => {
-        //arrange
-        const sut = User.EmptyUser();
         //asserts
         it('should have a uuid"', () => {
            expect(sut.uuid).to.be.not.null;
@@ -35,7 +32,6 @@ describe('User tests', () => {
     //TODO : will use auth library
     describe('User Password tests', () => {
         //arrange
-        const sut = User.EmptyUser();
         sut.passwordHash = bcrypt.hashSync(testPassword, saltRounds);
         
         //asserts
@@ -44,6 +40,7 @@ describe('User tests', () => {
         });
        
     });
+    /*
     describe('Credits tests', () => {
         it('Increment should add', () => {
             //arrange
@@ -64,4 +61,5 @@ describe('User tests', () => {
             expect(sut.credits).to.equal(0);
         });
     });
+    */
 });

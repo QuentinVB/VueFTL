@@ -36,6 +36,10 @@ https://www.npmjs.com/package/bcrypt
 
 https://www.npmjs.com/package/color
 
+https://medium.com/nowports-tech/expressjs-and-sequelize-application-tested-with-mocha-chai-supertest-migrations-and-seeds-d306a8ee4add
+
+https://sequelize.org/docs/v6/other-topics/migrations/#creating-the-first-seed
+
 {
       "type": "chrome",
       "request": "launch",

@@ -1,62 +1,58 @@
 'use strict';
 import { v4 as uuidv4 } from 'uuid';
-import { Model, DataTypes } from "sequelize";
+import { Model } from 'sequelize';
 
-export default class User extends Model{
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
     static STARTCREDITS = 500;
-
-    static init(sequelize) {
-      return super.init(
-          {
-              username: {
-                  type: DataTypes.STRING,
-                  allowNull: false,
-              },
-              email:{
-                  type: DataTypes.STRING,
-                  allowNull: false,
-              },
-              passwordHash: {
-                  type: DataTypes.STRING,
-                  allowNull: false,
-              },
-              uuid: {
-                  type: DataTypes.STRING,//uuid
-                  allowNull: false,
-              },
-              credits: {
-                type: DataTypes.INTEGER,
-                defaultValue:this.STARTCREDITS,
-                set(value)
-                {
-                 this.setDataValue('credits',value <= 0 ? 0 : value)
-                }
-            },
-          }, 
-          { 
-              sequelize 
-          }
-      );
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
     }
-
-    static EmptyUser() {
-      const user = User.build(
-        {
-          username:"John Doe",
-          email:"john.doe@example.com",
-          passwordHash:"",
-          uuid:uuidv4()
-      });
-      return user;
-    }
+    
     //TODO : TO JSON/To ViewModel
-    ToObject()
-    {
-      return{
-        username:this.username,
-        uuid:this.uuid,
-        credits:this._credits,
-        ship:this.ship,
+    ToObject() {
+      return {
+        username: this.username,
+        uuid: this.uuid,
+        credits: this._credits,
+        ship: this.ship,
       }
     }
-}
+  }
+  User.init(
+    {
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      passwordHash: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      uuid: {
+        type: DataTypes.STRING,//uuid
+        allowNull: false,
+      },
+      credits: {
+        type: DataTypes.INTEGER,
+        defaultValue: this.STARTCREDITS,
+        set(value) {
+          this.setDataValue('credits', value <= 0 ? 0 : value)
+        }
+      },
+    },
+    {
+      sequelize
+    }
+  );
+  return User;
+};
