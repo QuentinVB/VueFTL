@@ -1,13 +1,13 @@
 'use strict';
 
-export function getRandomInt(max) {
+module.exports.getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-export function getRandomArbitrary(min, max) {
+module.exports.getRandomArbitrary = function (min, max) {
   return Math.random() * (max - min) + min;
 }
-export function getRandomIntInclusive(min, max) {
+module.exports.getRandomIntInclusive = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min +1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

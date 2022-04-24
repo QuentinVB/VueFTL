@@ -1,10 +1,10 @@
-import express from 'express';
-import BodyParser from 'body-parser';
-const { urlencoded, json } = BodyParser;
-import cors from 'cors';
-import routes from './api/routes/Routes.js'; //importing route
-import { InitModels } from './dal/dao.js';
-import DBConnection, { sequelize } from './dal/DBConnection.js';
+const express  =require( 'express');
+const { urlencoded, json }  =require( 'body-parser');
+const cors  =require( 'cors');
+const routes  =require( './api/routes/Routes.js'); //importing route
+const { InitModels }  =require( './dal/dao.js');
+const {DBConnection, sequelize }  =require( './dal/DBConnection.js');
+
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -24,6 +24,7 @@ app.use(cors());
 DBConnection.TestConnection()
 
 //init DAO using sequelize
+
 InitModels(sequelize);
 
 //routes

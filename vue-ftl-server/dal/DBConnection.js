@@ -1,12 +1,11 @@
-import { Sequelize } from 'sequelize';
+const { Sequelize } = require('sequelize');
 
 //TODO : load db connection from ENV
-export const sequelize = new Sequelize({
+module.exports.sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: '../vue-ftl-database/database.sqlite3'
 });
-
-export default class DBConnection{
+class DBConnection{
   static async TestConnection()
   {
     try {
@@ -30,3 +29,5 @@ export default class DBConnection{
     }
   }
 }
+
+module.exports.DBConnection;

@@ -16,6 +16,8 @@ npm install mocha --save-dev
 ### chai install
 npm install --save-dev chai
 
+npx sequelize-cli seed:generate --name test-products
+
 ## Tutorials
 
 https://www.codementor.io/@olatundegaruba/nodejs-restful-apis-in-10-minutes-q0sgsfhbd
@@ -25,6 +27,8 @@ https://medium.com/serverlessguru/how-to-unit-test-with-nodejs-76967019ba56
 https://github.com/microsoft/vscode-recipes/tree/master/vuejs-cli
 
 https://timonweb.com/tutorials/how-to-enable-ecmascript-6-imports-in-nodejs/
+
+stackoverflow.com/questions/22156326/private-properties-in-javascript-es6-classes
 
 https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Set
 
@@ -39,6 +43,8 @@ https://www.npmjs.com/package/color
 https://medium.com/nowports-tech/expressjs-and-sequelize-application-tested-with-mocha-chai-supertest-migrations-and-seeds-d306a8ee4add
 
 https://sequelize.org/docs/v6/other-topics/migrations/#creating-the-first-seed
+
+https://blog.logrocket.com/using-sequelize-with-typescript/
 
 {
       "type": "chrome",

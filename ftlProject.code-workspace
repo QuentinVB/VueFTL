@@ -22,7 +22,9 @@
            "octref.vetur",
         ],
     },
-	"settings": {},
+    "settings": {
+       
+    },
 	"launch": {
         /*
         "configurations": [

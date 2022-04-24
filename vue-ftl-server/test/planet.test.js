@@ -1,35 +1,28 @@
-import assert from 'assert';
-import {expect} from 'chai';
-import { Sequelize } from 'sequelize';
-import Planet from '../models/Planet.js';
-import * as PlanetFactory from '../Factories/PlanetFactory.js';
-import PlanetType from '../models/PlanetType.js';
+const assert = require('assert');
+const { expect } = require('chai');
+const db = require('../models');
+const PlanetFactory = require('../Factories/PlanetFactory.js');
+const PlanetType = db["PlanetType"];
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: ':memory'
-})
-Planet.init(sequelize);
-PlanetType.init(sequelize);
-PlanetType.hasMany(Planet);
-Planet.belongsTo(PlanetType);
-
-const fakeStarSystem = {id:1,name:"proxima",planetesCount:1};
-const fakePlanetType = PlanetType.create({id:1,name:'Earth analog planet',baseColor:"#18629e",baseRadius:1,landable:true});
+const fakeStarSystem = { id: 1, name: "proxima", planetesCount: 1 };
+const fakePlanetType = PlanetType.create({ id: 1, name: 'Earth analog planet', baseColor: "#18629e", baseRadius: 1, landable: true });
 
 describe('Planet tests', () => {
     describe('Default Planet tests', () => {
-        //arrange
-        const sut = PlanetFactory.GeneratePlanet(fakeStarSystem,1,fakePlanetType);
+        let sut;
+        before(async () => {
+            //arrange
+            sut = await PlanetFactory.GeneratePlanet(fakeStarSystem, 1, fakePlanetType);
+        });
         //asserts
         it('should have a uuid', () => {
-           expect(sut.uuid).to.be.not.null;
-       });
+            expect(sut.uuid).to.be.not.null;
+        });
         it('should have name equals to "proxima-a"', () => {
             expect(sut.name).to.equal("proxima-a");
         });
         it('should have color equals to base color', () => {
-           expect(sut.color).to.equal("#18629e");
+            expect(sut.color).to.equal("#18629e");
         });
         it('should have a redius inbetween values', () => {
             expect(sut.radius).to.above(1.0);

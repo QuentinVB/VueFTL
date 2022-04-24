@@ -1,13 +1,14 @@
-import { v4 as uuidv4 } from 'uuid';
-import DBConnection from '../dal/DBConnection.js';
-import { getRandomInt } from "../helpers/Random.js";
-import Planet from "../models/Planet.js"
-import PlanetType from '../models/PlanetType.js';
-import StarSystem from "../models/StarSystem.js"
+'use strict';
+const uuid = require('uuid');
+const DBConnection = require('../dal/DBConnection.js');
+const { getRandomInt } = require("../helpers/Random");
+const db = require("../models");
+const Planet = db["Planet"];
+const PlanetType = db["PlanetType"];
+const StarSystem = db["StarSystem"];
+const { ALPHABET } = require('../helpers/Naming')
 
-const ALPHABET = "abcdefghijklmnopkqrstuvwxyz"
-
-export function GenerateRandomPlanet() {
+module.exports.GenerateRandomPlanet = function () {
   return GeneratePlanet({ planetesCount: 1 }, 1);
 }
 
@@ -17,7 +18,7 @@ export function GenerateRandomPlanet() {
  * @param {Number} position 
  * @returns 
  */
-export function GenerateRandomPlanetAt(starSystem,position) {
+module.exports.GenerateRandomPlanetAt = function (starSystem, position) {
   DBConnection.Query(async () => {
     const planetTypes = await PlanetType.findAll();
 
@@ -36,21 +37,21 @@ export function GenerateRandomPlanetAt(starSystem,position) {
  * @param {PlanetType} planetType 
  * @returns 
  */
-export async function GeneratePlanet(starSystem, position, planetType) {
+module.exports.GeneratePlanet = async function (starSystem, position, planetType) {
   //TODO check star system integrity
-  const name = `${starSystem.name}-${ALPHABET[position-1]}`;
+  const name = `${starSystem.name}-${ALPHABET[position - 1]}`;
   const radius = planetType.baseRadius + (planetType.baseRadius + Math.random() * 0.05);
   const minerals = Math.round(Math.random() * 100);
 
   const planet = await Planet.create(
-  {
-      uuid: uuidv4(),
+    {
+      uuid: uuid.v4(),
       name: name,
       color: planetType.baseColor,//TODO: should randomize using Color package
       orbit: position,
       radius: radius,
       minerals: minerals,
-  });
+    });
   await planet.setPlanetType(planetType);
   return planet;
 }

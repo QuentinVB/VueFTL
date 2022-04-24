@@ -1,17 +1,16 @@
 'use strict';
-import StarSystem from "./StarSystem.js";
-import { getRandomIntInclusive } from "../helpers/Random.js";
 
-class Galaxy {
-    constructor(starCount,radius=20) {
-      this.starCount = starCount;
-      this.radius = radius;
-      this.galaxyMap = {};
+const { Model } = require("sequelize");
+
+module.exports = (sequelize, DataTypes) => {
+
+  class Galaxy extends Model {
+    static associate(models) {
+      // define association here
+      Galaxy.hasMany(models["StarSystem"]);
     }
-
-    ToObject()
-    {
-      let cleanMap ={}
+    ToObject() {
+      let cleanMap = {}
       /*
       Object.entries(this.galaxyMap).map((v)=>{
         return v[1].ToObject()
@@ -25,29 +24,41 @@ class Galaxy {
       return {
         starCount: this.starCount,
         radius: this.radius,
-        galaxyMap : cleanMap
+        galaxyMap: cleanMap
       }
     }
 
-    pickRandomStarSystem()
+    pickRandomStarSystem() {
+      if (Object.keys(this.galaxyMap).length == 0) throw "no star system in it !";
+      return Object.values(this.galaxyMap)[getRandomIntInclusive(0, Object.keys(this.galaxyMap).length - 1)];
+    }
+
+  }
+
+  this.galaxyMap = {};
+  Galaxy.init(
     {
-      if(Object.keys(this.galaxyMap).length == 0) throw "no star system in it !";
-      return Object.values(this.galaxyMap)[getRandomIntInclusive(0,Object.keys(this.galaxyMap).length-1)];
+      uuid: {
+        type: DataTypes.STRING,//uuid
+        allowNull: false,
+      },
+      starCount: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+      },
+      radius: {
+        type: DataTypes.INTEGER,
+        defaultValue: 20,
+      },
+      type: {
+        type: DataTypes.STRING,
+        defaultValue: "round",
+      },
+    },
+    {
+      sequelize
     }
+  );
 
-
-    static EmptyGalaxy() {
-      let starCount = 10;
-      let radius = 50;
-      let galaxy = new Galaxy(starCount,radius);
-
-      for (let i = 0; i < starCount; i++) {
-        const starSystem = StarSystem.generateRandomStarSystem(galaxy.radius);
-
-        galaxy.galaxyMap[starSystem.uuid]=starSystem;
-      }
-      return galaxy;
-    }
+  return Galaxy;
 }
-
-export default Galaxy;

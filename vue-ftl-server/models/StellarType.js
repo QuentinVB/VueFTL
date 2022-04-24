@@ -2,12 +2,12 @@ const Color = require("color");
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class PlanetType extends Model {
+    class StellarType extends Model {
         static associate(models) {
-            PlanetType.hasMany(models["Planet"]);
+            StellarType.hasMany(models["StarSystem"]);
         }
     }
-    PlanetType.init({
+    StellarType.init({
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -30,13 +30,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT,
             defaultValue: 0,
         },
-        landable: {
-            type: DataTypes.BOOLEAN,
-        },
     },
         {
             sequelize
         }
     );
-    return PlanetType;
+    return StellarType;
 }

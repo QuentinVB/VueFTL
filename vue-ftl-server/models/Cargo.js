@@ -1,91 +1,117 @@
 'use strict';
-import * as Uuid from 'uuid' ;
-import { getRandomInt } from '../helpers/Random.js';
+const uuid = require('uuid');
+const { getRandomInt } = require('../helpers/Random.js');
+const { Model } = require('sequelize');
 
-//stackoverflow.com/questions/22156326/private-properties-in-javascript-es6-classes
-
-/** Class representing a cargo container, with its content*/
-export default class Cargo {
+module.exports = (sequelize, DataTypes) => {
+  /** Class representing a cargo container, with its content*/
+  class Cargo extends Model {
 
     static MAXCARGOCAPACITY = 25;
-    static CARGOTYPES = ["Hydrogen","Helium","Iron","Silicon","Thorium","Hafnium","Platinum","Tungsten","Carbon","Oxygen","Cobalt","Copper","Gold"]
+    static CARGOTYPES = ["Hydrogen", "Helium", "Iron", "Silicon", "Thorium", "Hafnium", "Platinum", "Tungsten", "Carbon", "Oxygen", "Cobalt", "Copper", "Gold"]
     /*
     Ezo ? DarkMatter ? Anti-matter ?
     */
+    static associate(models) {
+      Cargo.hasOne(models["Ship"]);
+    }
 
-    
-    /**
-     * Create a cargo container.
-     * @param {string} content - The type of cargo.
-     * @param {number} quantity - The quantity of cargo.
-     */
-    constructor(content,quantity) {
-      this._content = content;
-      if(quantity<0) throw "cant fill a negative quantity"
-      this._quantity = Math.min(quantity,Cargo.MAXCARGOCAPACITY);
-      this.uuid =  Uuid.v4()
+    fill(value) {
+      if (value<=0) throw new Error("can't fill with a negative value");
+      let _quantity = this.getDataValue('quantity');
+      const valueF = parseFloat(value);
+
+      const sum = _quantity + valueF;
+      
+      if(sum>=Cargo.MAXCARGOCAPACITY)
+      {
+        this.setDataValue('quantity', Cargo.MAXCARGOCAPACITY);
+        //TODO : protect against floating point decimals
+        return sum - Cargo.MAXCARGOCAPACITY;
+      }
+      this.setDataValue('quantity', sum);
+      return 0;
     }
-    /**
-     * the content type of the cargo
-     * @returns {string} the content type
-     */
-    get content()
-    {
-      return this._content;
+
+    tryDrain(value) {
+      if (value<=0) throw new Error("can't drain with a negative value");
+      let _quantity = this.getDataValue('quantity');
+      const valueF = parseFloat(value);
+
+      const diff = _quantity - valueF;
+      
+      if(diff >= 0)
+      {
+        this.setDataValue('quantity', diff);
+        return 0;
+      }
+  
+      this.setDataValue('quantity', 0);
+      //TODO : protect against floating point decimals
+      return diff;
     }
-    /**
-     * set the type of the cargo
-     * @param {string} value the content type to set
-     */
-    set content(value)
-    {
-      //todo : check if content is in type list
-      this._content=value;
-    }
-    /**
-     * get the quantity stored in the cargo
-     * @returns {string} the quantity type
-     */
-    get quantity()
-    {
-      return this._quantity;
-    }
-    /**
-     * set the quantity stored in the cargo
-     * @param {number} value the quantity to set
-     */
-    set quantity(value)
-    {
-      if(this._quantity+value<0) throw new Error("can't fill to a negative quantity");
-      //TODO : throw if quantity above ?
-      this._quantity = Math.min(value,Cargo.MAXCARGOCAPACITY);
-    }
+
     /**
      * Generate a random cargo container
      * @static
      * @returns {Cargo} a cargo object
      */
-    static GetRandomCargo()
-    {
-      return new Cargo( Cargo.CARGOTYPES[getRandomInt(Cargo.CARGOTYPES.length)] ,getRandomInt(25)+1)
+    static GetRandomCargo() {
+      //TODO : should call the factory
+      const cargo = Cargo.build({
+        uuid: uuid.v4(),
+        content: Cargo.CARGOTYPES[getRandomInt(Cargo.CARGOTYPES.length)],
+        quantity: getRandomInt(Cargo.MAXCARGOCAPACITY) + 1
+      })
+      return cargo;
     }
-    
+
     /**
-     * Generate an empty cargo container
+     * Generate an empty cargo container instance
      * @static
      * @returns {Cargo} a cargo object
      */
     static EmptyCargo() {
-      return new Cargo("Vaccum",0);
+      const cargo = Cargo.build({
+        content: "Vaccum",
+        uuid: uuid.v4(),
+      });
+      return cargo;
     }
 
-    ToObject()
-    {
+    ToObject() {
       return {
-        uuid:this.uuid,
-        content:this._content,
-        quantity:this._quantity
+        uuid: this.uuid,
+        content: this._content,
+        quantity: this._quantity
       }
     }
+
   }
-//module.exports = Cargo;
+
+  Cargo.init({
+    uuid: {
+      type: DataTypes.STRING,//uuid
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.STRING,
+      //TODO : define Getter and setter
+    },
+    quantity: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
+      //TODO : define Getter and setter
+      set(value) {
+        let _quantity = this.getDataValue('quantity');
+        const valueF = parseFloat(value);
+        if (_quantity + valueF > Cargo.MAXCARGOCAPACITY) throw new Error("can't set over maximum quantity");
+        if (_quantity + valueF < 0) throw new Error("can't set to a negative quantity");
+        this.setDataValue('quantity', valueF <= 0 ? 0 : valueF)
+      }
+    },
+  }, { sequelize });
+
+  return Cargo;
+}
+

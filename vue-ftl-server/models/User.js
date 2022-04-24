@@ -1,6 +1,5 @@
 'use strict';
-import { v4 as uuidv4 } from 'uuid';
-import { Model } from 'sequelize';
+const { Model } =require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -12,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models["Ship"]);
     }
     
     //TODO : TO JSON/To ViewModel
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }
+
   User.init(
     {
       username: {
@@ -54,5 +55,6 @@ module.exports = (sequelize, DataTypes) => {
       sequelize
     }
   );
+
   return User;
 };

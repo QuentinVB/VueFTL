@@ -60,10 +60,8 @@ export function InitModels(sequelizeInstance)
     User.hasOne(Ship);
     Ship.belongsTo(User);
 
-    Planet.init(sequelize);
-    PlanetType.init(sequelize);
-    Planet.belongsTo(PlanetType);
-    PlanetType.hasMany(Planet);
+
+
     
     DBConnection.Query(async()=>{
         await User.sync();
