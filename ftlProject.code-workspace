@@ -20,6 +20,7 @@
            "hbenl.vscode-mocha-test-adapter",
            "alexcvzz.vscode-sqlite",
            "octref.vetur",
+		   "esbenp.prettier-vscode,
         ],
     },
     "settings": {
