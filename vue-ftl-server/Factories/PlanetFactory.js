@@ -18,16 +18,14 @@ module.exports.GenerateRandomPlanet = function () {
  * @param {Number} position 
  * @returns 
  */
-module.exports.GenerateRandomPlanetAt = function (starSystem, position) {
-  DBConnection.Query(async () => {
+module.exports.GenerateRandomPlanetAt = async function (starSystem, position) {
     const planetTypes = await PlanetType.findAll();
 
     const a = planetTypes.length / starSystem.planetesCount;
     const idx = Math.floor(a * position) + getRandomInt(1);
     const planetType = planetTypes[idx];
 
-    return await GeneratePlanet(starSystem, position, planetType);
-  })
+    return GeneratePlanet(starSystem, position, planetType);
 }
 
 /**
@@ -37,13 +35,13 @@ module.exports.GenerateRandomPlanetAt = function (starSystem, position) {
  * @param {PlanetType} planetType 
  * @returns 
  */
-module.exports.GeneratePlanet = async function (starSystem, position, planetType) {
+module.exports.GeneratePlanet = function (starSystem, position, planetType) {
   //TODO check star system integrity
   const name = `${starSystem.name}-${ALPHABET[position - 1]}`;
   const radius = planetType.baseRadius + (planetType.baseRadius + Math.random() * 0.05);
   const minerals = Math.round(Math.random() * 100);
 
-  const planet = await Planet.create(
+  const planet = Planet.build(
     {
       uuid: uuid.v4(),
       name: name,
@@ -52,7 +50,12 @@ module.exports.GeneratePlanet = async function (starSystem, position, planetType
       radius: radius,
       minerals: minerals,
     });
-  await planet.setPlanetType(planetType);
+    planet.PlanetTypeId = planetType.id;
+    planet.StarSystemId = starSystem.id;
+  //await planet.setPlanetType(planetType);
+  //await planet.setStarSystem(starSystem);
+  //TODO :set star system
+
   return planet;
 }
 

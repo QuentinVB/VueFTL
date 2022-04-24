@@ -6,6 +6,18 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             PlanetType.hasMany(models["Planet"]);
         }
+        
+        /**
+         * Generate default StellarType instance
+         * @static
+         * @returns {PlanetType} a cargo object
+         */
+        static DefaultPlanetType() {
+            const planetType = PlanetType.build({
+                name: "Silicate",
+            });
+            return planetType;
+        }
     }
     PlanetType.init({
         name: {
@@ -19,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         colorRGB: {
             type: DataTypes.VIRTUAL,
             get() {
-                return Color(this.getDataValue('baseColor')).rgb();
+                return Color(this.getDataValue('baseColor')).rgb().array();
             },
             set(value) {
                 if (!Array.isArray(value) | value.length != 3) throw new Error('setting RGB must be an array with 3 number');
@@ -32,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         landable: {
             type: DataTypes.BOOLEAN,
+            defaultValue: true,
         },
     },
         {

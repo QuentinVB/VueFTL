@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       Cargo.hasOne(models["Ship"]);
     }
 
+    /**
+     * 
+     * @param {Number} value 
+     * @returns 
+     */
     fill(value) {
       if (value<=0) throw new Error("can't fill with a negative value");
       let _quantity = this.getDataValue('quantity');
@@ -33,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
       return 0;
     }
 
+    /**
+     * 
+     * @param {Number} value 
+     * @returns 
+     */
     tryDrain(value) {
       if (value<=0) throw new Error("can't drain with a negative value");
       let _quantity = this.getDataValue('quantity');
@@ -52,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * Generate a random cargo container
+     * Generate a random cargo container instance
      * @static
      * @returns {Cargo} a cargo object
      */
@@ -71,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
      * @static
      * @returns {Cargo} a cargo object
      */
-    static EmptyCargo() {
+    static DefaultCargo() {
       const cargo = Cargo.build({
         content: "Vaccum",
         uuid: uuid.v4(),

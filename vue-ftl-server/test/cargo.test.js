@@ -11,7 +11,7 @@ describe('Cargo tests', () => {
         let emptyCargo;
         //arrange
         beforeEach(async () => {
-            emptyCargo = Cargo.EmptyCargo();
+            emptyCargo = Cargo.DefaultCargo();
         });
 
         afterEach(async () => {
@@ -27,7 +27,7 @@ describe('Cargo tests', () => {
             expect(emptyCargo.quantity).to.equal(0);
         });
     });
-    describe('Basic Cargo Test', () => {
+    describe('Basic stored Cargo Test', () => {
         //arrange
         beforeEach(async () => {
             await Cargo.create({
@@ -56,7 +56,7 @@ describe('Cargo tests', () => {
         let sut;
         //arrange
         beforeEach(async () => {
-            sut = Cargo.EmptyCargo();
+            sut = Cargo.DefaultCargo();
         });
 
         afterEach(async () => {
@@ -91,7 +91,7 @@ describe('Cargo tests', () => {
         let sut;
         //arrange
         beforeEach(async () => {
-            sut = Cargo.EmptyCargo();
+            sut = Cargo.DefaultCargo();
             sut.quantity = 10;
         });
 
@@ -125,7 +125,7 @@ describe('Cargo tests', () => {
         let sut;
         //arrange
         beforeEach(async () => {
-            sut = Cargo.EmptyCargo();
+            sut = Cargo.DefaultCargo();
             sut.quantity = 10;
         });
 

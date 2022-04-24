@@ -46,6 +46,8 @@ https://sequelize.org/docs/v6/other-topics/migrations/#creating-the-first-seed
 
 https://blog.logrocket.com/using-sequelize-with-typescript/
 
+https://medium.com/building-ibotta/testing-arrays-and-objects-with-chai-js-4b372310fe6d
+
 {
       "type": "chrome",
       "request": "launch",

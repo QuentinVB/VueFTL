@@ -3,7 +3,6 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-
   class Galaxy extends Model {
     static associate(models) {
       // define association here
@@ -35,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
 
   }
 
-  this.galaxyMap = {};
   Galaxy.init(
     {
       uuid: {
@@ -56,7 +54,8 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      sequelize
+      sequelize,
+      tableName: 'Galaxies'
     }
   );
 

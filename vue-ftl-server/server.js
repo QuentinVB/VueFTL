@@ -25,7 +25,7 @@ DBConnection.TestConnection()
 
 //init DAO using sequelize
 
-InitModels(sequelize);
+//InitModels(sequelize);
 
 //routes
 routes(app); //register the route

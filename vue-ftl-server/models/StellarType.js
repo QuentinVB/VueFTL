@@ -6,6 +6,17 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             StellarType.hasMany(models["StarSystem"]);
         }
+        /**
+         * Generate a default StellarType instance
+         * @static
+         * @returns {StellarType} a cargo object
+         */
+        static DefaultStellarType() {
+            const stallarType = StellarType.build({
+                name: "Blackhole",
+            });
+            return stallarType;
+        }
     }
     StellarType.init({
         name: {
@@ -19,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         colorRGB: {
             type: DataTypes.VIRTUAL,
             get() {
-                return Color(this.getDataValue('baseColor')).rgb();
+                return Color(this.getDataValue('baseColor')).rgb().array();
             },
             set(value) {
                 if (!Array.isArray(value) | value.length != 3) throw new Error('setting RGB must be an array with 3 number');
