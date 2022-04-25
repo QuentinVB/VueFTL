@@ -17,6 +17,20 @@ module.exports = (sequelize, DataTypes) => {
       StarSystem.belongsTo(models["StellarType"]);
     }
 
+    
+    /**
+     * Generate a default StarSystem instance
+     * @static
+     * @returns {StarSystem} a starSystem object
+     */
+     static DefaultStarSystem() {
+      const starSystem = StarSystem.build({
+        uuid: uuid.v4(),
+        name:"sol"
+      });
+      return starSystem;
+    }
+
 
     get isCoolingDown() {
       return this.eventResetDate > Date.now();
