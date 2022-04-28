@@ -1,6 +1,7 @@
 const assert = require('assert');
 const { expect } = require('chai');
 const uuid = require('uuid');
+const StarSystemFactory = require('../Factories/StarSystemFactory.js');
 const StellarType = require('../models')["StellarType"];
 
 describe('StellarType tests', () => {
@@ -35,7 +36,6 @@ describe('StellarType tests', () => {
                 name: "Blackhole",
                 colorRGB: [0,0,0],
                 baseRadius:0.1,
-                landable:true,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             });
@@ -52,6 +52,42 @@ describe('StellarType tests', () => {
             expect(sut.baseColor.toLowerCase()).to.equal("#000000");
             expect(sut.colorRGB).to.eql([0,0,0]);
             expect(sut.baseRadius).to.equal(0.1);
+        });
+    });
+    describe('StellarType Factory Methods', () => {
+        const stellarArray =[
+            {
+                name: "Blackhole",
+                colorRGB: [0,0,0],
+                baseRadius:0.1
+            },
+            {
+                name:'White Dwarf',
+                color:[230,230,255],
+                baseRadius:0.2
+            },
+            {
+                name:'Blue Super Giant',
+                color:[0,100,255],
+                baseRadius:3
+            }
+        ];
+        //arrange
+        beforeEach(async () => {
+            await StellarType.bulkCreate(stellarArray);
+        })
+        afterEach(async () => {
+            await StellarType.drop();
+        })
+        it('should have default info', async() => {
+            //act
+            const stellarType = await StarSystemFactory.GetRandomStellarType();
+
+            //assert
+            expect(stellarType.name).to.be.oneOf(stellarArray.map(i=>i.name));
+            expect(stellarType.baseColor).to.be.not.null;
+            expect(stellarType.colorRGB).to.be.not.null;
+            expect(stellarType.baseRadius).to.be.oneOf(stellarArray.map(i=>i.baseRadius));
         });
     });
 });

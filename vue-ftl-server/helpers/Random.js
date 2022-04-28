@@ -3,6 +3,7 @@
 module.exports.getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
+
 module.exports.getRandomArbitrary = function (min, max) {
   return Math.random() * (max - min) + min;
 }

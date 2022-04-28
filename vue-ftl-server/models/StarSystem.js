@@ -7,8 +7,6 @@ module.exports = (sequelize, DataTypes) => {
   class StarSystem extends Model {
     //COOLDOWN = 120;//seconds
     //this.eventResetDate = Date.now();
-    static MINPLANETORBIT = 0.2; //UA
-    static MAXPLANETORBIT = 30; //UA
 
     static associate(models) {
       // define association here
