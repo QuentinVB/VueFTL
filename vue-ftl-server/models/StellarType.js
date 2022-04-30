@@ -43,7 +43,8 @@ module.exports = (sequelize, DataTypes) => {
         },
     },
         {
-            sequelize
+            sequelize,
+            tableName: 'StellarTypes'
         }
     );
     return StellarType;

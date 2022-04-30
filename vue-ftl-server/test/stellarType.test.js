@@ -54,7 +54,7 @@ describe('StellarType tests', () => {
             expect(sut.baseRadius).to.equal(0.1);
         });
     });
-    describe('StellarType Factory Methods', () => {
+    describe('StellarType from Factory Methods tests', () => {
         const stellarArray =[
             {
                 name: "Blackhole",
@@ -79,11 +79,13 @@ describe('StellarType tests', () => {
         afterEach(async () => {
             await StellarType.drop();
         })
-        it('should have default info', async() => {
+        it('should return a valid stellar Type', async() => {
             //act
+            const stellarCount = await StellarType.count();
             const stellarType = await StarSystemFactory.GetRandomStellarType();
 
             //assert
+            expect(stellarCount).to.be.equal(3);
             expect(stellarType.name).to.be.oneOf(stellarArray.map(i=>i.name));
             expect(stellarType.baseColor).to.be.not.null;
             expect(stellarType.colorRGB).to.be.not.null;

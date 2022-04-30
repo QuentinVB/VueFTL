@@ -64,7 +64,7 @@ function getRandomName()
 module.exports.GetRandomStellarType = async function ()
 {
   const count = await StellarType.count()
-  const index = getRandomInt(count);
+  const index = getRandomIntInclusive(1,count-1);
   return await StellarType.findByPk(index);
 }
 
