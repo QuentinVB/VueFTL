@@ -54,24 +54,5 @@ describe('Galaxy tests', () => {
             expect(sut.type).to.equal("elliptical");
         });
     });
-    describe('Basic stored Galaxy Test', () => {
-        //arrange
-        beforeEach(async () => {
-            await GalaxyFactory
-        })
-        afterEach(async () => {
-            await Galaxy.drop();
-        })
-
-        it('should have stored info', async () => {
-            //act
-            const sut = await Galaxy.findByPk(1);
-            //assert
-            expect(sut.uuid).to.be.not.null;
-            expect(sut.starCount).to.equal(50);
-            expect(sut.radius).to.equal(500);
-            expect(sut.type).to.equal("elliptical");
-        });
-    });
     //TODO : test add star system
 });

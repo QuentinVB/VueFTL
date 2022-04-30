@@ -10,30 +10,21 @@ module.exports = (sequelize, DataTypes) => {
       Planet.belongsTo(models["PlanetType"]);
     }
 
-    ToObject() {
-      //TODO : Add cooldown ?
-      return {
-        name: this.name,
-        starSystem: this.starSystem.uuid,
-        color: this.color,
-        orbit: this.orbit,
-        radius: this.radius,
-        minerals: this.minerals,
-        anomaly: this.anomaly,
-        landable: this.landable,
-        uuid: this.uuid
-      }
-    }
-    minePlanet(efficiency = 1)//TODO : add modificator ?
+    /**
+     * Mine this planet, retreive some ore and update planet mineralsQuantity
+     * @param {Number} efficiency 
+     * @returns a certain quantity of ore
+     */
+    async MinePlanet(extractionEfficiency = 1)//TODO : add modificator ?
     {
-      const oreRatio = this.minerals / 100;
-      this.minerals--; //or more if modifier
+      if(this.minerals <= 0) return 0;
 
-      if (Math.random() < oreRatio) {
+      const BASEEXTRACTION = 5;
+      const oreExtracted =  Math.floor(1+ (extractionEfficiency*BASEEXTRACTION*Math.random()));
+      this.minerals--;
+      await this.decrement('minerals');
 
-        return Math.floor(10 * efficiency); //or more if modifier
-      }
-      return 0; //sry not sorry
+      return oreExtracted;
     }
   }
 

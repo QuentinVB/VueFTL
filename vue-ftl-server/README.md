@@ -18,6 +18,20 @@ npm install --save-dev chai
 
 npx sequelize-cli seed:generate --name test-products
 
+### tests commands
+    "pretest": "cross-env NODE_ENV=test npm run db:reset",
+    "db:reset": "resetTestdb.bat && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all --seeders-path ./seeders/test",
+    "db:create:test": "cross-env NODE_ENV=test npx sequelize-cli db:create"
+### Sequelize test connection 
+static async TestConnection()
+  {
+    try {
+      await sequelize.authenticate();
+      console.log('Connection has been established successfully.');
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
+    }
+  }
 ## Tutorials
 
 https://www.codementor.io/@olatundegaruba/nodejs-restful-apis-in-10-minutes-q0sgsfhbd

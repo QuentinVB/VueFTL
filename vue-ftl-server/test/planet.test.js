@@ -45,6 +45,37 @@ describe('Planet tests', () => {
             expect(defaultPlanet.minerals).to.below(100);
         });
     });
+    describe('Mine planet test', () => {
+        let defaultPlanet;
+        //arrange
+        beforeEach(async () => {
+            defaultPlanet = PlanetFactory.GeneratePlanet(fakeStarSystem, 1, fakePlanetType);
+        });
+
+        afterEach(async () => {
+            defaultPlanet = null;
+        })
+
+        it('mining should return a value', async() => {
+            //arrange
+            defaultPlanet.minerals = 50;
+            //act
+            const valueMined = await defaultPlanet.MinePlanet(1);
+            //assert
+            expect(valueMined).to.be.greaterThan(0);
+            expect(defaultPlanet.minerals).to.be.equal(49);
+        });
+
+        it('mining empty planet should return 0', async() => {
+             //arrange
+             defaultPlanet.minerals = 0;
+            //act
+            const valueMined = await defaultPlanet.MinePlanet(1);
+            //assert
+            expect(valueMined).to.be.equal(0);
+            expect(defaultPlanet.minerals).to.be.equal(0);
+        });
+    });
     describe('Basic stored Planet Test', () => {
         //arrange
         beforeEach(async () => {

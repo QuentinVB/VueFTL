@@ -88,15 +88,6 @@ module.exports = (sequelize, DataTypes) => {
       });
       return cargo;
     }
-
-    ToObject() {
-      return {
-        uuid: this.uuid,
-        content: this._content,
-        quantity: this._quantity
-      }
-    }
-
   }
 
   Cargo.init({

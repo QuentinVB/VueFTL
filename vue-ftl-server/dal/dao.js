@@ -5,7 +5,6 @@ import Ship from "../models/Ship.js";
 import User from '../models/User.js';
 import Planet from '../models/Planet.js';
 import PlanetType from '../models/PlanetType.js';
-import DBConnection, {sequelize} from "./DBConnection.js";
 import { v4 } from "uuid";
 
 //should be a way to the database & session

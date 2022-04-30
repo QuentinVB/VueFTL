@@ -1,6 +1,5 @@
 'use strict';
 const uuid = require('uuid');
-const DBConnection = require('../dal/DBConnection.js');
 const { getRandomInt } = require("../helpers/Random");
 const db = require("../models");
 const Planet = db["Planet"];

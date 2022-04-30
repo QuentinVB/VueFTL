@@ -3,8 +3,6 @@ const { urlencoded, json }  =require( 'body-parser');
 const cors  =require( 'cors');
 const routes  =require( './api/routes/Routes.js'); //importing route
 const { InitModels }  =require( './dal/dao.js');
-const {DBConnection, sequelize }  =require( './dal/DBConnection.js');
-
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -20,8 +18,7 @@ app.use(function(req, res, next) {
 
 app.use(cors());
 
-//init Sequelize
-DBConnection.TestConnection()
+
 
 //init DAO using sequelize
 

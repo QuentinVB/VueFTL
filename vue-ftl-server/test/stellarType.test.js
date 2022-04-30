@@ -55,6 +55,9 @@ describe('StellarType tests', () => {
         });
     });
     describe('StellarType from Factory Methods tests', () => {
+        before(async()=>{
+            await StellarType.sync();
+        })
         const stellarArray =[
             {
                 name: "Blackhole",

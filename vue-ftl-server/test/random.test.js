@@ -21,7 +21,7 @@ describe('Random generator tests', () => {
         it('average and count should be in range', () => {
             //assert
             expect(results.length).to.be.equal(iteration);
-            expect(results.reduce((pv,cv)=> pv + cv)/results.length).to.within(45,55);
+            expect(results.reduce((pv,cv)=> pv + cv)/results.length).to.within(40,60);
         });
         it('min value should be inbetween expected extremums', () => {
             //assert
