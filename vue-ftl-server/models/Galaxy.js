@@ -1,6 +1,7 @@
 'use strict';
 const uuid = require('uuid');
 const { Model } = require("sequelize");
+const GalaxyFactory = require('../Factories/GalaxyFactory.js');
 
 const GalaxyType ={
   Round:"round",
@@ -14,9 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       Galaxy.hasMany(models["StarSystem"]);
     }
 
-    pickRandomStarSystem() {
-      if (Object.keys(this.galaxyMap).length == 0) throw "no star system in it !";
-      return Object.values(this.galaxyMap)[getRandomIntInclusive(0, Object.keys(this.galaxyMap).length - 1)];
+    async pickRandomStarSystem() {
+      return await GalaxyFactory.GetRandomStarSystemOf(this);
     }
 
     /**

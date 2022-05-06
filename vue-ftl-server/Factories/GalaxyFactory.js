@@ -1,8 +1,8 @@
+const { getRandomIntInclusive } = require("../helpers/Random.js");
 const StarSystemFactory = require("./StarSystemFactory.js");
 const db = require("../models");
 const Galaxy = db["Galaxy"];
 const StarSystem = db["StarSystem"];
-
 
 /**
  * 
@@ -34,4 +34,18 @@ module.exports.GenerateGalaxy = async function(starCount=10,radius=50,galaxyType
   }
   await newgalaxy.save();
   return newgalaxy;
+}
+
+/**
+ * Returns a random star system from the given the galaxy
+ * @param {Galaxy} galaxy 
+ * @returns {StarSystem}
+ */
+module.exports.GetRandomStarSystemOf = async function(galaxy)
+{
+  const starSystemsInThisGalaxy = await StarSystem.findAll({where:{galaxyId:galaxy.id}});
+  if (starSystemsInThisGalaxy.count != galaxy.starCount) throw new Error("Constraint Violation : star system in galaxy must be the same count as galaxy.starCount");
+
+  const index = getRandomIntInclusive(0,starSystemsInThisGalaxy.count-1);
+  return starSystemsInThisGalaxy[index];
 }
