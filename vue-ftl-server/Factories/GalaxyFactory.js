@@ -1,8 +1,6 @@
 const { getRandomIntInclusive } = require("../helpers/Random.js");
+const {Galaxy,StarSystem} = require("../models");
 const StarSystemFactory = require("./StarSystemFactory.js");
-const db = require("../models");
-const Galaxy = db["Galaxy"];
-const StarSystem = db["StarSystem"];
 
 /**
  * 

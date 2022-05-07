@@ -1,10 +1,7 @@
 'use strict';
 const uuid = require('uuid');
 const { getRandomInt } = require("../helpers/Random");
-const db = require("../models");
-const Planet = db["Planet"];
-const PlanetType = db["PlanetType"];
-const StarSystem = db["StarSystem"];
+const {Planet,PlanetType,StarSystem} = require("../models");
 const { ALPHABET } = require('../helpers/Naming')
 
 module.exports.GenerateRandomPlanet = function () {

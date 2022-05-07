@@ -1,7 +1,7 @@
 const assert = require('assert');
 const { expect } = require('chai');
 const uuid = require('uuid');
-const PlanetType = require('../models')["PlanetType"];
+const {PlanetType} = require('../models');
 
 describe('PlanetType tests', () => {
     before(async()=>{

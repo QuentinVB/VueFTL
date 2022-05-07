@@ -1,13 +1,9 @@
 const assert = require('assert');
 const { expect } = require('chai');
 const uuid = require('uuid');
-const db = require('../models');
 const PlanetFactory = require('../Factories/PlanetFactory.js');
-const Planet = db["Planet"];
-const PlanetType = db["PlanetType"];
-const StarSystem = db["StarSystem"];
-const StellarType = db["StellarType"];
-const Galaxy = db["Galaxy"];
+const {Galaxy,Planet,PlanetType,StarSystem,StellarType} = require('../models');
+
 
 const fakeStarSystem = StarSystem.build({ id: 1, uuid: uuid.v4(), name: "proxima", planetesCount: 1 });
 const fakePlanetType = PlanetType.build({ id: 1, name: 'Earth analog planet', baseColor: "#18629e", baseRadius: 1, landable: true });

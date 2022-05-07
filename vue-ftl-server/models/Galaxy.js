@@ -1,7 +1,6 @@
 'use strict';
 const uuid = require('uuid');
 const { Model } = require("sequelize");
-const GalaxyFactory = require('../Factories/GalaxyFactory.js');
 
 const GalaxyType ={
   Round:"round",
@@ -13,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Galaxy.hasMany(models["StarSystem"]);
-    }
-
-    async pickRandomStarSystem() {
-      return await GalaxyFactory.GetRandomStarSystemOf(this);
     }
 
     /**

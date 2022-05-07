@@ -1,25 +1,27 @@
 const assert = require('assert');
 const { expect } = require('chai');
 const uuid = require('uuid');
+const {StellarType} = require('../models');
 const StarSystemFactory = require('../Factories/StarSystemFactory.js');
-const StellarType = require('../models')["StellarType"];
 
-describe('StellarType tests', () => {
-    before(async()=>{
-        await StellarType.sync();
-    })
-    describe('Empty StellarType Test', () => {
+
+describe('StellarType tests', function() {
+
+    describe('Empty StellarType Test', function() {
+        before(async()=>{
+            await StellarType.sync();
+        })
         let defaultStellarType;
         //arrange
-        beforeEach(async () => {
+        beforeEach(async function() {
             defaultStellarType = StellarType.DefaultStellarType();
         });
 
-        afterEach(async () => {
+        afterEach(async function() {
             defaultStellarType = null;
         })
 
-        it('should have default info', () => {
+        it('should have default info', function() {
             //act
             //assert
             expect(defaultStellarType.name).to.equal("Blackhole");
@@ -28,9 +30,9 @@ describe('StellarType tests', () => {
             expect(defaultStellarType.baseRadius).to.equal(0);
         });
     });
-    describe('Basic stored StellarType Test', () => {
+    describe('Basic stored StellarType Test', function() {
         //arrange
-        beforeEach(async () => {
+        beforeEach(async function() {
             await StellarType.create({
                 id: 1,
                 name: "Blackhole",
@@ -40,11 +42,11 @@ describe('StellarType tests', () => {
                 updatedAt: new Date(),
             });
         })
-        afterEach(async () => {
-            await StellarType.drop();
+        afterEach(async function() {
+            await StellarType.destroy({where:{id:1}});
         })
 
-        it('should have stored info', async () => {
+        it('should have stored info', async function() {
             //act
             const sut = await StellarType.findByPk(1);
             //assert
@@ -54,7 +56,8 @@ describe('StellarType tests', () => {
             expect(sut.baseRadius).to.equal(0.1);
         });
     });
-    describe('StellarType from Factory Methods tests', () => {
+    describe('StellarType from Factory Methods tests', function() {
+        this.timeout(8000);
         before(async()=>{
             await StellarType.sync();
         })
@@ -76,13 +79,13 @@ describe('StellarType tests', () => {
             }
         ];
         //arrange
-        beforeEach(async () => {
+        beforeEach(async function() {
             await StellarType.bulkCreate(stellarArray);
         })
-        afterEach(async () => {
+        afterEach(async function() {
             await StellarType.drop();
-        })
-        it('should return a valid stellar Type', async() => {
+        });
+        it('should return a valid stellar Type', async function() { 
             //act
             const stellarCount = await StellarType.count();
             const stellarType = await StarSystemFactory.GetRandomStellarType();

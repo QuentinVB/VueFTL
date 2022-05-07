@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html mocha ./test/*"
+    "test": "cross-env NODE_ENV=test nyc --reporter=html mocha ./test/* --trace-warning "
   },
   "type": "commonjs",
   "author": "Quentin vanbutsele",

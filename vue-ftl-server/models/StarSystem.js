@@ -1,6 +1,5 @@
 'use strict';
 const { Model } = require("sequelize");
-const { getRandomIntInclusive, getRandomInt } = require("../helpers/Random.js");
 const uuid = require('uuid');
 
 module.exports = (sequelize, DataTypes) => {

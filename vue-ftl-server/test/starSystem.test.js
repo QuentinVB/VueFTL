@@ -1,9 +1,7 @@
 const assert = require('assert');
 const { expect } = require('chai');
 const uuid = require('uuid');
-const db = require('../models');
-const StellarType = db["StellarType"];
-const StarSystem = db["StarSystem"];
+const {StellarType,StarSystem} = require('../models');
 
 describe('StarSystem tests', () => {
     before(async()=>{

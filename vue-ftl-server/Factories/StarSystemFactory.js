@@ -1,8 +1,6 @@
 const { getRandomIntInclusive,getRandomInt } =require( "../helpers/Random.js");
 const {GREEKALPHABET,NAMESOURCE} = require("../helpers/Naming.js")
-const db = require("../models");
-const StarSystem = db["StarSystem"];
-const StellarType = db["StellarType"];
+const {StarSystem,StellarType}   =  require("../models");
 
 const MINPLANETORBIT = 0.2; //UA
 const MAXPLANETORBIT = 30; //UA
@@ -18,7 +16,7 @@ module.exports.MAXPLANETORBIT = MAXPLANETORBIT;
  module.exports.GenerateRandomStarSystem = async function(starSystemPosition)
 {
   const newStarSystem = StarSystem.DefaultStarSystem();
-  newStarSystem.name = getRandomName()
+  newStarSystem.name = getRandomName();
   newStarSystem.position = starSystemPosition;
 
   const stellarType = await this.GetRandomStellarType();

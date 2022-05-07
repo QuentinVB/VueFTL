@@ -1,9 +1,7 @@
 const assert = require('assert');
 const { expect } = require('chai');
 const uuid = require('uuid');
-const db = require('../models');
-const Cargo = db["Cargo"];
-const Ship = db["Ship"];
+const {Cargo,Ship} = require('../models');
 
 describe('Cargo tests', () => {
     before(async()=>{
