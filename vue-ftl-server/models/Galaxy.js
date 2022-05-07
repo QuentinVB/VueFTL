@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
       });
       return galaxy;
     }
-
     static GalaxyType = GalaxyType;
   }
 

@@ -2,25 +2,26 @@ const assert = require('assert');
 const { expect } = require('chai');
 const uuid = require('uuid');
 const {Galaxy,StarSystem,StellarType} = require('../models');
+const GalaxyFactory = require('../factories/GalaxyFactory.js');
 
-describe('Galaxy tests', () => {
-    before(async()=>{
+describe('Galaxy tests', function() {
+    before(async function(){
         await Galaxy.sync();
         await StarSystem.sync();
         await StellarType.sync();
     })
-    describe('Empty Galaxy Test', () => {
+    describe('Empty Galaxy Test', function() {
         let defaultGalaxy;
         //arrange
-        beforeEach(async () => {
+        beforeEach(async function() {
             defaultGalaxy = Galaxy.DefaultGalaxy();
         });
 
-        afterEach(async () => {
+        afterEach(async function() {
             defaultGalaxy = null;
         })
 
-        it('should have default info', () => {
+        it('should have default info', function() {
             //act
             //assert
             expect(defaultGalaxy.uuid).to.be.not.null;
@@ -29,11 +30,10 @@ describe('Galaxy tests', () => {
             expect(defaultGalaxy.type).to.equal("round");
         });
     });
-    describe('Stored Galaxy Test', () => {
+    describe('Stored Galaxy Test', function() {
         const starNames = [ "Sol","AlphaCentauri","Barnard Star"]
         //arrange
-        before(async () => {
-            
+        before(async function() {
             const createdGalaxy = await Galaxy.create({
                 id: 1,
                 uuid: uuid.v4(),
@@ -59,12 +59,12 @@ describe('Galaxy tests', () => {
                 name: starNames[2],
             }));
         })
-        after(async () => {
-            await Galaxy.drop();
-            await StarSystem.drop();
+        after(async function() {
+            await Galaxy.destroy({truncate: true});
+            await StarSystem.destroy({truncate: true});
         })
 
-        it('should have stored info', async () => {
+        it('should have stored info', async function() {
             //act
             const sut = await Galaxy.findByPk(1);
             //assert
@@ -73,10 +73,11 @@ describe('Galaxy tests', () => {
             expect(sut.radius).to.equal(500);
             expect(sut.type).to.equal("elliptical");
         });
-        it('picking randomly a system should return a linked StarSystem', async () => {
+        it('picking randomly a system should return a linked StarSystem', async function() {
             //act
             const sut = await Galaxy.findByPk(1);
-            const starSystem = await sut.pickRandomStarSystem();
+            const starSystem = await GalaxyFactory.GetRandomStarSystemOf(sut);
+
             //assert
             expect(starSystem.uuid).to.be.not.null;
             expect(starSystem.name).to.be.oneOf(starNames);

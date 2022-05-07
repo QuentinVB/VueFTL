@@ -57,8 +57,8 @@ describe('StellarType tests', function() {
         });
     });
     describe('StellarType from Factory Methods tests', function() {
-        this.timeout(8000);
-        before(async()=>{
+        this.timeout(5000);
+        before(async function(){
             await StellarType.sync();
         })
         const stellarArray =[

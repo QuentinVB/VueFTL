@@ -41,9 +41,9 @@ module.exports.GenerateGalaxy = async function(starCount=10,radius=50,galaxyType
  */
 module.exports.GetRandomStarSystemOf = async function(galaxy)
 {
-  const starSystemsInThisGalaxy = await StarSystem.findAll({where:{galaxyId:galaxy.id}});
-  if (starSystemsInThisGalaxy.count != galaxy.starCount) throw new Error("Constraint Violation : star system in galaxy must be the same count as galaxy.starCount");
+  const starSystemsInThisGalaxy = await StarSystem.findAll({where:{GalaxyId:galaxy.id}});
+  if (starSystemsInThisGalaxy.length != galaxy.starCount) throw new Error("Constraint Violation : star system in galaxy must be the same count as galaxy.starCount");
 
-  const index = getRandomIntInclusive(0,starSystemsInThisGalaxy.count-1);
+  const index = getRandomIntInclusive(0,starSystemsInThisGalaxy.length-1);
   return starSystemsInThisGalaxy[index];
 }
