@@ -1,5 +1,9 @@
 const assert = require('assert');
-const { expect } = require('chai');
+const chai = require('chai');
+var chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
+const expect = chai.expect;
+
 const uuid = require('uuid');
 const {Galaxy,StarSystem,StellarType} = require('../models');
 const GalaxyFactory = require('../factories/GalaxyFactory.js');
@@ -81,6 +85,24 @@ describe('Galaxy tests', function() {
             //assert
             expect(starSystem.uuid).to.be.not.null;
             expect(starSystem.name).to.be.oneOf(starNames);
+        });
+        it('falsy Galaxy starCount Should throw error', async function() {
+            //arrange
+            const falsyGalaxy = await Galaxy.create({
+                id: 2,
+                uuid: uuid.v4(),
+                starCount: 3,
+                radius:500,
+                type:"elliptical",
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            });
+            //act
+            const action =  async ()=> {
+                const output = await GalaxyFactory.GetRandomStarSystemOf(falsyGalaxy);
+            }
+            //assert
+            await expect(action()).to.be.rejectedWith(Error)
         });
     });
     //TODO : test add star system

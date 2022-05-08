@@ -24,6 +24,7 @@
         ],
     },
     "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "Server"
        
     },
 	"launch": {

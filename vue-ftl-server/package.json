@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html mocha ./test/* --trace-warning "
+    "test": "cross-env NODE_ENV=test nyc --reporter=html mocha ./test/*"
   },
   "type": "commonjs",
   "author": "Quentin vanbutsele",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "chai-as-promised": "^7.1.1",
     "color": "^4.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
