@@ -1,33 +1,36 @@
-'use strict';
+/*global process, __filename, __dirname*/
+/*eslint no-undef: "error"*/
 
-const { readdirSync } =require('fs');
-const { basename , join } =require( 'path');
-const { Sequelize,  DataTypes } =require( 'sequelize');
+"use strict";
+
+const { readdirSync } =require("fs");
+const { basename , join } =require( "path");
+const { Sequelize,  DataTypes } =require( "sequelize");
 const filebasename = basename(__filename);
-const env = process.env.NODE_ENV || 'test';
-const config = require(__dirname + '/../config/config.js')[env];
+const env = process.env.NODE_ENV || "test";
+const config = require(__dirname + "/../config/config.js")[env];
 const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+	sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+	sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
 readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== filebasename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(join(__dirname, file))(sequelize, DataTypes);
-    db[model.name] = model;
-  });
+	.filter(file => {
+		return (file.indexOf(".") !== 0) && (file !== filebasename) && (file.slice(-3) === ".js");
+	})
+	.forEach(file => {
+		const model = require(join(__dirname, file))(sequelize, DataTypes);
+		db[model.name] = model;
+	});
 
 Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+	if (db[modelName].associate) {
+		db[modelName].associate(db);
+	}
 });
 
 db.sequelize = sequelize;

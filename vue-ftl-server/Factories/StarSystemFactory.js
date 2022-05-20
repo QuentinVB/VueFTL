@@ -1,5 +1,5 @@
 const { getRandomIntInclusive,getRandomInt } =require( "../helpers/Random.js");
-const {GREEKALPHABET,NAMESOURCE} = require("../helpers/Naming.js")
+const {GREEKALPHABET,NAMESOURCE} = require("../helpers/Naming.js");
 const {StarSystem,StellarType}   =  require("../models");
 
 const MINPLANETORBIT = 0.2; //UA
@@ -13,26 +13,26 @@ module.exports.MAXPLANETORBIT = MAXPLANETORBIT;
  * @param {{x:Number,y:Number,z:Number}} starSystemPosition 
  * @returns {StarSystem} 
  */
- module.exports.GenerateRandomStarSystem = async function(starSystemPosition)
+module.exports.GenerateRandomStarSystem = async function(starSystemPosition)
 {
-  const newStarSystem = StarSystem.DefaultStarSystem();
-  newStarSystem.name = getRandomName();
-  newStarSystem.position = starSystemPosition;
+	const newStarSystem = StarSystem.DefaultStarSystem();
+	newStarSystem.name = getRandomName();
+	newStarSystem.position = starSystemPosition;
 
-  const stellarType = await this.GetRandomStellarType();
-  newStarSystem.AddStellarType(stellarType);
+	const stellarType = await this.GetRandomStellarType();
+	newStarSystem.AddStellarType(stellarType);
 
-  //TODO : should store and randomize
-  //newStarSystem.color= stellarType.color; 
+	//TODO : should store and randomize
+	//newStarSystem.color= stellarType.color; 
   
-  const planetCount = getRandomIntInclusive(1,10);
-  newStarSystem.planetesCount = planetCount ;
+	const planetCount = getRandomIntInclusive(1,10);
+	newStarSystem.planetesCount = planetCount ;
   
-  const a = MINPLANETORBIT;
-  const b = Math.pow(MAXPLANETORBIT/MINPLANETORBIT, 1/planetCount);
+	const a = MINPLANETORBIT;
+	const b = Math.pow(MAXPLANETORBIT/MINPLANETORBIT, 1/planetCount);
 
-  //TODO : generate planete later if marked noComplete ?
-  /*
+	//TODO : generate planete later if marked noComplete ?
+	/*
   for (let i = 0; i < planetCount; i++) {
     const planet = Planet.generateRandomPlanet(starSystem,i);
     let orbit = a * Math.pow(b,i);
@@ -46,23 +46,23 @@ module.exports.MAXPLANETORBIT = MAXPLANETORBIT;
   }*/
   
 
-  //x= r Cos i
-  //y= r Sin i
-  //r=sqrt(x²+y²)
-  //i = atan (y/x)
-  return newStarSystem;
-}
+	//x= r Cos i
+	//y= r Sin i
+	//r=sqrt(x²+y²)
+	//i = atan (y/x)
+	return newStarSystem;
+};
 
 function getRandomName()
 {
-  //TODO : name from same sector have the same "constellation name" then different greek alphabet, and number
-  return GREEKALPHABET[getRandomInt(0,GREEKALPHABET.length)]+" "+NAMESOURCE[getRandomInt(0,NAMESOURCE.length)]+"-"+getRandomIntInclusive(1,9);
+	//TODO : name from same sector have the same "constellation name" then different greek alphabet, and number
+	return GREEKALPHABET[getRandomInt(0,GREEKALPHABET.length)]+" "+NAMESOURCE[getRandomInt(0,NAMESOURCE.length)]+"-"+getRandomIntInclusive(1,9);
 }
 
 module.exports.GetRandomStellarType = async function ()
 {
-  const count = await StellarType.count()
-  const index = getRandomIntInclusive(1,Math.max(1,count-1));
-  return await StellarType.findByPk(index);
-}
+	const count = await StellarType.count();
+	const index = getRandomIntInclusive(1,Math.max(1,count-1));
+	return await StellarType.findByPk(index);
+};
 

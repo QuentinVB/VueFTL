@@ -1,12 +1,12 @@
-'use strict';
-const uuid = require('uuid');
+"use strict";
+const uuid = require("uuid");
 const { getRandomInt } = require("../helpers/Random");
 const {Planet,PlanetType,StarSystem} = require("../models");
-const { ALPHABET } = require('../helpers/Naming')
+const { ALPHABET } = require("../helpers/Naming");
 
 module.exports.GenerateRandomPlanet = function () {
-  return GeneratePlanet({ planetesCount: 1 }, 1);
-}
+	return this.GeneratePlanet({ planetesCount: 1 }, 1);
+};
 
 /**
  * 
@@ -15,14 +15,14 @@ module.exports.GenerateRandomPlanet = function () {
  * @returns 
  */
 module.exports.GenerateRandomPlanetAt = async function (starSystem, position) {
-    const planetTypes = await PlanetType.findAll();
+	const planetTypes = await PlanetType.findAll();
 
-    const a = planetTypes.length / starSystem.planetesCount;
-    const idx = Math.floor(a * position) + getRandomInt(1);
-    const planetType = planetTypes[idx];
+	const a = planetTypes.length / starSystem.planetesCount;
+	const idx = Math.floor(a * position) + getRandomInt(1);
+	const planetType = planetTypes[idx];
 
-    return GeneratePlanet(starSystem, position, planetType);
-}
+	return this.GeneratePlanet(starSystem, position, planetType);
+};
 
 /**
  * 
@@ -32,26 +32,26 @@ module.exports.GenerateRandomPlanetAt = async function (starSystem, position) {
  * @returns 
  */
 module.exports.GeneratePlanet = function (starSystem, position, planetType) {
-  //TODO check star system integrity
-  const name = `${starSystem.name}-${ALPHABET[position - 1]}`;
-  const radius = planetType.baseRadius + (planetType.baseRadius + Math.random() * 0.05);
-  const minerals = Math.round(Math.random() * 100);
+	//TODO check star system integrity
+	const name = `${starSystem.name}-${ALPHABET[position - 1]}`;
+	const radius = planetType.baseRadius + (planetType.baseRadius + Math.random() * 0.05);
+	const minerals = Math.round(Math.random() * 100);
 
-  const planet = Planet.build(
-    {
-      uuid: uuid.v4(),
-      name: name,
-      color: planetType.baseColor,//TODO: should randomize using Color package
-      orbit: position,
-      radius: radius,
-      minerals: minerals,
-    });
-    planet.PlanetTypeId = planetType.id;
-    planet.StarSystemId = starSystem.id;
-  //await planet.setPlanetType(planetType);
-  //await planet.setStarSystem(starSystem);
-  //TODO :set star system
+	const planet = Planet.build(
+		{
+			uuid: uuid.v4(),
+			name: name,
+			color: planetType.baseColor,//TODO: should randomize using Color package
+			orbit: position,
+			radius: radius,
+			minerals: minerals,
+		});
+	planet.PlanetTypeId = planetType.id;
+	planet.StarSystemId = starSystem.id;
+	//await planet.setPlanetType(planetType);
+	//await planet.setStarSystem(starSystem);
+	//TODO :set star system
 
-  return planet;
-}
+	return planet;
+};
 

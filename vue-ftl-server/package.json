@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html mocha ./test/*"
+    "test": "cross-env NODE_ENV=test nyc --reporter=html mocha ./test/*",
+    "seed": "npx sequelize-cli db:seed:all --seeders-path ../Database/seeders/test",
+    "lint": "npx eslint --fix ."
   },
   "type": "commonjs",
   "author": "Quentin vanbutsele",
@@ -13,6 +15,7 @@
   "devDependencies": {
     "chai": "^4.3.6",
     "cross-env": "^7.0.3",
+    "eslint": "^8.15.0",
     "mocha": "^8.4.0",
     "nodemon": "^2.0.15",
     "nyc": "^15.1.0",
