@@ -21,6 +21,7 @@
            "alexcvzz.vscode-sqlite",
            "octref.vetur",
 		   "esbenp.prettier-vscode",
+		   "dbaeumer.vscode-eslint"
         ],
     },
     "settings": {
