@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     Ezo ? DarkMatter ? Anti-matter ?
     */
 		static associate(models) {
-			Cargo.hasOne(models["Ship"]);
+			Cargo.belongsTo(models["Ship"]);
 		}
 
 		/**

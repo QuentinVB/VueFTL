@@ -1,5 +1,3 @@
-/*global describe, beforeEach, afterEach, before, it*/
-/*eslint no-undef: "error"*/
 
 const { expect } = require("chai");
 const uuid = require("uuid");

@@ -55,12 +55,7 @@ module.exports = (sequelize, DataTypes) => {
 			};
 		}
 
-		getPlanet(planetuuid) {
-			for (const planet of this.planets) {
-				if (planet.uuid == planetuuid) return planet;
-			}
-			return undefined;
-		}
+		
 
 	}
 	StarSystem.init({

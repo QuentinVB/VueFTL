@@ -12,6 +12,10 @@
 			"name": "Database",
 			"path": "./vue-ftl-database"
 		},
+		{
+			"name": "Dev",
+			"path": "./dev"
+		},
 	],
     "extensions": {
        "recommendations": [

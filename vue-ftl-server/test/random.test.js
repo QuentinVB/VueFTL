@@ -1,5 +1,3 @@
-/*global describe, beforeEach, afterEach, it*/
-/*eslint no-undef: "error"*/
 
 const { expect } = require("chai");
 const Random = require("../helpers/Random.js");

@@ -1,7 +1,6 @@
 //'use strict';
 const { Cargo } = require("../models");
 const { Model } = require("sequelize");
-const uuid = require("uuid");
 
 module.exports = (sequelize, DataTypes) => {
 	class Ship extends Model {
@@ -14,34 +13,12 @@ module.exports = (sequelize, DataTypes) => {
 			Ship.belongsTo(models["User"]);
 			Ship.hasMany(models["Cargo"]);
 		}
-
-		static EmptyShip() {
-			const ship = Ship.build({
-				name: "Von Braun",
-				uuid: uuid.v4()
-			});
-			/*this.position = {x:0,y:0} ;
-      this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
-
-      this.fuel = Ship.FUELMAX;
-      this.fuelEfficiency = 0.2;//20%
-
-      this.hull = Ship.HULLMAX;
-      this.hullFactor = 0.9;
-
-      this.cargoBay=[];
-    */
-			//ship.loadCargo(new Cargo("Iron",25));
-			return ship;
-		}
-
-
 		//Cargo manangement
 		/**
-     * Try to load cargo into the cargo bay of the ship
-     * @param {Cargo} cargo cargo to load 
-     * @return {boolean} true if the loading succeded, else false
-     */
+		 * Try to load cargo into the cargo bay of the ship
+		 * @param {Cargo} cargo cargo to load 
+		 * @return {boolean} true if the loading succeded, else false
+		 */
 		loadCargo(cargo) {
 			const cargoNotFull = this.cargoBay.find(c => c.content === cargo.content && c.quantity < Cargo.MAXCARGOCAPACITY);
 			//TODO : case if maximum capacity is reached , it return false
@@ -63,11 +40,11 @@ module.exports = (sequelize, DataTypes) => {
 			return true;
 		}
 		/**
-     * Unload a cargo of the specified type and quantity
-     * @param {String} type the requested type of cargo
-     * @param {Number} quantityrequested the requested quantity of cargo
-     * @returns {(Cargo|Boolean)} the cargo unloaded or false
-     */
+	 * Unload a cargo of the specified type and quantity
+	 * @param {String} type the requested type of cargo
+	 * @param {Number} quantityrequested the requested quantity of cargo
+	 * @returns {(Cargo|Boolean)} the cargo unloaded or false
+	 */
 		unloadCargo(type, quantityrequested) {
 			if (quantityrequested > Cargo.MAXCARGOCAPACITY) throw "cant request a cargo with this quantity";
 			let { cargosWithRequiredContent, quantitySum } = this.getCargoOf(type);
@@ -115,11 +92,11 @@ module.exports = (sequelize, DataTypes) => {
 		//FUEL MANAGEMENT
 		/**
 		 * Consume the fuel of the ship, according the the fuel consumption and efficiency
-		 * @returns {Number|boolean} the consumed fuel, else false
+		 * @returns {Number} the consumed fuel, else 0
 		 */
 		consumeFuel() {
 			//TODO : the more cargo aboard, the more the fuel consumption !
-			if (this.fuel <= 0) return false;
+			if (this.fuel <= 0) return 0;
 			let consumedFuel = Ship.FUELCONSUMPTION * (1 - this.fuelEfficiency);
 			this.fuel = (this.fuel - consumedFuel).toFixed(1);
 			return consumedFuel;
@@ -142,9 +119,9 @@ module.exports = (sequelize, DataTypes) => {
 			return realDamages;
 		}
 		/**
-     * Repair the ship with the specified amount of points
-     * @param {Number} amount amount of point to restore
-     */
+		 * Repair the ship with the specified amount of points
+		 * @param {Number} amount amount of point to restore
+		 */
 		repair(amount) {
 			if (amount <= 0) throw "cant refill an negative amount !";
 			this.hull = Math.min(this.hull + amount, Ship.HULLMAX);
@@ -153,10 +130,10 @@ module.exports = (sequelize, DataTypes) => {
 
 		//LOCATION MANAGEMENT
 		/**
-     * move the ship to the designated coordinate and consume fuel
-     * @param {{x:number,y:number}} coordinate 
-     * @return {boolean} true if the ship moved, else false
-     */
+		 * move the ship to the designated coordinate and consume fuel
+		 * @param {{x:number,y:number}} coordinate 
+		 * @return {boolean} true if the ship moved, else false
+		 */
 		moveTo(coordinate) {
 			if (!this.consumeFuel()) return false;
 			//TODO check for realistic coordinates
@@ -200,23 +177,23 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		/**
-     * Check if the ship can move
-     * @param {string=} starsystemUUID 
-     * @param {string=} planetUUID 
-     */
+	 * Check if the ship can move
+	 * @param {string=} starsystemUUID 
+	 * @param {string=} planetUUID 
+	 */
 		canMove(starsystemUUID, planetUUID) {
 			//TODO : BEWAAARG, clean up cascading condition ?
 			//TODO : damaged reactor will be here ;)
 			if (this.fuel <= 0) return false;
 			if (this.location.situation === "landed") return false;
 			/*
-      if(destination.position)
-      {
-        if(destination.x == this.position.x)
-        {
-          if(destination.y == this.position.y) return false;
-        }
-      }*/
+	  if(destination.position)
+	  {
+		if(destination.x == this.position.x)
+		{
+		  if(destination.y == this.position.y) return false;
+		}
+	  }*/
 
 			if (starsystemUUID && !planetUUID) {
 				if (starsystemUUID == this.location.starsystem) return false;

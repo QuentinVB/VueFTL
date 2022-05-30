@@ -1,6 +1,3 @@
-/*global describe, beforeEach, afterEach, before, it*/
-/*eslint no-undef: "error"*/
-
 // eslint-disable-next-line no-unused-vars
 const assert = require("assert");
 const { expect } = require("chai");

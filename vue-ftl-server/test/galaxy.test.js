@@ -1,5 +1,3 @@
-/*global describe, beforeEach, afterEach, before, after, it*/
-/*eslint no-undef: "error"*/
 
 const chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");

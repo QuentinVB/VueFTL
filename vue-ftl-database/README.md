@@ -2,6 +2,10 @@
 
 This project is only there to store the sqlite Database for developpement, sequelize testing and data schema
 
+## Sequelize trick
+
+create = build + save
+
 ## Database Schema
 
 ```mermaid
