@@ -51,6 +51,7 @@ erDiagram
     STARSYSTEM }|--|| STELLARTYPE : is
     STARSYSTEM ||--o{ ANOMALY : has
     STARSYSTEM ||--|{ PLANET : "has many"
+    STARSYSTEM ||--o{ AMENAGEMENT : has
     STARSYSTEM {
         string name
         string uuid	
@@ -64,7 +65,13 @@ erDiagram
         string name
         string color
     }
+        AMENAGEMENT {
+        string type
+        string name
+        string description
+    }
     PLANET ||--o{ ANOMALY : has
+    PLANET ||--o{ AMENAGEMENT : has
     PLANET }|--|| PLANETTYPE : is
     PLANET {
         string name
@@ -91,4 +98,5 @@ erDiagram
         string name
         string description
     }
+
 ```
