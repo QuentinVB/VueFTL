@@ -111,8 +111,13 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		//HULL MANAGEMENT
+		/**
+		 * inflict damages to the ship
+		 * @param {Number} damages 
+		 * @returns 
+		 */
 		takeDamage(damages) {
-			if (damages <= 0) throw "cant refill an negative or null amount !";
+			if (damages <= 0) throw "cant make negative or null damage amount !";
 			const realDamages = Math.floor(damages * this.hullFactor);
 			this.hull -= (realDamages).toFixed(1);
 			//TODO : if hull <0 : ship is destroyed, gameover !!!
@@ -123,8 +128,9 @@ module.exports = (sequelize, DataTypes) => {
 		 * @param {Number} amount amount of point to restore
 		 */
 		repair(amount) {
-			if (amount <= 0) throw "cant refill an negative amount !";
+			if (amount <= 0) throw "cant repair a negative amount !";
 			this.hull = Math.min(this.hull + amount, Ship.HULLMAX);
+			return this.hull;
 		}
 
 

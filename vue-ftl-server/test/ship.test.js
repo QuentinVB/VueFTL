@@ -9,13 +9,13 @@ describe("Ship tests", () => {
 		await User.sync();
 		await Ship.sync();
 	});
-	/*
+	
 	after(async()=>{
 		await User.drop();
 		await Cargo.drop();
 		await Ship.drop();
 	});
-	*/
+	
 	describe("Empty Ship Tests", () => {
 		//arrange
 		let defaultShip;
@@ -91,41 +91,48 @@ describe("Ship tests", () => {
 		});
 	});
 	describe("Ship Hull Tests", () => {
+		//arrange
+		let defaultShip;
+		beforeEach(async () => {
+			defaultShip = ShipFactory.GetDefaultShip();
+		});
+
+		afterEach(async () => {
+			defaultShip = null;
+		});
+
 		it("should return the real damages taken", () => {
 			//arrange
-			const sut = Ship.EmptyShip();
 			const damageDealt = 10;
-			const realDamages = Math.floor(damageDealt*sut.hullFactor);
+			const realDamages = Math.floor(damageDealt*defaultShip.hullFactor);
 			//act
 			//assert
-			expect(sut.takeDamage(damageDealt)).to.equal(realDamages);
+			expect(defaultShip.takeDamage(damageDealt)).to.equal(realDamages);
 		});
 		it("should throw because cant dealt negative damages", () => {
 			//arrange
-			const sut = Ship.EmptyShip();
 			const damageDealt = -10;
 			//act assert
-			expect(function(){sut.takeDamage(damageDealt);}).to.throw();
+			expect(function(){defaultShip.takeDamage(damageDealt);}).to.throw();
 		});
-		it("should return the current hull points", () => {
+		it("should return the current hull points when repaired", () => {
 			//arrange
-			const sut = Ship.EmptyShip();
-			const initialHull  =10;
-			sut.hull = initialHull;
+			const initialHull =10;
 			const hullrepared = 20;
+			defaultShip.hull = initialHull;
 			//act
 			//assert
-			expect(sut.repair(hullrepared)).to.equal(hullrepared+initialHull);
+			expect(defaultShip.repair(hullrepared)).to.equal(hullrepared+initialHull);
+			expect(defaultShip.hull).to.equal(hullrepared+initialHull);
 		});
-		it("should be max hull points", () => {
+		it("should be max hull points when repaired more than the max hull", () => {
 			//arrange
-			const sut = Ship.EmptyShip();
 			const hullfixed=Ship.HULLMAX*2;
-			sut.fuel = 0;
+			defaultShip.hull = 0;
 			//act
-			sut.repair(hullfixed);
+			defaultShip.repair(hullfixed);
 			//assert
-			expect(sut.hull).to.equal(Ship.HULLMAX);
+			expect(defaultShip.hull).to.equal(Ship.HULLMAX);
 		});
 	});
 	describe("Ship Can Move Tests", () => {

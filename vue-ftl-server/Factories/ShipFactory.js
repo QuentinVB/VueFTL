@@ -21,8 +21,9 @@ module.exports.GetDefaultShip = function () {
 
 
 /**
- * 
- * @param {String} name 
+ * Generate a Ship 
+ * /!\ not persisted, you must save it !
+ * @param {String} name the name of the ship
  * @returns {Ship}
  */
 module.exports.GenerateShip = function (name) {
