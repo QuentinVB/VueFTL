@@ -10,26 +10,25 @@ module.exports = (sequelize, DataTypes) => {
 		static MAXCARGOCAPACITY = 25;
 		static CARGOTYPES = ["Hydrogen", "Helium", "Iron", "Silicon", "Thorium", "Hafnium", "Platinum", "Tungsten", "Carbon", "Oxygen", "Cobalt", "Copper", "Gold"];
 		/*
-    Ezo ? DarkMatter ? Anti-matter ?
-    */
+	Ezo ? DarkMatter ? Anti-matter ?
+	*/
 		static associate(models) {
 			Cargo.belongsTo(models["Ship"]);
 		}
 
 		/**
-     * 
-     * @param {Number} value 
-     * @returns 
-     */
+		 * 
+		 * @param {Number} value 
+		 * @returns 
+		 */
 		fill(value) {
-			if (value<=0) throw new Error("can't fill with a negative value");
+			if (value <= 0) throw new Error("can't fill with a negative value");
 			let _quantity = this.getDataValue("quantity");
 			const valueF = parseFloat(value);
 
 			const sum = _quantity + valueF;
-      
-			if(sum>=Cargo.MAXCARGOCAPACITY)
-			{
+
+			if (sum >= Cargo.MAXCARGOCAPACITY) {
 				this.setDataValue("quantity", Cargo.MAXCARGOCAPACITY);
 				//TODO : protect against floating point decimals
 				return sum - Cargo.MAXCARGOCAPACITY;
@@ -39,33 +38,32 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		/**
-     * 
-     * @param {Number} value 
-     * @returns 
-     */
+		 * 
+		 * @param {Number} value 
+		 * @returns 
+		 */
 		tryDrain(value) {
-			if (value<=0) throw new Error("can't drain with a negative value");
+			if (value <= 0) throw new Error("can't drain with a negative value");
 			let _quantity = this.getDataValue("quantity");
 			const valueF = parseFloat(value);
 
 			const diff = _quantity - valueF;
-      
-			if(diff >= 0)
-			{
+
+			if (diff >= 0) {
 				this.setDataValue("quantity", diff);
 				return 0;
 			}
-  
+
 			this.setDataValue("quantity", 0);
 			//TODO : protect against floating point decimals
 			return diff;
 		}
 
 		/**
-     * Generate a random cargo container instance
-     * @static
-     * @returns {Cargo} a cargo object
-     */
+		 * Generate a random cargo container instance
+		 * @static
+		 * @returns {Cargo} a cargo object
+		 */
 		static GetRandomCargo() {
 			//TODO : should call the factory
 			const cargo = Cargo.build({
@@ -77,10 +75,10 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		/**
-     * Generate an empty cargo container instance
-     * @static
-     * @returns {Cargo} a cargo object
-     */
+		 * Generate an empty cargo container instance
+		 * @static
+		 * @returns {Cargo} a cargo object
+		 */
 		static DefaultCargo() {
 			const cargo = Cargo.build({
 				content: "Vaccum",

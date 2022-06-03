@@ -7,20 +7,29 @@ module.exports = (sequelize, DataTypes) => {
 		static HULLMAX = 100;
 		static FUELMAX = 100;
 		static FUELCONSUMPTION = 5;
+		static BASEFUELEFFICIENCY = 0.2;
+		static BASEHULLFACTOR = 0.9;
 
 		static associate(models) {
 			// define association here
 			Ship.belongsTo(models["User"]);
 			Ship.hasMany(models["Cargo"]);
 		}
+
 		//Cargo manangement
 		/**
 		 * Try to load cargo into the cargo bay of the ship
 		 * @param {Cargo} cargo cargo to load 
 		 * @return {boolean} true if the loading succeded, else false
 		 */
-		loadCargo(cargo) {
-			const cargoNotFull = this.cargoBay.find(c => c.content === cargo.content && c.quantity < Cargo.MAXCARGOCAPACITY);
+		async loadCargo(cargo) {
+			if(!this.Cargos)
+			{
+				//load cargos localy
+				this.Cargos = await Cargo.findAll({where:{ShipId:this.id}}) ?? [];
+			}
+			const cargoNotFull = this.Cargos.find(c => c.content === cargo.content && c.quantity < Cargo.MAXCARGOCAPACITY);
+
 			//TODO : case if maximum capacity is reached , it return false
 			if (cargoNotFull) {
 				const remainingStorage = Cargo.MAXCARGOCAPACITY - cargoNotFull.quantity;
@@ -40,11 +49,11 @@ module.exports = (sequelize, DataTypes) => {
 			return true;
 		}
 		/**
-	 * Unload a cargo of the specified type and quantity
-	 * @param {String} type the requested type of cargo
-	 * @param {Number} quantityrequested the requested quantity of cargo
-	 * @returns {(Cargo|Boolean)} the cargo unloaded or false
-	 */
+		 * Unload a cargo of the specified type and quantity
+		 * @param {String} type the requested type of cargo
+		 * @param {Number} quantityrequested the requested quantity of cargo
+		 * @returns {(Cargo|Boolean)} the cargo unloaded or false
+		 */
 		unloadCargo(type, quantityrequested) {
 			if (quantityrequested > Cargo.MAXCARGOCAPACITY) throw "cant request a cargo with this quantity";
 			let { cargosWithRequiredContent, quantitySum } = this.getCargoOf(type);
@@ -183,10 +192,10 @@ module.exports = (sequelize, DataTypes) => {
 		}
 
 		/**
-	 * Check if the ship can move
-	 * @param {string=} starsystemUUID 
-	 * @param {string=} planetUUID 
-	 */
+		 * Check if the ship can move
+		 * @param {string=} starsystemUUID 
+		 * @param {string=} planetUUID 
+		 */
 		canMove(starsystemUUID, planetUUID) {
 			//TODO : BEWAAARG, clean up cascading condition ?
 			//TODO : damaged reactor will be here ;)
@@ -236,10 +245,10 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			name: { type: DataTypes.STRING },
 			uuid: { type: DataTypes.STRING, allowNull: false }, //uuid
-			fuel: { type: DataTypes.FLOAT, defaultValue: this.FUELMAX },
-			fuelEfficiency: { type: DataTypes.FLOAT, defaultValue: 0.2 },//TODO should be const
-			hull: { type: DataTypes.FLOAT, defaultValue: this.HULLMAX },
-			hullFactor: { type: DataTypes.FLOAT, defaultValue: 0.9 },//TODO should be const
+			fuel: { type: DataTypes.FLOAT, defaultValue: Ship.FUELMAX },
+			fuelEfficiency: { type: DataTypes.FLOAT, defaultValue: Ship.BASEFUELEFFICIENCY },//TODO should be const
+			hull: { type: DataTypes.FLOAT, defaultValue: Ship.HULLMAX },
+			hullFactor: { type: DataTypes.FLOAT, defaultValue: Ship.BASEHULLFACTOR},//TODO should be const
 		},
 		{
 			sequelize

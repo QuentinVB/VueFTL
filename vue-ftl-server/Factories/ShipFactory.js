@@ -33,8 +33,8 @@ module.exports.GenerateShip = function (name) {
 		uuid: uuid.v4(),
 		fuel: Ship.FUELMAX,
 		hull: Ship.HULLMAX,
-		fuelEfficiency:0.2,//20%
-		hullFactor: 0.9
+		fuelEfficiency:Ship.BASEFUELEFFICIENCY,//20%
+		hullFactor: Ship.BASEHULLFACTOR
 	});
 		/*this.position = {x:0,y:0} ;
   this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
