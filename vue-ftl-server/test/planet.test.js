@@ -38,7 +38,7 @@ describe("Planet tests", () => {
 			expect(defaultPlanet.PlanetTypeId).to.equal(fakePlanetType.id);
 			expect(defaultPlanet.StarSystemId).to.equal(fakeStarSystem.id);
 			expect(defaultPlanet.minerals).to.above(0);
-			expect(defaultPlanet.minerals).to.below(100);
+			expect(defaultPlanet.minerals).to.lessThanOrEqual(100);
 		});
 	});
 	describe("Mine planet test", () => {

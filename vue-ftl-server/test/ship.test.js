@@ -1,6 +1,7 @@
 const { expect } = require("chai");
 const uuid = require("uuid");
 const ShipFactory = require("../Factories/ShipFactory.js");
+const ShipService  = require("../services/shipService.js");
 const {Ship, User, Cargo} = require("../models");
 
 describe("Ship tests", () => {
@@ -140,35 +141,64 @@ describe("Ship tests", () => {
 		//arrange
 		let defaultShip;
 		let simpleCargo;
+		let secondaryCargo;
+		let thirdCargo;
 		beforeEach(async () => {
 			defaultShip = ShipFactory.GetDefaultShip();
-			defaultShip.id= 1;
-			await defaultShip.save();
+			defaultShip = await defaultShip.save();
 			simpleCargo = await Cargo.create({
-				id: 1,
 				uuid: uuid.v4(),
 				content: "Hydrogen",
 				quantity: 20,
-				createdAt: new Date(),
-				updatedAt: new Date(),
+			});
+			secondaryCargo = await Cargo.create({
+				uuid: uuid.v4(),
+				content: "Hydrogen",
+				quantity: 25,
+			});
+			thirdCargo = await Cargo.create({
+				uuid: uuid.v4(),
+				content: "Hydrogen",
+				quantity: 15,
 			});
 		});
 
 		afterEach(async () => {
-			defaultShip = null;
-			simpleCargo = null;
+			await Cargo.destroy({
+				truncate: true
+			});
+			await Ship.destroy({
+				truncate: true
+			});
 		});
 
-		it("should load a cargo", async() => {
+		it("should load a basic cargo", async() => {
 			//arrange
-			
 			//act
-			const toto = await Cargo.findAll({where:{ShipId:defaultShip.id}});
-			//await defaultShip.loadCargo(simpleCargo);
+			await ShipService.LoadCargo(defaultShip, simpleCargo);
 			//assert
-			const shipFromDB = await Ship.findOne({ where: { id: 1 }, include: Cargo  });
-			
+			const shipFromDB = await Ship.findOne({ where: { id: defaultShip.id }, include: Cargo  });
 			expect(shipFromDB.Cargos.length).to.equal(1);
+
+			const cargoFromDB = shipFromDB.Cargos[0];
+			expect(cargoFromDB.uuid).to.be.not.null;
+			expect(cargoFromDB.content).to.equal("Hydrogen");
+			expect(cargoFromDB.quantity).to.equal(20);
+		});
+		it("should load cargo with excedent", async() => {
+			//arrange
+			await ShipService.LoadCargo(defaultShip, simpleCargo);
+			await ShipService.LoadCargo(defaultShip, secondaryCargo);
+
+			//act
+			await ShipService.LoadCargo(defaultShip, thirdCargo);
+
+			//assert
+			const shipFromDB = await Ship.findOne({ where: { id: defaultShip.id }, include: Cargo  });
+			expect(shipFromDB.Cargos.length).to.equal(3);
+
+			const arrayOfQuantity = shipFromDB.Cargos.map(v=>v.quantity);
+			expect(arrayOfQuantity).to.have.members([25, 25, 10]);
 		});
 	});
 	//TODO : user link test

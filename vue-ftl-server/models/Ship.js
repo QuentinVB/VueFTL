@@ -15,69 +15,8 @@ module.exports = (sequelize, DataTypes) => {
 			Ship.belongsTo(models["User"]);
 			Ship.hasMany(models["Cargo"]);
 		}
-
-		//Cargo manangement
-		/**
-		 * Try to load cargo into the cargo bay of the ship
-		 * @param {Cargo} cargo cargo to load 
-		 * @return {boolean} true if the loading succeded, else false
-		 */
-		async loadCargo(cargo) {
-			if(!this.Cargos)
-			{
-				//load cargos localy
-				this.Cargos = await Cargo.findAll({where:{ShipId:this.id}}) ?? [];
-			}
-			const cargoNotFull = this.Cargos.find(c => c.content === cargo.content && c.quantity < Cargo.MAXCARGOCAPACITY);
-
-			//TODO : case if maximum capacity is reached , it return false
-			if (cargoNotFull) {
-				const remainingStorage = Cargo.MAXCARGOCAPACITY - cargoNotFull.quantity;
-				if (remainingStorage >= cargo.quantity) {
-					cargoNotFull.quantity += cargo.quantity;
-				}
-				else {
-					cargo.quantity = cargo.quantity - remainingStorage;
-					cargoNotFull.quantity = cargoNotFull.quantity + remainingStorage;
-					this.cargoBay.push(cargo);
-				}
-
-			}
-			else {
-				this.cargoBay.push(cargo);
-			}
-			return true;
-		}
-		/**
-		 * Unload a cargo of the specified type and quantity
-		 * @param {String} type the requested type of cargo
-		 * @param {Number} quantityrequested the requested quantity of cargo
-		 * @returns {(Cargo|Boolean)} the cargo unloaded or false
-		 */
-		unloadCargo(type, quantityrequested) {
-			if (quantityrequested > Cargo.MAXCARGOCAPACITY) throw "cant request a cargo with this quantity";
-			let { cargosWithRequiredContent, quantitySum } = this.getCargoOf(type);
-
-			if (quantityrequested > quantitySum || cargosWithRequiredContent.length === 0) return false;
-
-			cargosWithRequiredContent.sort((a, b) => a.quantity - b.quantity);
-
-			let quantityToSubstract = 0;
-			for (let i = cargosWithRequiredContent.length - 1; i >= 0; i--) {
-				const cargo = cargosWithRequiredContent[i];
-				if (cargo.quantity - quantityrequested > 0) {
-					cargo.quantity -= quantityrequested;
-					break;
-				}
-				else {
-					quantityToSubstract = quantityrequested - cargo.quantity;
-					cargosWithRequiredContent.pop();
-				}
-			}
-
-			return new Cargo(type, quantityrequested);
-		}
-
+		
+	
 		/**
 		 * Get all the cargo of requested type
 		 * @param {String} type the requested type of cargo

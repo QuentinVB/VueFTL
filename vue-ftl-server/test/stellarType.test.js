@@ -88,6 +88,7 @@ describe("StellarType tests", function() {
 			//act
 			const stellarCount = await StellarType.count();
 			const stellarType = await StarSystemFactory.GetRandomStellarType();
+			//TODO : inconsistent, return null sometime
 
 			//assert
 			expect(stellarCount).to.be.equal(3);

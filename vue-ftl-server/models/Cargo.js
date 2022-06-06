@@ -102,10 +102,9 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: 0,
 			//TODO : define Getter and setter
 			set(value) {
-				let _quantity = this.getDataValue("quantity");
 				const valueF = parseFloat(value);
-				if (_quantity + valueF > Cargo.MAXCARGOCAPACITY) throw new Error("can't set over maximum quantity");
-				if (_quantity + valueF < 0) throw new Error("can't set to a negative quantity");
+				if (valueF > Cargo.MAXCARGOCAPACITY) throw new Error("can't set over maximum quantity");
+				if (valueF < 0) throw new Error("can't set to a negative quantity");
 				this.setDataValue("quantity", valueF <= 0 ? 0 : valueF);
 			}
 		},
