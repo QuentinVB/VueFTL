@@ -9,23 +9,28 @@ const {Ship, User, Cargo} = require("../models");
  * @return {boolean} true if the loading succeded, else false
  */
 module.exports.LoadCargo = async function (targetShip,cargoToLoad) {
-	//load cargos localy
 	const cargos = await Cargo.findAll({where:{ShipId:targetShip.id}}) ?? [];
-	const cargoNotFull = cargos.find(c => c.content === cargoToLoad.content && c.quantity < Cargo.MAXCARGOCAPACITY);
+	let cargoToLoadQuantity = cargoToLoad.quantity;
 
 	//TODO : case if maximum capacity is reached , it return false
-	if (cargoNotFull) {
-		const remainingStorage = Cargo.MAXCARGOCAPACITY - cargoNotFull.quantity;
-		if (remainingStorage >= cargoToLoad.quantity) {
-			cargoNotFull.quantity += cargoToLoad.quantity;
-		}
-		else {
-			cargoToLoad.quantity = cargoToLoad.quantity - remainingStorage;
-			cargoNotFull.quantity = cargoNotFull.quantity + remainingStorage;
-			await targetShip.addCargo(cargoToLoad);
+	if (cargos) {
+		for (const cargo of cargos) {
+			// if free space, store in and substract the cargoToLoad, save next
+			const remainingStorage = Cargo.MAXCARGOCAPACITY - cargo.quantity;
+			const delta = cargoToLoadQuantity - remainingStorage;
+			
+			if(remainingStorage > 0 )
+			{
+				cargo.quantity += remainingStorage;
+				cargoToLoadQuantity = delta;
+				await cargo.save();		
+			}
 		}
 	}
-	else {
+	if(cargoToLoadQuantity > 0)
+	{
+		cargoToLoad.quantity = cargoToLoadQuantity;
+		await cargoToLoad.save();
 		await targetShip.addCargo(cargoToLoad);
 	}
 	return true;
@@ -39,6 +44,7 @@ module.exports.LoadCargo = async function (targetShip,cargoToLoad) {
  */
 module.exports.unloadCargo =  async function(ship, type, quantityRequested) {
 	if (quantityRequested > Cargo.MAXCARGOCAPACITY) throw "cant request a cargo with this quantity";
+	//type should by a valid type ?
 	let { cargosWithRequiredContent, quantitySum } = this.getCargoOf(type);
 
 	if (quantityRequested > quantitySum || cargosWithRequiredContent.length === 0) return false;

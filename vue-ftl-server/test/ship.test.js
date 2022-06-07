@@ -136,8 +136,8 @@ describe("Ship tests", () => {
 			expect(defaultShip.hull).to.equal(Ship.HULLMAX);
 		});
 	});
-	describe("Cargo loading Tests", function() {
-		this.timeout(250000);
+	describe("Cargo loading/unloading Tests", function() {
+		//this.timeout(250000);
 		//arrange
 		let defaultShip;
 		let simpleCargo;
@@ -149,12 +149,12 @@ describe("Ship tests", () => {
 			simpleCargo = await Cargo.create({
 				uuid: uuid.v4(),
 				content: "Hydrogen",
-				quantity: 20,
+				quantity: 25,
 			});
 			secondaryCargo = await Cargo.create({
 				uuid: uuid.v4(),
 				content: "Hydrogen",
-				quantity: 25,
+				quantity: 20,
 			});
 			thirdCargo = await Cargo.create({
 				uuid: uuid.v4(),
@@ -183,7 +183,7 @@ describe("Ship tests", () => {
 			const cargoFromDB = shipFromDB.Cargos[0];
 			expect(cargoFromDB.uuid).to.be.not.null;
 			expect(cargoFromDB.content).to.equal("Hydrogen");
-			expect(cargoFromDB.quantity).to.equal(20);
+			expect(cargoFromDB.quantity).to.equal(25);
 		});
 		it("should load cargo with excedent", async() => {
 			//arrange
