@@ -43,8 +43,30 @@ module.exports.LoadCargo = async function (targetShip,cargoToLoad) {
  * @returns {(Cargo|Boolean)} the cargo unloaded or false
  */
 module.exports.unloadCargo =  async function(ship, type, quantityRequested) {
-	if (quantityRequested > Cargo.MAXCARGOCAPACITY) throw "cant request a cargo with this quantity";
+	//if (quantityRequested > Cargo.MAXCARGOCAPACITY) throw "cant request a cargo with this quantity";
 	//type should by a valid type ?
+	let availableCargo = await Cargo.findAll({
+		where: {ShipId : ship.id, content: type},
+		order: [["quantity", "ASC"]]}
+	);
+
+	if(!availableCargo) return false; //or null ?
+
+	const sum = availableCargo.reduce((p,c)=>p + c.quantity);
+
+	if(sum < quantityRequested) return false;
+
+	let quantityCollected = 0;
+	let idx = 0;
+	do {
+		
+
+		idx ++;
+	} while (quantityCollected < quantityRequested && idx < availableCargo.length);
+
+	//availableCargo.sort((a,b)=>a.quantity-b.quantity);
+
+
 	let { cargosWithRequiredContent, quantitySum } = this.getCargoOf(type);
 
 	if (quantityRequested > quantitySum || cargosWithRequiredContent.length === 0) return false;
