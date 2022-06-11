@@ -5,7 +5,7 @@ const {Ship, User, Cargo} = require("../models");
 /**
  * Try to load cargo into the cargo bay of the ship
  * @param {Ship} targetShip ship that will recieve the cargo
- * @param {Cargo} cargo cargo to load 
+ * @param {Cargo} cargoToLoad cargo to load 
  * @return {boolean} true if the loading succeded, else false
  */
 module.exports.LoadCargo = async function (targetShip,cargoToLoad) {
@@ -37,56 +37,62 @@ module.exports.LoadCargo = async function (targetShip,cargoToLoad) {
 };
 
 /**
- * Unload a cargo of the specified type and quantity
- * @param {String} type the requested type of cargo
- * @param {Number} quantityrequested the requested quantity of cargo
- * @returns {(Cargo|Boolean)} the cargo unloaded or false
+ * Get the quantity of the specified type from the given ship
+ * @param {Ship} targetShip ship that will be checked
+ * @param {String} requestedType the requested type of cargo
+ * @returns {(Number)} the quantity available
  */
-module.exports.unloadCargo =  async function(ship, type, quantityRequested) {
-	//if (quantityRequested > Cargo.MAXCARGOCAPACITY) throw "cant request a cargo with this quantity";
-	//type should by a valid type ?
+module.exports.getQuantity =  async function(targetShip, requestedType) {
 	let availableCargo = await Cargo.findAll({
-		where: {ShipId : ship.id, content: type},
+		where: {ShipId : targetShip.id, content: requestedType},
 		order: [["quantity", "ASC"]]}
 	);
 
+	if(!availableCargo) return 0; //or null ?
+
+	return availableCargo.reduce((p,c)=>p + c.quantity,0);
+};
+
+/**
+ * Unload a cargo of the specified type and quantity
+ * @param {Ship} targetShip ship that will recieve the cargo
+ * @param {String} type the requested type of cargo
+ * @param {Number} quantityRequested the requested quantity of cargo
+ * @returns {(Number|Boolean)} the quantity unloaded or false
+ */
+module.exports.unloadCargo =  async function(targetShip, type, quantityRequested) {
+	if (quantityRequested <=0) throw "cant request a cargo with negative quantity";
+	//type should by a valid type ?
+	let availableCargo = await Cargo.findAll({
+		where: {ShipId : targetShip.id, content: type},
+		order: [["quantity", "ASC"]]}
+	);
+	const initialQuantityRequested = quantityRequested;
 	if(!availableCargo) return false; //or null ?
 
-	const sum = availableCargo.reduce((p,c)=>p + c.quantity);
+	const sum = availableCargo.reduce((p,c)=>p + c.quantity,0);
 
 	if(sum < quantityRequested) return false;
 
 	let quantityCollected = 0;
 	let idx = 0;
 	do {
-		
-
-		idx ++;
-	} while (quantityCollected < quantityRequested && idx < availableCargo.length);
-
-	//availableCargo.sort((a,b)=>a.quantity-b.quantity);
-
-
-	let { cargosWithRequiredContent, quantitySum } = this.getCargoOf(type);
-
-	if (quantityRequested > quantitySum || cargosWithRequiredContent.length === 0) return false;
-
-	cargosWithRequiredContent.sort((a, b) => a.quantity - b.quantity);
-
-	let quantityToSubstract = 0;
-	for (let i = cargosWithRequiredContent.length - 1; i >= 0; i--) {
-		const cargo = cargosWithRequiredContent[i];
-		if (cargo.quantity - quantityRequested > 0) {
-			cargo.quantity -= quantityRequested;
+		const checkedCargo = availableCargo[idx];
+		if (checkedCargo.quantity - quantityRequested > 0) {
+			quantityCollected += quantityRequested;
+			await checkedCargo.increment({quantity: -quantityRequested});
 			break;
 		}
 		else {
-			quantityToSubstract = quantityRequested - cargo.quantity;
-			cargosWithRequiredContent.pop();
+			quantityCollected += checkedCargo.quantity;
+			quantityRequested -=  checkedCargo.quantity;
+			await checkedCargo.destroy();
 		}
-	}
 
-	return new Cargo(type, quantityRequested);
+		idx ++;
+	} while (quantityCollected < initialQuantityRequested && idx < availableCargo.length);
+
+	return quantityCollected;
 };
 
-//Location will be managed hier
+//Location will be managed here

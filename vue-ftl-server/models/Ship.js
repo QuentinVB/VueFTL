@@ -15,27 +15,6 @@ module.exports = (sequelize, DataTypes) => {
 			Ship.belongsTo(models["User"]);
 			Ship.hasMany(models["Cargo"]);
 		}
-		
-	
-		/**
-		 * Get all the cargo of requested type
-		 * @param {String} type the requested type of cargo
-		 * @returns {{cargosWithRequiredContent:Cargo[],quantitySum:Number}} an object with an array of requested cargo and summed quantity
-		 */
-		getCargoOf(type) {
-
-			let cargosWithRequiredContent = [];
-			let quantitySum = 0;
-
-			for (const cargo of this.cargoBay) {
-				if (cargo.content === type) {
-					cargosWithRequiredContent.push(cargo);
-					quantitySum += cargo.quantity;
-				}
-			}
-
-			return { cargosWithRequiredContent, quantitySum };
-		}
 
 		//FUEL MANAGEMENT
 		/**
@@ -80,7 +59,6 @@ module.exports = (sequelize, DataTypes) => {
 			this.hull = Math.min(this.hull + amount, Ship.HULLMAX);
 			return this.hull;
 		}
-
 
 		//LOCATION MANAGEMENT
 		/**

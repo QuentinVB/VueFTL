@@ -136,8 +136,8 @@ describe("Ship tests", () => {
 			expect(defaultShip.hull).to.equal(Ship.HULLMAX);
 		});
 	});
-	describe("Cargo loading/unloading Tests", function() {
-		//this.timeout(250000);
+	describe("Cargo management Tests", function() {
+		this.timeout(250000);
 		//arrange
 		let defaultShip;
 		let simpleCargo;
@@ -171,7 +171,18 @@ describe("Ship tests", () => {
 				truncate: true
 			});
 		});
+		it("should get available cargo", async() => {
+			//arrange
+			await ShipService.LoadCargo(defaultShip, simpleCargo);
+			await ShipService.LoadCargo(defaultShip, secondaryCargo);
+			await ShipService.LoadCargo(defaultShip, thirdCargo);
+			const shipFromDB = await Ship.findOne({ where: { id: defaultShip.id }, include: Cargo  });
+			//act
+			const availableHydrogen = await ShipService.getQuantity(shipFromDB,"Hydrogen");
+			//assert
 
+			expect(availableHydrogen).to.equal(60);
+		});
 		it("should load a basic cargo", async() => {
 			//arrange
 			//act
@@ -199,6 +210,44 @@ describe("Ship tests", () => {
 
 			const arrayOfQuantity = shipFromDB.Cargos.map(v=>v.quantity);
 			expect(arrayOfQuantity).to.have.members([25, 25, 10]);
+		});
+		it("should unload a basic cargo quantity", async() => {
+			//arrange
+			await ShipService.LoadCargo(defaultShip, simpleCargo);
+			
+			//act
+			const quantity = await ShipService.unloadCargo(defaultShip, "Hydrogen",10);
+			
+			//assert
+			expect(quantity).to.be.equal(10);
+
+			const shipFromDB = await Ship.findOne({ where: { id: defaultShip.id }, include: Cargo  });
+			expect(shipFromDB.Cargos.length).to.equal(1);
+
+			const cargoFromDB = shipFromDB.Cargos[0];
+			expect(cargoFromDB.uuid).to.be.not.null;
+			expect(cargoFromDB.content).to.equal("Hydrogen");
+			expect(cargoFromDB.quantity).to.equal(15);
+		});
+
+		it("should unload a complex cargo quantity", async() => {
+			//arrange
+			await ShipService.LoadCargo(defaultShip, simpleCargo);
+			await ShipService.LoadCargo(defaultShip, secondaryCargo);
+			
+			//act
+			const quantity = await ShipService.unloadCargo(defaultShip, "Hydrogen",30);
+			
+			//assert
+			expect(quantity).to.be.equal(30);
+
+			const shipFromDB = await Ship.findOne({ where: { id: defaultShip.id }, include: Cargo  });
+			expect(shipFromDB.Cargos.length).to.equal(1);
+
+			const cargoFromDB = shipFromDB.Cargos[0];
+			expect(cargoFromDB.uuid).to.be.not.null;
+			expect(cargoFromDB.content).to.equal("Hydrogen");
+			expect(cargoFromDB.quantity).to.equal(15);
 		});
 	});
 	//TODO : user link test
