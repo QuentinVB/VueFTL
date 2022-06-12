@@ -21,7 +21,7 @@ describe("Ship tests", () => {
 		//arrange
 		let defaultShip;
 		beforeEach(async () => {
-			defaultShip = ShipFactory.GetDefaultShip();
+			defaultShip = ShipFactory.BuildDefaultShip();
 		});
 
 		afterEach(async () => {
@@ -40,7 +40,7 @@ describe("Ship tests", () => {
 		//arrange
 		let defaultShip;
 		beforeEach(async () => {
-			defaultShip = ShipFactory.GetDefaultShip();
+			defaultShip = ShipFactory.BuildDefaultShip();
 		});
 
 		afterEach(async () => {
@@ -95,7 +95,7 @@ describe("Ship tests", () => {
 		//arrange
 		let defaultShip;
 		beforeEach(async () => {
-			defaultShip = ShipFactory.GetDefaultShip();
+			defaultShip = ShipFactory.BuildDefaultShip();
 		});
 
 		afterEach(async () => {
@@ -137,14 +137,14 @@ describe("Ship tests", () => {
 		});
 	});
 	describe("Cargo management Tests", function() {
-		this.timeout(250000);
+		//this.timeout(250000);
 		//arrange
 		let defaultShip;
 		let simpleCargo;
 		let secondaryCargo;
 		let thirdCargo;
 		beforeEach(async () => {
-			defaultShip = ShipFactory.GetDefaultShip();
+			defaultShip = await ShipFactory.BuildDefaultShip();
 			defaultShip = await defaultShip.save();
 			simpleCargo = await Cargo.create({
 				uuid: uuid.v4(),
@@ -251,62 +251,5 @@ describe("Ship tests", () => {
 		});
 	});
 	//TODO : user link test
-	describe("Ship Can Move Tests", () => {
-		//arrange
-		let defaultShip;
-		beforeEach(async () => {
-			defaultShip = ShipFactory.GetDefaultShip();
-		});
-
-		afterEach(async () => {
-			defaultShip = null;
-		});
-		it("can't move with fuel to 0", () => {
-			//arrange
-			defaultShip.fuel = 0;
-			//act
-			//assert
-			expect(defaultShip.canMove("","")).to.be.false;
-		});
-		it("can't move if landed", () => {
-			//arrange
-			defaultShip.location.situation="landed";
-			//act
-			//assert
-			expect(
-				defaultShip.canMove("","")
-			).to.be.false;
-		});
-		it("can't move to nothing", () => {
-			//arrange
-			//act
-			//assert
-			expect(defaultShip.canMove("","")).to.be.false;
-		});
-		it("can move to a starsystem", () => {
-			//arrange
-			//act
-			//assert
-			expect(defaultShip.canMove(uuid.v4(),"")).to.be.true;
-		});
-		it("can't move to the actual starsystem", () => {
-			//arrange
-			const starSystemUUId = uuid.v4();
-			defaultShip.location.starsystem=starSystemUUId;
-			//act
-			//assert
-			expect(defaultShip.canMove(starSystemUUId,"")).to.be.false;
-		});
-		it("can't move to the actual planet", () => {
-			//arrange
-			const starSystemUUId = uuid.v4();
-			const planetUUId = uuid.v4();
-			defaultShip.location.starsystem=starSystemUUId;
-			defaultShip.location.planet=planetUUId;
-			//act
-			//assert
-			expect(defaultShip.canMove(starSystemUUId,planetUUId)).to.be.false;
-		});
-	});
 	//todo : cargobay tests
 });

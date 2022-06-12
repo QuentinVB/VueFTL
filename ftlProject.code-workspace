@@ -30,6 +30,9 @@
     },
     "settings": {
         "liveServer.settings.multiRootWorkspaceName": "Server"
+		"[javascript]": {
+			"editor.tabSize": 4
+		}
        
     },
 	"launch": {
