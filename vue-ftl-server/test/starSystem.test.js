@@ -2,12 +2,13 @@
 const assert = require("assert");
 const { expect } = require("chai");
 const uuid = require("uuid");
-const {StellarType,StarSystem} = require("../models");
+const {StellarType,StarSystem,Location} = require("../models");
 
 describe("StarSystem tests", () => {
 	before(async()=>{
 		await StellarType.sync();
 		await StarSystem.sync();
+		await Location.sync();
 	});
 	describe("Empty StarSystem Test", () => {
 		let defaultStarSystem;

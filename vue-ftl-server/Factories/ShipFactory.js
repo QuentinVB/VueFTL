@@ -1,7 +1,7 @@
 "use strict";
 const uuid = require("uuid");
 //const { getRandomInt } = require("../helpers/Random");
-const { Ship } = require("../models");
+const { Ship,Location } = require("../models");
 
 /**
  * 
@@ -19,6 +19,19 @@ module.exports.GetDefaultShip = function () {
 	return this.GenerateShip("Von Braun");
 };
 
+/**
+ * 
+ * @returns {Ship}
+ */
+module.exports.CreateShip = async function (name) {
+	const ship = this.GenerateShip(name);
+	await ship.save();
+	const location = await Location.create({
+
+	});
+	await ship.setLocation(location);
+	return ship;
+};
 
 /**
  * Generate a Ship 
@@ -36,7 +49,8 @@ module.exports.GenerateShip = function (name) {
 		fuelEfficiency:Ship.BASEFUELEFFICIENCY,//20%
 		hullFactor: Ship.BASEHULLFACTOR
 	});
-		/*this.position = {x:0,y:0} ;
+
+	/*this.position = {x:0,y:0} ;
   this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
 
  

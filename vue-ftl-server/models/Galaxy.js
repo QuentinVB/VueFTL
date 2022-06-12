@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			Galaxy.hasMany(models["StarSystem"]);
+			Galaxy.hasMany(models["Location"]);
 		}
 
 		/**

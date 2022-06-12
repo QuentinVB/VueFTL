@@ -5,6 +5,7 @@ This project is only there to store the sqlite Database for developpement, seque
 ## Sequelize trick
 
 create = build + save
+https://sequelize.org/docs/v6/core-concepts/assocs/#special-methodsmixins-added-to-instances
 
 ## Database Schema
 
@@ -22,6 +23,7 @@ erDiagram
     SHIP ||--o| STARSYSTEM : located
     SHIP ||--o| PLANET : located
     SHIP ||--o{ CARGO : "has many"
+    SHIP ||--|| LOCATION : "has one"
     SHIP {
         string name
         int fuel
@@ -47,7 +49,7 @@ erDiagram
         float radius
         int starCount
     }
-    STARSYSTEM ||--o{ EXPLORATIONEVENT : is
+    STARSYSTEM ||--o{ EXPLORATIONEVENT : has
     STARSYSTEM }|--|| STELLARTYPE : is
     STARSYSTEM ||--o{ ANOMALY : has
     STARSYSTEM ||--|{ PLANET : "has many"
@@ -98,5 +100,16 @@ erDiagram
         string name
         string description
     }
-
+    LOCATION ||--o| PLANET : "has one"
+    LOCATION ||--o| STARSYSTEM : "has one"
+    LOCATION ||--o| GALAXY : "has one"
+    LOCATION {
+        string situation
+        float orbit_semiMajorAxis
+        float orbit_semiMinorAxis
+        float orbit_trueAnomaly
+        float position_X
+        float position_Y
+        float position_Z
+    }
 ```

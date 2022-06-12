@@ -1,5 +1,5 @@
 "use strict";
-const {Ship, User, Cargo} = require("../models");
+const {Cargo} = require("../models");
 
 //Cargo manangement
 /**
@@ -96,3 +96,20 @@ module.exports.unloadCargo =  async function(targetShip, type, quantityRequested
 };
 
 //Location will be managed here
+
+//a location is defined by :
+
+/*
+A referentiel
+-the galaxy itself
+-a star system
+-a planet
+
+A position
+- an orbit with a radii and anomaly
+- an absolute coordinate x,y,z
+
+A situation
+Landed, Flying
+*/
+

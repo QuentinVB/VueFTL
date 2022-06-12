@@ -1,5 +1,4 @@
 //'use strict';
-const { Cargo } = require("../models");
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
@@ -14,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 			Ship.belongsTo(models["User"]);
 			Ship.hasMany(models["Cargo"]);
+			Ship.hasOne(models["Location"]);
 		}
 
 		//FUEL MANAGEMENT

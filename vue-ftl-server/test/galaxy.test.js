@@ -5,7 +5,7 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const uuid = require("uuid");
-const {Galaxy,StarSystem,StellarType} = require("../models");
+const {Galaxy,StarSystem,StellarType,Location} = require("../models");
 const GalaxyFactory = require("../factories/GalaxyFactory.js");
 
 describe("Galaxy tests", function() {
@@ -13,6 +13,7 @@ describe("Galaxy tests", function() {
 		await Galaxy.sync();
 		await StarSystem.sync();
 		await StellarType.sync();
+		await Location.sync();
 	});
 	describe("Empty Galaxy Test", function() {
 		let defaultGalaxy;

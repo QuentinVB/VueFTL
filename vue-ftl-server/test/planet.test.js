@@ -2,7 +2,7 @@
 const { expect } = require("chai");
 const uuid = require("uuid");
 const PlanetFactory = require("../Factories/PlanetFactory.js");
-const {Galaxy,Planet,PlanetType,StarSystem,StellarType} = require("../models");
+const {Galaxy,Planet,PlanetType,StarSystem,StellarType,Location} = require("../models");
 
 
 const fakeStarSystem = StarSystem.build({ id: 1, uuid: uuid.v4(), name: "proxima", planetesCount: 1 });
@@ -15,6 +15,7 @@ describe("Planet tests", () => {
 		await PlanetType.sync();
 		await Planet.sync();
 		await StarSystem.sync();
+		await Location.sync();
 	});
 	describe("Instance Planet Test", () => {
 		let defaultPlanet;

@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			Planet.belongsTo(models["StarSystem"]);
 			Planet.belongsTo(models["PlanetType"]);
+			Planet.hasMany(models["Location"]);
 		}
 
 		/**

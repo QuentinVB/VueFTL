@@ -12,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
 			StarSystem.hasMany(models["Planet"]);
 			StarSystem.belongsTo(models["Galaxy"]);
 			StarSystem.belongsTo(models["StellarType"]);
+			StarSystem.hasMany(models["Location"]);
 		}
 
-    
 		/**
-     * Generate a default StarSystem instance
-     * @static
-     * @returns {StarSystem} a starSystem object
-     */
+		 * Generate a default StarSystem instance
+		 * @static
+		 * @returns {StarSystem} a starSystem object
+		 */
 		static DefaultStarSystem() {
 			const starSystem = StarSystem.build({
 				uuid: uuid.v4(),
