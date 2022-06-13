@@ -61,20 +61,39 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.VIRTUAL,
 				get() {
 					const galaxyId = this.getDataValue("GalaxyId");
-					if(galaxyId) return {reference : Reference.GALAXY, Id : galaxyId};
+					if(galaxyId) return {reference : Reference.GALAXY, id : galaxyId};
 
 					const starSystemId = this.getDataValue("StarSystemId");
-					if(starSystemId) return {reference : Reference.STARSYSTEM, Id : starSystemId};
+					if(starSystemId) return {reference : Reference.STARSYSTEM, id : starSystemId};
 
 					const planetId = this.getDataValue("PlanetId");
-					if(planetId) return {reference : Reference.PLANET, Id : planetId};
+					if(planetId) return {reference : Reference.PLANET, id : planetId};
 					
 					return null;
 				},
-				// eslint-disable-next-line no-unused-vars
+				//TODO : multiple redefinition and duplication ; should improve
 				set(value) {
-					//TODO : setter with reference
-					throw new Error("Do not try to set the `fullName` value!");
+					if(!("reference" in value)) throw new Error("value should have a reference");
+					if(!("id" in value) | !value.id ) throw new Error("value should have an id ");
+
+					const fields = ["GalaxyId","StarSystemId","PlanetId"];
+					fields.forEach(v=>this.setDataValue(v,null));
+					
+					let fieldToSetTheId = null;
+					switch (value.reference) {
+					case Reference.GALAXY:
+						fieldToSetTheId = fields[0];
+						break;
+					case Reference.STARSYSTEM:
+						fieldToSetTheId = fields[1];
+						break;
+					case Reference.PLANET:
+						fieldToSetTheId = fields[2];
+						break;
+					default:
+						break;
+					}
+					if(fieldToSetTheId) this.setDataValue(fieldToSetTheId,value.id);
 				}
 			},
 			position: {

@@ -1,5 +1,6 @@
 "use strict";
-const {Cargo} = require("../models");
+const { Reference } = require("../helpers/Naming");
+const {Ship,Cargo,Location,Galaxy,StarSystem,Planet} = require("../models");
 
 //Cargo manangement
 /**
@@ -96,6 +97,41 @@ module.exports.unloadCargo =  async function(targetShip, type, quantityRequested
 };
 
 //Location will be managed here
+/**
+ * Set the ship location reference
+ * @param {Ship} targetShip ship that will be moved
+ * @param {(Galaxy|StarSystem|Planet)} locationReference the location to set
+ * @returns {Ship} the ship moved
+ */
+//TODO : add optionnal position|orbit parameters
+module.exports.setLocationTo = async function(targetShip,locationReference)
+{
+	const locationOfTheShip = targetShip.location ?? await Location.findOne({where: {ShipId:targetShip.id}});
+	if(!locationOfTheShip) throw new Error("inconsistent ship, missing location");
+
+	let referenceSpace = null;
+	if(locationReference instanceof Galaxy) referenceSpace = Reference.GALAXY;
+	else if(locationReference instanceof StarSystem) referenceSpace = Reference.STARSYSTEM;
+	else if(locationReference instanceof Planet) referenceSpace = Reference.PLANET;
+
+	locationOfTheShip.reference = {reference:referenceSpace, id:locationReference.id};
+
+	await locationOfTheShip.save();
+
+	return targetShip;
+};
+
+/*
+translateShip : move the ship across galaxy, starsystem :  consume fuel
+enterOrbit : move the ship into a planetOrbit: consumeFuel
+changeOrbit : change current ShipOrbit : consumeFuel
+wrapShip : teleport from one starsystem, galaxy position or planet orbit: consume fuel
+landShip : change situation from orbiting a planet to landed : consume fuel
+takeoffShip : change situation from grounded to a planet to orbiting the planet : consume fuel
+computeFuelConsumptionForAction : compute the fuel requirement for the action
+checkActionPossible : check if the requested action is possible (for instance entering planet orbit while not in the planet's starSystem)
+TODO : define fuel comsumption rules
+*/
 
 //a location is defined by :
 

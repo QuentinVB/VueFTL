@@ -73,13 +73,7 @@ module.exports = (sequelize, DataTypes) => {
 			this.position.y = coordinate.y;
 			return true;
 		}
-		setLocationTo(starSystem) {
-			this.location.starsystem = starSystem.uuid;
-			this.location.planet = "";
-			this.location.situation = "orbiting";
-			this.position = starSystem.position;
-			return true;
-		}
+
 		wrapToSystem(starSystem) {
 			this.consumeFuel();
 			return this.setLocationTo(starSystem);

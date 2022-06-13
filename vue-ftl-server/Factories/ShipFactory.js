@@ -2,7 +2,7 @@
 const uuid = require("uuid");
 //const { getRandomInt } = require("../helpers/Random");
 const { Ship,Location } = require("../models");
-const {Situation, Reference} = require("../helpers/Naming.js");
+const { Situation } = require("../helpers/Naming.js");
 
 const ShipParameters = {
 	name: "Von Braun",
@@ -71,10 +71,10 @@ module.exports.CreateShip = async function (shipParameters,locationParameters) {
 	await ship.save();
 	const location = await Location.create(locationParameters);
 	await ship.setLocation(location);
-/*this.position = {x:0,y:0} ;
-  this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
-	ship.loadCargo(new Cargo("Iron",25));
-*/
+	/*this.position = {x:0,y:0} ;
+	this.location ={starsystem:"",planet:"",situation:"orbiting"};//uuid of starsystem
+		ship.loadCargo(new Cargo("Iron",25));
+	*/
 	return ship;
 };
 

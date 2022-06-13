@@ -89,6 +89,22 @@ describe("Ship Movement tests", () => {
 			expect(shipFromDB.Location.reference).to.eql( { reference: Reference.GALAXY, id:1 });
 		});
 
+		it("should change location when set to another location", async () => {
+			//arrange
+			await ShipService.setLocationTo(defaultShip,milkyWay);
+			//act
+			await ShipService.setLocationTo(defaultShip,solSystem);
+			//assert
+			const shipFromDB = await Ship.findOne({ where: { id: defaultShip.id }, include: Location  });
+			expect(shipFromDB.Location).to.be.not.null;
+			expect(shipFromDB.Location.situation).to.be.equal(Situation.STANDING);
+			expect(shipFromDB.Location.GalaxyId).to.be.equal(null);
+			expect(shipFromDB.Location.StarSystemId).to.be.equal(1);
+			expect(shipFromDB.Location.PlanetId).to.be.equal(null);
+			expect(shipFromDB.Location.position).to.eql( { x: 0, y: 0, z: 0 });
+			expect(shipFromDB.Location.reference).to.eql( { reference: Reference.STARSYSTEM, id:1 });
+		});
+
 		it("can't move with fuel to 0", () => {
 			//arrange
 			defaultShip.fuel = 0;
