@@ -118,12 +118,6 @@ describe("Ship Movement tests", () => {
 				defaultShip.canMove("","")
 			).to.be.false;
 		});
-		it("can't move to nothing", () => {
-			//arrange
-			//act
-			//assert
-			expect(defaultShip.canMove("","")).to.be.false;
-		});
 		it("can move to a starsystem", () => {
 			//arrange
 			//act
@@ -165,13 +159,26 @@ describe("Ship Movement tests", () => {
 			});
 		});
 
-		it("should compute the right amount of fuel for a starSystem internal travel", async () => {
+		it("should compute the right amount of fuel for a starSystem to starSystem Warp", async () => {
 			//arrange
 			await ShipService.setLocationTo(defaultShip,solSystem);
 			//act
 			const fuelToTravel = await ShipService.computeFuelConsumptionForAction(defaultShip,TravelType.WARP,centauriSystem);
 			//assert
 			expect(fuelToTravel).to.be.equal(5);
+		});
+
+		it("should compute the right amount of fuel for a starSystem internal travel", async () => {
+			//arrange
+			await ShipService.setLocationTo(defaultShip,solSystem);
+			const destinationWithinSol = Location.build({
+				reference:{reference:Reference.STARSYSTEM,id:1},
+				position:{ x:0, y:4, z: 0 }
+			});
+			//act
+			const fuelToTravel = await ShipService.computeFuelConsumptionForAction(defaultShip,TravelType.MOVING,destinationWithinSol);
+			//assert
+			expect(fuelToTravel).to.be.equal(16);
 		});
 
 		it("can't move with fuel to 0", () => {
@@ -203,7 +210,7 @@ describe("Ship Movement tests", () => {
 				position:{ x:1, y:2, z: 3 }
 			});
 			//act
-			const distance = await ComputeDistance(originLocation,destinationLocation);
+			const distance = ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.7416, 0.0001);
 		});
@@ -218,7 +225,7 @@ describe("Ship Movement tests", () => {
 				position:{ x:1, y:2, z: 3 }
 			});
 			//act
-			const distance = await ComputeDistance(originLocation,destinationLocation);
+			const distance = ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.7416, 0.0001);
 		});
@@ -233,7 +240,7 @@ describe("Ship Movement tests", () => {
 				position:{ x:1, y:2, z: 3 }
 			});
 			//act
-			const distance = await ComputeDistance(originLocation,destinationLocation);
+			const distance = ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.7416, 0.0001);
 		});
@@ -249,7 +256,7 @@ describe("Ship Movement tests", () => {
 				position:{ x:2, y:2, z: 2 }
 			});
 			//act
-			const distance = await ComputeDistance(originLocation,destinationLocation);
+			const distance = ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.4641, 0.0001);
 		});

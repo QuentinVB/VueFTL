@@ -16,11 +16,12 @@ function EuclidianDistance(p1,p2)
  * @param  {(Location|StarSystem|Planet)} destination 
  * @returns 
  */
-module.exports = async function(originLocation,destination)
+module.exports = function(originLocation,destination)
 {
 	if(!(destination instanceof Location) & !(destination instanceof StarSystem) & !(destination instanceof Planet)) throw new Error("Not reachable destination");
 	
 	//TODO : create local function checkForGalaxy, checkForStarSystem, checkForPlanet
+	//TODO : refactor, its ugly af
 	//Galaxy position to Galaxy position
 	if( originLocation?.reference?.reference === Reference.GALAXY && destination?.reference?.reference === Reference.GALAXY)
 	{
