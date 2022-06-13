@@ -2,7 +2,7 @@
 const uuid = require("uuid");
 //const { getRandomInt } = require("../helpers/Random");
 const { Ship,Location } = require("../models");
-const { Situation } = require("../helpers/Naming.js");
+const { Situation } = require("../helpers/Enum");
 
 const ShipParameters = {
 	name: "Von Braun",

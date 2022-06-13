@@ -1,7 +1,7 @@
 
 const { expect } = require("chai");
 const {Location,Ship,StarSystem,Planet,Galaxy} = require("../models");
-const {Situation} = require("../helpers/Naming.js");
+const {Situation} = require("../helpers/Enum");
 
 describe("Location tests", () => {
 	before(async()=>{

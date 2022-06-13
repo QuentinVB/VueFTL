@@ -1,6 +1,6 @@
 //'use strict';
 const { Model } = require("sequelize");
-const {Situation, Reference} = require("../helpers/Naming.js");
+const {Situation, Reference} = require("../helpers/Enum");
 
 module.exports = (sequelize, DataTypes) => {
 	

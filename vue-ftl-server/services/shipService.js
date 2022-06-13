@@ -1,5 +1,6 @@
 "use strict";
-const { Reference } = require("../helpers/Naming");
+const ComputeDistance = require("../helpers/ComputeDistance");
+const { Reference,TravelType } = require("../helpers/Enum");
 const {Ship,Cargo,Location,Galaxy,StarSystem,Planet} = require("../models");
 
 //Cargo manangement
@@ -96,7 +97,7 @@ module.exports.unloadCargo =  async function(targetShip, type, quantityRequested
 	return quantityCollected;
 };
 
-//Location will be managed here
+//LOCATION MANAGEMENT
 /**
  * Set the ship location reference
  * @param {Ship} targetShip ship that will be moved
@@ -121,6 +122,41 @@ module.exports.setLocationTo = async function(targetShip,locationReference)
 	return targetShip;
 };
 
+/**
+ * Compute the fuel travel consumption according to the ship, action and destintion
+ * @param {Ship} targetShip ship that will be moved
+ * @param {String} travelType the TravelType
+ * @param {(Galaxy|StarSystem|Planet|Object)} destination the location to set
+ * @returns {Ship} the ship moved
+ */
+module.exports.computeFuelConsumptionForAction = async function(targetShip,travelType,destination)
+{
+	//get ship fuel efficiency
+	const currentFuel = targetShip.fuel;
+	const fuelEfficiency = targetShip.fuelEfficiency;
+	
+	//get ship current location
+	const locationOfTheShip = targetShip.location ?? await Location.findOne({where: {ShipId:targetShip.id}});
+	if(!locationOfTheShip) throw new Error("inconsistent ship, missing location");
+
+	const absoluteDistanceTowardDestination = await ComputeDistance(locationOfTheShip,destination);
+
+	//compute according to the travelType
+	let fuelConsumption = 0;
+	switch (travelType) {
+	case TravelType.WARP:
+		fuelConsumption= Ship.FUELCONSUMPTION * Math.ceil(absoluteDistanceTowardDestination * 0.001);
+		break;
+	case TravelType.MOVING:
+		fuelConsumption= absoluteDistanceTowardDestination * Ship.FUELCONSUMPTION * (1 - fuelEfficiency);
+		break;
+	default:
+		break;
+	}
+
+	return fuelConsumption ;
+};
+
 /*
 translateShip : move the ship across galaxy, starsystem :  consume fuel
 enterOrbit : move the ship into a planetOrbit: consumeFuel
@@ -128,7 +164,6 @@ changeOrbit : change current ShipOrbit : consumeFuel
 wrapShip : teleport from one starsystem, galaxy position or planet orbit: consume fuel
 landShip : change situation from orbiting a planet to landed : consume fuel
 takeoffShip : change situation from grounded to a planet to orbiting the planet : consume fuel
-computeFuelConsumptionForAction : compute the fuel requirement for the action
 checkActionPossible : check if the requested action is possible (for instance entering planet orbit while not in the planet's starSystem)
 TODO : define fuel comsumption rules
 */

@@ -3,11 +3,13 @@ const uuid = require("uuid");
 const ShipFactory = require("../Factories/ShipFactory.js");
 const ShipService  = require("../services/shipService.js");
 const {User,Ship, StellarType, Cargo,Location,Galaxy,StarSystem,Planet} = require("../models");
-const { Situation, Reference } = require("../helpers/Naming.js");
+const { Situation, Reference , TravelType } = require("../helpers/Enum.js");
+const ComputeDistance = require("../helpers/ComputeDistance.js");
 
 describe("Ship Movement tests", () => {
 	let milkyWay;
 	let solSystem;
+	let centauriSystem;
 	before(async()=>{
 		await User.sync();
 		await Cargo.sync();
@@ -34,12 +36,13 @@ describe("Ship Movement tests", () => {
 			position:{x:1,y:1,z:1}
 		});
 		await milkyWay.addStarSystem(solSystem);
-		await milkyWay.addStarSystem(await StarSystem.create({
+		centauriSystem = await StarSystem.create({
 			id: 2,
 			uuid: uuid.v4(),
 			name:"AlphaCentauri",
 			position:{x:2,y:5,z:7}
-		}));
+		});
+		await milkyWay.addStarSystem(centauriSystem);
 	});
 	
 	after(async()=>{
@@ -105,14 +108,7 @@ describe("Ship Movement tests", () => {
 			expect(shipFromDB.Location.reference).to.eql( { reference: Reference.STARSYSTEM, id:1 });
 		});
 
-		it("can't move with fuel to 0", () => {
-			//arrange
-			defaultShip.fuel = 0;
-			//act
-			//assert
-			expect(defaultShip.canMove("","")).to.be.false;
-		});
-
+		
 		it("can't move if landed", () => {
 			//arrange
 			defaultShip.location.situation="landed";
@@ -151,6 +147,111 @@ describe("Ship Movement tests", () => {
 			//act
 			//assert
 			expect(defaultShip.canMove(starSystemUUId,planetUUId)).to.be.false;
+		});
+	});
+	describe("Ship fuel consumption test", () => {
+		//arrange
+		let defaultShip;
+
+		beforeEach(async () => {
+			defaultShip = await ShipFactory.CreateDefaultShip();
+		});
+		afterEach(async () => {
+			await Ship.destroy({
+				truncate: true
+			});
+			await Location.destroy({
+				truncate: true
+			});
+		});
+
+		it("should compute the right amount of fuel for a starSystem internal travel", async () => {
+			//arrange
+			await ShipService.setLocationTo(defaultShip,solSystem);
+			//act
+			const fuelToTravel = await ShipService.computeFuelConsumptionForAction(defaultShip,TravelType.WARP,centauriSystem);
+			//assert
+			expect(fuelToTravel).to.be.equal(5);
+		});
+
+		it("can't move with fuel to 0", () => {
+			//arrange
+			defaultShip.fuel = 0;
+			//act
+			//assert
+			expect(defaultShip.canMove("","")).to.be.false;
+		});
+	});
+	describe("Distance computation tests", () => {
+		//arrange
+		let originLocation;
+		let destinationLocation;
+		
+		afterEach(async () => {
+			originLocation = null;
+			destinationLocation = null;
+		});
+
+		it("should return distance between Galaxy position and another Galaxy position", async () => {
+			//arrange
+			originLocation = Location.build({
+				reference:{reference:Reference.GALAXY,id:1},
+				position:{ x:0, y:0, z: 0 }
+			});
+			destinationLocation = Location.build({
+				reference:{reference:Reference.GALAXY,id:1},
+				position:{ x:1, y:2, z: 3 }
+			});
+			//act
+			const distance = await ComputeDistance(originLocation,destinationLocation);
+			//assert
+			expect(distance).to.be.closeTo(3.7416, 0.0001);
+		});
+		it("should return distance between StarSystem and another StarSystem", async () => {
+			//arrange
+			originLocation = Location.build({
+				reference:{reference:Reference.STARSYSTEM,id:1},
+				position:{ x:0, y:0, z: 0 }
+			});
+			destinationLocation = Location.build({
+				reference:{reference:Reference.STARSYSTEM,id:1},
+				position:{ x:1, y:2, z: 3 }
+			});
+			//act
+			const distance = await ComputeDistance(originLocation,destinationLocation);
+			//assert
+			expect(distance).to.be.closeTo(3.7416, 0.0001);
+		});
+		it("should return distance between Planet and another Planet", async () => {
+			//arrange
+			originLocation = Location.build({
+				reference:{reference:Reference.PLANET,id:1},
+				position:{ x:0, y:0, z: 0 }
+			});
+			destinationLocation = Location.build({
+				reference:{reference:Reference.PLANET,id:1},
+				position:{ x:1, y:2, z: 3 }
+			});
+			//act
+			const distance = await ComputeDistance(originLocation,destinationLocation);
+			//assert
+			expect(distance).to.be.closeTo(3.7416, 0.0001);
+		});
+		it("should return distance between Galaxy position and StarSystem", async () => {
+			//arrange
+			originLocation = Location.build({
+				reference:{reference:Reference.GALAXY,id:1},
+				position:{ x:0, y:0, z: 0 }
+			});
+			destinationLocation = StarSystem.build({
+				uuid: uuid.v4(),
+				name: "Barnard",
+				position:{ x:2, y:2, z: 2 }
+			});
+			//act
+			const distance = await ComputeDistance(originLocation,destinationLocation);
+			//assert
+			expect(distance).to.be.closeTo(3.4641, 0.0001);
 		});
 	});
 	//todo : cargobay tests
