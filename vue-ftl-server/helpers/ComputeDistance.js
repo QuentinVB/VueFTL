@@ -22,45 +22,50 @@ module.exports = function(originLocation,destination)
 	
 	//TODO : create local function checkForGalaxy, checkForStarSystem, checkForPlanet
 	//TODO : refactor, its ugly af
+	
 
 	//origin : GalaxySpace ; Destination galaxySpace
-	if(IsInGalaxySpace(originLocation, destination))
+	if(IsInGalaxySpace(originLocation) && IsInGalaxySpace(destination))
 	{
 		return EuclidianDistance(originLocation.position,destination.position);
 	}
 
-
-	//Planet to Planet
-	else if((originLocation?.reference?.reference === Reference.PLANET || originLocation instanceof Planet)
-	&& (destination?.reference?.reference === Reference.PLANET || destination instanceof Planet))
+	//origin : StarSystemSpace ; Destination StarSystemSpace
+	if(IsInStarSystemSpace(originLocation) && IsInStarSystemSpace(destination))
 	{
 		return EuclidianDistance(originLocation.position,destination.position);
 	}
 
-	//Galaxy position to StarSystem
-	else if( originLocation?.reference?.reference === Reference.GALAXY 
-		&&  (destination?.reference?.reference === Reference.STARSYSTEM || destination instanceof StarSystem))
+	//origin : StarSystemSpace ; Destination galaxySpace
+	if(IsInStarSystemSpace(originLocation) && IsInGalaxySpace(destination))
 	{
-		return EuclidianDistance(originLocation.position,destination.position);
+		let position = null;
+		//origin : starSystem => origin.position
+		if( originLocation instanceof StarSystem) position = originLocation.position;
+
+		//origin : location within star system => starsystem.position
+
+		//origin : planet orbit => starsystem holding planet position
+
+		//origin : planet => starsystem holding planet position
+		else if(locator instanceof Planet) {
+
+		}
+		else { throw new Error("Cant decide the right origin type");}
+
 	}
 
-	//StarSystem to Galaxy position
-	else if( (originLocation?.reference?.reference === Reference.STARSYSTEM || originLocation instanceof StarSystem)
-		&& destination?.reference?.reference === Reference.GALAXY )
-	{
-		return EuclidianDistance(originLocation.position,destination.position);
-	}
+
 
 	return 0;
 };
 
-function IsInGalaxySpace(originLocation, destination)
+function IsInGalaxySpace(locator)
 {
-	return originLocation?.reference?.reference === Reference.GALAXY || originLocation instanceof StarSystem 
-	&& destination?.reference?.reference === Reference.GALAXY || destination instanceof StarSystem ;
+	return (locator?.reference?.reference === Reference.GALAXY|| locator instanceof StarSystem );
 }
 
-function IsInLocalStarSystemSpace(originLocation, destination)
+function IsInStarSystemSpace(locator)
 {
-	return 
+	return (locator?.reference?.reference === Reference.STARSYSTEM || locator?.reference?.reference === Reference.PLANET || locator instanceof Planet );
 }
