@@ -22,17 +22,14 @@ module.exports = function(originLocation,destination)
 	
 	//TODO : create local function checkForGalaxy, checkForStarSystem, checkForPlanet
 	//TODO : refactor, its ugly af
-	//Galaxy position to Galaxy position
-	if( originLocation?.reference?.reference === Reference.GALAXY && destination?.reference?.reference === Reference.GALAXY)
+
+	//origin : GalaxySpace ; Destination galaxySpace
+	if(IsInGalaxySpace(originLocation, destination))
 	{
 		return EuclidianDistance(originLocation.position,destination.position);
 	}
-	//StarSystem to StarSystem
-	else if((originLocation?.reference?.reference === Reference.STARSYSTEM || originLocation instanceof StarSystem)
-	&& (destination?.reference?.reference === Reference.STARSYSTEM || destination instanceof StarSystem))
-	{
-		return EuclidianDistance(originLocation.position,destination.position);
-	}
+
+
 	//Planet to Planet
 	else if((originLocation?.reference?.reference === Reference.PLANET || originLocation instanceof Planet)
 	&& (destination?.reference?.reference === Reference.PLANET || destination instanceof Planet))
@@ -56,3 +53,14 @@ module.exports = function(originLocation,destination)
 
 	return 0;
 };
+
+function IsInGalaxySpace(originLocation, destination)
+{
+	return originLocation?.reference?.reference === Reference.GALAXY || originLocation instanceof StarSystem 
+	&& destination?.reference?.reference === Reference.GALAXY || destination instanceof StarSystem ;
+}
+
+function IsInLocalStarSystemSpace(originLocation, destination)
+{
+	return 
+}
