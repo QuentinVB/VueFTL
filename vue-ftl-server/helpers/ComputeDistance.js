@@ -16,7 +16,7 @@ function EuclidianDistance(p1,p2)
  * @param  {(Location|StarSystem|Planet)} destination 
  * @returns 
  */
-module.exports = function(originLocation,destination)
+module.exports = async function(originLocation,destination)
 {
 	if(!(destination instanceof Location) & !(destination instanceof StarSystem) & !(destination instanceof Planet)) throw new Error("Not reachable destination");
 	
@@ -39,20 +39,34 @@ module.exports = function(originLocation,destination)
 	//origin : StarSystemSpace ; Destination galaxySpace
 	if(IsInStarSystemSpace(originLocation) && IsInGalaxySpace(destination))
 	{
-		let position = null;
+		let positionOrigin = null;
+
 		//origin : starSystem => origin.position
-		if( originLocation instanceof StarSystem) position = originLocation.position;
+		if( originLocation instanceof StarSystem) positionOrigin = originLocation.position;
 
 		//origin : location within star system => starsystem.position
+		else if(originLocation?.reference?.reference === Reference.STARSYSTEM)
+		{
+			const starSystem = await StarSystem.findOne({where:{id:originLocation?.reference?.id}});
+			positionOrigin = starSystem.position;
+		}
 
 		//origin : planet orbit => starsystem holding planet position
-
+		else if(originLocation?.reference?.reference === Reference.PLANET)
+		{
+			const planet = await Planet.findOne({where:{id:originLocation?.reference?.id}});
+			const parentStarSystem = await StarSystem.findOne({where:{id:planet.StarSystemId}});
+			positionOrigin = parentStarSystem.position;
+		}
 		//origin : planet => starsystem holding planet position
-		else if(locator instanceof Planet) {
-
+		else if(originLocation instanceof Planet ) {
+			const parentStarSystemId = originLocation.StarSystemId;
+			const parentStarSystem = await StarSystem.findOne({where:{id:parentStarSystemId}});
+			positionOrigin = parentStarSystem.position;
 		}
 		else { throw new Error("Cant decide the right origin type");}
 
+		return EuclidianDistance(positionOrigin,destination.position);
 	}
 
 
@@ -62,7 +76,7 @@ module.exports = function(originLocation,destination)
 
 function IsInGalaxySpace(locator)
 {
-	return (locator?.reference?.reference === Reference.GALAXY|| locator instanceof StarSystem );
+	return (locator?.reference?.reference === Reference.GALAXY || locator instanceof StarSystem );
 }
 
 function IsInStarSystemSpace(locator)

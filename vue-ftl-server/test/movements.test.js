@@ -60,6 +60,8 @@ describe("Ship Movement tests", () => {
 	describe("Ship location test", () => {
 		//arrange
 		let defaultShip;
+		
+
 
 		beforeEach(async () => {
 			defaultShip = await ShipFactory.CreateDefaultShip();
@@ -144,6 +146,7 @@ describe("Ship Movement tests", () => {
 		});
 	});
 	describe("Ship fuel consumption test", () => {
+		
 		//arrange
 		let defaultShip;
 
@@ -159,7 +162,8 @@ describe("Ship Movement tests", () => {
 			});
 		});
 
-		it("should compute the right amount of fuel for a starSystem to starSystem Warp", async () => {
+		it("should compute the right amount of fuel for a starSystem to starSystem Warp", async function() {
+			this.timeout(250000);
 			//arrange
 			await ShipService.setLocationTo(defaultShip,solSystem);
 			//act
@@ -210,7 +214,7 @@ describe("Ship Movement tests", () => {
 				position:{ x:1, y:2, z: 3 }
 			});
 			//act
-			const distance = ComputeDistance(originLocation,destinationLocation);
+			const distance = await ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.7416, 0.0001);
 		});
@@ -225,7 +229,7 @@ describe("Ship Movement tests", () => {
 				position:{ x:1, y:2, z: 3 }
 			});
 			//act
-			const distance = ComputeDistance(originLocation,destinationLocation);
+			const distance = await ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.7416, 0.0001);
 		});
@@ -240,7 +244,7 @@ describe("Ship Movement tests", () => {
 				position:{ x:1, y:2, z: 3 }
 			});
 			//act
-			const distance = ComputeDistance(originLocation,destinationLocation);
+			const distance = await ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.7416, 0.0001);
 		});
@@ -256,7 +260,7 @@ describe("Ship Movement tests", () => {
 				position:{ x:2, y:2, z: 2 }
 			});
 			//act
-			const distance = ComputeDistance(originLocation,destinationLocation);
+			const distance = await ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.4641, 0.0001);
 		});
