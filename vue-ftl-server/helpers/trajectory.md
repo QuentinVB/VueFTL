@@ -2,8 +2,8 @@
 - S : StarSystem
 - Sl : StarSystem Location
 - Po : Planet Orbit
-- 🌌 : Galaxy ySpace
-- ⭐ : StarSystemSpace
+- 🌌 : Galaxy Space
+- ⭐ : StarSystem Space
 
 |↗️| Gl | S  | Sl | Po |
 |----|----|----|----|----|

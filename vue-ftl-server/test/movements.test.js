@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const uuid = require("uuid");
 const ShipFactory = require("../Factories/ShipFactory.js");
 const ShipService  = require("../services/shipService.js");
-const {User,Ship, StellarType, Cargo,Location,Galaxy,StarSystem,Planet} = require("../models");
+const {User,Ship, StellarType, Cargo,Location,Galaxy,StarSystem,Planet,PlanetType} = require("../models");
 const { Situation, Reference , TravelType } = require("../helpers/Enum.js");
 const ComputeDistance = require("../helpers/ComputeDistance.js");
 
@@ -10,6 +10,7 @@ describe("Ship Movement tests", () => {
 	let milkyWay;
 	let solSystem;
 	let centauriSystem;
+	let earth;
 	before(async()=>{
 		await User.sync();
 		await Cargo.sync();
@@ -19,6 +20,7 @@ describe("Ship Movement tests", () => {
 		await StarSystem.sync();
 		await StellarType.sync();
 		await Planet.sync();
+		await PlanetType.sync();
 
 		milkyWay = await Galaxy.create({
 			id: 1,
@@ -36,6 +38,19 @@ describe("Ship Movement tests", () => {
 			position:{x:1,y:1,z:1}
 		});
 		await milkyWay.addStarSystem(solSystem);
+		const planetType = await PlanetType.create({ id: 1, name: "Earth analog planet", baseColor: "#18629e", baseRadius: 1, landable: true });
+
+		earth = await Planet.create({
+			uuid: uuid.v4(),
+			name: "earth",
+			color: planetType.baseColor,
+			orbit: 1.5,
+			radius: 6.6,
+			minerals: 100,
+		});
+		earth.setPlanetType(planetType);
+		earth.setStarSystem(solSystem);
+
 		centauriSystem = await StarSystem.create({
 			id: 2,
 			uuid: uuid.v4(),
@@ -194,6 +209,7 @@ describe("Ship Movement tests", () => {
 		});
 	});
 	describe("Distance computation tests", () => {
+		//TODO : write all the 16 tests and situations according to ../helpers/trajectory.md
 		//arrange
 		let originLocation;
 		let destinationLocation;
@@ -265,5 +281,4 @@ describe("Ship Movement tests", () => {
 			expect(distance).to.be.closeTo(3.4641, 0.0001);
 		});
 	});
-	//todo : cargobay tests
 });

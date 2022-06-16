@@ -57,9 +57,6 @@ describe("StellarType tests", function() {
 	});
 	describe("StellarType from Factory Methods tests", function() {
 		this.timeout(5000);
-		before(async function(){
-			await StellarType.sync();
-		});
 		const stellarArray =[
 			{
 				name: "Blackhole",
@@ -78,10 +75,11 @@ describe("StellarType tests", function() {
 			}
 		];
 		//arrange
-		beforeEach(async function() {
+		before(async function() {
+			await StellarType.sync();
 			await StellarType.bulkCreate(stellarArray);
 		});
-		afterEach(async function() {
+		after(async function() {
 			await StellarType.drop();
 		});
 		it("should return a valid stellar Type", async function() { 
