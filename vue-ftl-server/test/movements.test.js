@@ -11,6 +11,7 @@ describe("Ship Movement tests", () => {
 	let solSystem;
 	let centauriSystem;
 	let earth;
+	let aurora;
 	before(async()=>{
 		await User.sync();
 		await Cargo.sync();
@@ -50,7 +51,7 @@ describe("Ship Movement tests", () => {
 		});
 		earth.setPlanetType(planetType);
 		earth.setStarSystem(solSystem);
-
+		
 		centauriSystem = await StarSystem.create({
 			id: 2,
 			uuid: uuid.v4(),
@@ -58,6 +59,17 @@ describe("Ship Movement tests", () => {
 			position:{x:2,y:5,z:7}
 		});
 		await milkyWay.addStarSystem(centauriSystem);
+
+		aurora = await Planet.create({
+			uuid: uuid.v4(),
+			name: "aurora",
+			color: planetType.baseColor,
+			orbit: 0.4,
+			radius: 5.1,
+			minerals: 100,
+		});
+		aurora.setPlanetType(planetType);
+		aurora.setStarSystem(centauriSystem);
 	});
 	
 	after(async()=>{
@@ -279,6 +291,14 @@ describe("Ship Movement tests", () => {
 			const distance = await ComputeDistance(originLocation,destinationLocation);
 			//assert
 			expect(distance).to.be.closeTo(3.4641, 0.0001);
+		});
+		it("should return distance between 2 planets in a different system", async () => {
+			//arrange
+			
+			//act
+			const distance = await ComputeDistance(solSystem,aurora);
+			//assert
+			expect(distance).to.be.closeTo(7.28011, 0.0001);
 		});
 	});
 });
