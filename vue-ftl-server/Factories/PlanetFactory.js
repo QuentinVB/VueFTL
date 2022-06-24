@@ -25,7 +25,8 @@ module.exports.GenerateRandomPlanetAt = async function (starSystem, position) {
 };
 
 /**
- * 
+ * Build a Planet with randomized parameters and attach it to the given starSystem
+ * /!\ not persisted, you must save() it !
  * @param {StarSystem} starSystem 
  * @param {Number} position 
  * @param {PlanetType} planetType 
@@ -46,6 +47,7 @@ module.exports.GeneratePlanet = function (starSystem, position, planetType) {
 			radius: radius,
 			minerals: minerals,
 		});
+	
 	planet.PlanetTypeId = planetType.id;
 	planet.StarSystemId = starSystem.id;
 	//await planet.setPlanetType(planetType);

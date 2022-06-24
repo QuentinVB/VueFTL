@@ -30,10 +30,26 @@ module.exports = async function(originLocation,destination)
 		return EuclidianDistance(originLocation.position,destination.position);
 	}
 
-	//origin : StarSystemSpace ; Destination StarSystemSpace
+	//origin : StarSystemSpace ; Destination StarSystemSpace, unless both are planets not in the same starsystem
 	if(IsInStarSystemSpace(originLocation) && IsInStarSystemSpace(destination))
 	{
-		return EuclidianDistance(originLocation.position,destination.position);
+		let positionOrigin = originLocation.position;
+		let positionDestination = destination.position;
+		if(originLocation instanceof Planet && destination instanceof Planet ) {
+			const originStarSystemId = originLocation.StarSystemId;
+			const destinationStarSystemId = destination.StarSystemId;
+
+			if(originStarSystemId !== destinationStarSystemId)
+			{
+				const originStarSystem = await StarSystem.findOne({where:{id:originStarSystemId}});
+				positionOrigin = originStarSystem.position;
+		
+				const destinationStarSystem = await StarSystem.findOne({where:{id:destinationStarSystemId}});
+				positionDestination = destinationStarSystem.position;
+			}
+			
+		}
+		return EuclidianDistance(positionOrigin,positionDestination);
 	}
 
 	//origin : StarSystemSpace ; Destination galaxySpace

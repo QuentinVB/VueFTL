@@ -4,7 +4,6 @@ const ShipFactory = require("../Factories/ShipFactory.js");
 const ShipService  = require("../services/shipService.js");
 const {User,Ship, StellarType, Cargo,Location,Galaxy,StarSystem,Planet,PlanetType} = require("../models");
 const { Situation, Reference , TravelType } = require("../helpers/Enum.js");
-const ComputeDistance = require("../helpers/ComputeDistance.js");
 
 describe("Ship Movement tests", () => {
 	let milkyWay;
@@ -39,7 +38,7 @@ describe("Ship Movement tests", () => {
 			position:{x:1,y:1,z:1}
 		});
 		await milkyWay.addStarSystem(solSystem);
-		const planetType = await PlanetType.create({ id: 1, name: "Earth analog planet", baseColor: "#18629e", baseRadius: 1, landable: true });
+		const planetType = await PlanetType.create({ name: "Earth analog planet", baseColor: "#18629e", baseRadius: 1, landable: true });
 
 		earth = await Planet.create({
 			uuid: uuid.v4(),
@@ -81,6 +80,7 @@ describe("Ship Movement tests", () => {
 		await StarSystem.drop();
 		await StellarType.drop();
 		await Planet.drop();
+		await PlanetType.drop();
 	});
 	
 	//TODO : user link test
@@ -136,41 +136,6 @@ describe("Ship Movement tests", () => {
 			expect(shipFromDB.Location.position).to.eql( { x: 0, y: 0, z: 0 });
 			expect(shipFromDB.Location.reference).to.eql( { reference: Reference.STARSYSTEM, id:1 });
 		});
-
-		
-		it("can't move if landed", () => {
-			//arrange
-			defaultShip.location.situation="landed";
-			//act
-			//assert
-			expect(
-				defaultShip.canMove("","")
-			).to.be.false;
-		});
-		it("can move to a starsystem", () => {
-			//arrange
-			//act
-			//assert
-			expect(defaultShip.canMove(uuid.v4(),"")).to.be.true;
-		});
-		it("can't move to the actual starsystem", () => {
-			//arrange
-			const starSystemUUId = uuid.v4();
-			defaultShip.location.starsystem=starSystemUUId;
-			//act
-			//assert
-			expect(defaultShip.canMove(starSystemUUId,"")).to.be.false;
-		});
-		it("can't move to the actual planet", () => {
-			//arrange
-			const starSystemUUId = uuid.v4();
-			const planetUUId = uuid.v4();
-			defaultShip.location.starsystem=starSystemUUId;
-			defaultShip.location.planet=planetUUId;
-			//act
-			//assert
-			expect(defaultShip.canMove(starSystemUUId,planetUUId)).to.be.false;
-		});
 	});
 	describe("Ship fuel consumption test", () => {
 		
@@ -189,8 +154,7 @@ describe("Ship Movement tests", () => {
 			});
 		});
 
-		it("should compute the right amount of fuel for a starSystem to starSystem Warp", async function() {
-			this.timeout(250000);
+		it("should compute the right amount of fuel for a starSystem to starSystem Warp", async ()=> {
 			//arrange
 			await ShipService.setLocationTo(defaultShip,solSystem);
 			//act
@@ -218,87 +182,6 @@ describe("Ship Movement tests", () => {
 			//act
 			//assert
 			expect(defaultShip.canMove("","")).to.be.false;
-		});
-	});
-	describe("Distance computation tests", () => {
-		//TODO : write all the 16 tests and situations according to ../helpers/trajectory.md
-		//arrange
-		let originLocation;
-		let destinationLocation;
-		
-		afterEach(async () => {
-			originLocation = null;
-			destinationLocation = null;
-		});
-
-		it("should return distance between Galaxy position and another Galaxy position", async () => {
-			//arrange
-			originLocation = Location.build({
-				reference:{reference:Reference.GALAXY,id:1},
-				position:{ x:0, y:0, z: 0 }
-			});
-			destinationLocation = Location.build({
-				reference:{reference:Reference.GALAXY,id:1},
-				position:{ x:1, y:2, z: 3 }
-			});
-			//act
-			const distance = await ComputeDistance(originLocation,destinationLocation);
-			//assert
-			expect(distance).to.be.closeTo(3.7416, 0.0001);
-		});
-		it("should return distance between StarSystem and another StarSystem", async () => {
-			//arrange
-			originLocation = Location.build({
-				reference:{reference:Reference.STARSYSTEM,id:1},
-				position:{ x:0, y:0, z: 0 }
-			});
-			destinationLocation = Location.build({
-				reference:{reference:Reference.STARSYSTEM,id:1},
-				position:{ x:1, y:2, z: 3 }
-			});
-			//act
-			const distance = await ComputeDistance(originLocation,destinationLocation);
-			//assert
-			expect(distance).to.be.closeTo(3.7416, 0.0001);
-		});
-		it("should return distance between Planet and another Planet", async () => {
-			//arrange
-			originLocation = Location.build({
-				reference:{reference:Reference.PLANET,id:1},
-				position:{ x:0, y:0, z: 0 }
-			});
-			destinationLocation = Location.build({
-				reference:{reference:Reference.PLANET,id:1},
-				position:{ x:1, y:2, z: 3 }
-			});
-			//act
-			const distance = await ComputeDistance(originLocation,destinationLocation);
-			//assert
-			expect(distance).to.be.closeTo(3.7416, 0.0001);
-		});
-		it("should return distance between Galaxy position and StarSystem", async () => {
-			//arrange
-			originLocation = Location.build({
-				reference:{reference:Reference.GALAXY,id:1},
-				position:{ x:0, y:0, z: 0 }
-			});
-			destinationLocation = StarSystem.build({
-				uuid: uuid.v4(),
-				name: "Barnard",
-				position:{ x:2, y:2, z: 2 }
-			});
-			//act
-			const distance = await ComputeDistance(originLocation,destinationLocation);
-			//assert
-			expect(distance).to.be.closeTo(3.4641, 0.0001);
-		});
-		it("should return distance between 2 planets in a different system", async () => {
-			//arrange
-			
-			//act
-			const distance = await ComputeDistance(solSystem,aurora);
-			//assert
-			expect(distance).to.be.closeTo(7.28011, 0.0001);
 		});
 	});
 });

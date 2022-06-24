@@ -1,6 +1,7 @@
 const { getRandomIntInclusive,getRandomInt } =require( "../helpers/Random.js");
 const {GREEKALPHABET,NAMESOURCE} = require("../helpers/Naming.js");
 const {StarSystem,StellarType}   =  require("../models");
+const PlanetFactory = require("./PlanetFactory");
 
 const MINPLANETORBIT = 0.2; //UA
 const MAXPLANETORBIT = 30; //UA
@@ -9,7 +10,7 @@ module.exports.MINPLANETORBIT = MINPLANETORBIT;
 module.exports.MAXPLANETORBIT = MAXPLANETORBIT;
 
 /**
- * Return a proceduraly generated StarSystem Instance
+ * Return a proceduraly generated StarSystem Instance without the planets
  * @param {{x:Number,y:Number,z:Number}} starSystemPosition 
  * @returns {StarSystem} 
  */
@@ -28,29 +29,36 @@ module.exports.GenerateRandomStarSystem = async function(starSystemPosition)
 	const planetCount = getRandomIntInclusive(1,10);
 	newStarSystem.planetesCount = planetCount ;
   
+	
+	return newStarSystem;
+};
+
+/**
+ * Add planets to the Starsystem
+ * @param {StarSystem} starSystem 
+ * @returns {StarSystem} 
+ */
+module.exports.PopulateStarSystemWithPlanets = async function(starSystem)
+{
+	const planetCount = starSystem.planetesCount;
 	const a = MINPLANETORBIT;
 	const b = Math.pow(MAXPLANETORBIT/MINPLANETORBIT, 1/planetCount);
 
-	//TODO : generate planete later if marked noComplete ?
-	/*
-  for (let i = 0; i < planetCount; i++) {
-    const planet = Planet.generateRandomPlanet(starSystem,i);
-    let orbit = a * Math.pow(b,i);
-    orbit += orbit*(Math.random()*0.5);
-    planet.orbit = orbit;
+	//const newPlanets = [];
 
+	for (let i = 0; i < planetCount; i++) {
 
-    //compute planetposition
-    
-    starSystem.planets.push(planet)
-  }*/
-  
+		let orbit = a * Math.pow(b,i);
+		orbit += orbit*(Math.random()*0.5);
 
+		const planet = PlanetFactory.GenerateRandomPlanetAt(starSystem,orbit);
+		//newPlanets.push(planet);
+		await planet.save();	
+	}
 	//x= r Cos i
 	//y= r Sin i
 	//r=sqrt(x²+y²)
 	//i = atan (y/x)
-	return newStarSystem;
 };
 
 function getRandomName()
