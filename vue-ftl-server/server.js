@@ -1,40 +1,25 @@
 /*global process*/
 /*eslint no-undef: "error"*/
 
-const express  =require( "express");
-const { urlencoded, json }  =require( "body-parser");
-const cors  =require( "cors");
-const routes  =require( "./api/routes/Routes.js"); //importing route
+const http = require("http"); 
+const app = require("./app"); 
+const errorHandler = require("./middleware/httpErrorHandler");
+const httpPortNormalizer = require("./middleware/httpPortNormalizer");
 
-var app = express();
-var port = process.env.PORT || 3000;
+//PORT
+const port = httpPortNormalizer(process.env.PORT || 3000);
+app.set("port", port);
 
-app.use(urlencoded({ extended: true }));
-app.use(json());
+const server = http.createServer(app);
 
-//set up http header
-app.use(function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*"); 
-	next();
+//ERRORS
+server.on("error", errorHandler(server,port)); 
+
+server.on("listening", () => { 
+	const address = server.address();
+	const bind = typeof address === "string" ? "pipe " + address : "port " + port;
+	console.log("Listening on " + bind);
 });
 
-app.use(cors());
-
-
-
-//init DAO using sequelize
-
-//InitModels(sequelize);
-
-//routes
-routes(app); //register the route
-
-//setup 404
-app.use(function(req, res) {
-	res.status(404).send({url: req.originalUrl + " not found"});
-});
-
-//run server
-app.listen(port);
-
-console.log("FTL RESTful API server started on: " + port);
+//RUN
+server.listen(port);
