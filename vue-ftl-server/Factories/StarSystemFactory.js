@@ -10,7 +10,7 @@ module.exports.MINPLANETORBIT = MINPLANETORBIT;
 module.exports.MAXPLANETORBIT = MAXPLANETORBIT;
 
 /**
- * Return a proceduraly generated StarSystem Instance without the planets
+ * Return a procedurally generated StarSystem Instance without the planets
  * @param {{x:Number,y:Number,z:Number}} starSystemPosition 
  * @returns {StarSystem} 
  */

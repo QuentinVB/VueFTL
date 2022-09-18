@@ -81,7 +81,7 @@ module.exports.CreateShip = async function (shipParameters,locationParameters) {
 /**
  * Persist a Ship at the given unsaved Location
  * @param {Ship} ship the ship to persist
- * @param {Location} locationthe location of the ship to persist
+ * @param {Location} location the location of the ship to persist
  * @returns {Ship}
  */
 module.exports.PersistShip = async function (ship,location) {

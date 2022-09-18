@@ -24,3 +24,5 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 UX : mark visited system and current position
+
+Tests front end https://vitest.dev/guide/
