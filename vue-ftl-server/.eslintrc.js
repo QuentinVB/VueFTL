@@ -1,7 +1,7 @@
 module.exports = {
 	"env": {
 		"browser": true,
-		"commonjs": true,
+		"commonjs": true,//TODO : false
 		"es2021": true,
 		"mocha": true
 	},

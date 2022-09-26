@@ -2,7 +2,10 @@
   "name": "vue-ftl-server",
   "version": "1.0.0",
   "description": "backend for vue ftl project",
+  "author": "Quentin vanbutsele",
+  "license": "ISC",
   "main": "server.js",
+  "type": "commonjs",
   "scripts": {
     "start": "server.js",
     "dev": "cross-env NODE_ENV=developpement nodemon server.js",
@@ -10,9 +13,6 @@
     "seed": "npx sequelize-cli db:seed:all --seeders-path ../Database/seeders/test",
     "lint": "npx eslint --fix ."
   },
-  "type": "commonjs",
-  "author": "Quentin vanbutsele",
-  "license": "ISC",
   "devDependencies": {
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
