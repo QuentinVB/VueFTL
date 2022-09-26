@@ -1,9 +1,7 @@
 /*global process*/
 /*eslint no-undef: "error"*/
 
-require("dotenv").config();
-
-module.exports = {
+export default {
 	development: {
 		dialect: "sqlite",
 		storage: "../vue-ftl-database/database.sqlite3",
@@ -15,10 +13,10 @@ module.exports = {
 		logging:false
 	},
 	production: {
-		username: process.env.MYSQL_USER,
-		password: process.env.MYSQL_PASSWORD,
-		database: process.env.MYSQL_DB_NAME,
-		host:process.env.MYSQL_HOST,
+		username: process.env.DB_USER,
+		password: process.env.DB_PASSWORD,
+		database: process.env.DB_DB_NAME,
+		host:process.env.DB_HOST,
 		dialect:"mysql",
 		logging:false
 	}

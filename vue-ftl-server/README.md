@@ -144,3 +144,16 @@ Flew through a moon made of liquid helium, went back to collect fuel. (Gain 100 
 
 orbital event VS ground event
 
+development: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DBNAME,
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    encrypt: process.env.DB_ENCRYPT,
+    pool: {
+      max: parseInt(process.env.DB_POOL_MAX),
+      min: parseInt(process.env.DB_POOL_MIN),
+      acquire: parseInt(process.env.DB_POOL_ACQUIRE),
+      idle: parseInt(process.env.DB_POOL_IDLE),
+    },

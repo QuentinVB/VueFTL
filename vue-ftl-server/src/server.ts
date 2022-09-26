@@ -3,9 +3,11 @@
 
 import http from "http"; 
 import app from "./app"; 
-import {sequelize} from './sequelize';
+import sequelize from './sequelize';
 import errorHandler from "./middleware/httpErrorHandler";
 import httpPortNormalizer from "./middleware/httpPortNormalizer";
+import  dotenv from 'dotenv'
+dotenv.config(); 
 
 //PORT
 const port = httpPortNormalizer(process.env.PORT || 3000);

@@ -11,7 +11,7 @@ import cors from "cors";
 
 import routes from "./routes/Routes.js"; //importing route
 
-require("dotenv").config(); 
+
 
 const app = express(); 
 
