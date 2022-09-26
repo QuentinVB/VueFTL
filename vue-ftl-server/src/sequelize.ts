@@ -2,15 +2,20 @@ import {Sequelize} from 'sequelize-typescript';
 import config from '~/config/db.config';
 
 //TODO : change according to config
+import dotenv from 'dotenv'
+dotenv.config(); 
 
-models: [__dirname + '/models']
 
 const env = process.env.NODE_ENV || "test";
-const currentConfig = config[env];
+const currentConfig = {
+  ...config[env]
+  , models: [__dirname + '/models'] 
+};
 
-let sequelize;
+let sequelize: Sequelize;
+
 if (currentConfig.use_env_variable) {
-	sequelize = new Sequelize(process.env[currentConfig.use_env_variable], currentConfig);
+	sequelize = new Sequelize(currentConfig);
 } else {
 	sequelize = new Sequelize(currentConfig.database, currentConfig.username, currentConfig.password, currentConfig);
 }

@@ -1,8 +1,7 @@
-const { expect } = require("chai");
-const bcrypt = require("bcrypt");
-const uuid = require("uuid");
-const database = require("../models");
-const User = database["User"];
+import { expect } from "chai";
+import bcrypt from "bcrypt";
+import { v4 } from "uuid";
+import User from "../src/models/User"
 
 const saltRounds = 2;
 const testPassword = "thisIsATestPassword";
@@ -16,7 +15,7 @@ describe("User tests", () => {
 				username: "John Doe",
 				email: "john.doe@example.com",
 				passwordHash: "",
-				uuid: uuid.v4(),
+				uuid: v4(),
 				credits: User.STARTCREDITS,
 				createdAt: new Date(),
 				updatedAt: new Date(),
@@ -37,9 +36,9 @@ describe("User tests", () => {
 		});
 	});
 	//TODO : will use auth library
-	describe("User Password tests", () => {
+	describe("User Password tests", async() => {
 		//arrange
-		const sut = User.findByPk(1);
+		const sut = await User.findByPk(1);
 
 		//act
 		sut.passwordHash = bcrypt.hashSync(testPassword, saltRounds);
@@ -50,7 +49,7 @@ describe("User tests", () => {
 		});
 
 	});
-	/*
+	
     describe('Credits tests', () => {
         it('Increment should add', () => {
             //arrange
@@ -71,5 +70,4 @@ describe("User tests", () => {
             expect(sut.credits).to.equal(0);
         });
     });
-    */
 });

@@ -62,6 +62,10 @@ https://blog.logrocket.com/using-sequelize-with-typescript/
 
 https://medium.com/building-ibotta/testing-arrays-and-objects-with-chai-js-4b372310fe6d
 
+https://github.com/sequelize/sequelize-typescript
+
+https://github.com/lotivo/sequelize-guard
+
 {
       "type": "chrome",
       "request": "launch",
