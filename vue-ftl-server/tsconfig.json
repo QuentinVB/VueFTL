@@ -1,0 +1,35 @@
+{
+  "compileOnSave": false,
+  "baseUrl": ".",
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "declaration": false,
+    "pretty": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "strictPropertyInitialization": false,
+    "paths": {
+      "~/*": ["./src/*"],
+      "~~/*": ["./*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "index.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
+}

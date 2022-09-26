@@ -29,7 +29,8 @@
         ],
     },
     "settings": {
-        "liveServer.settings.multiRootWorkspaceName": "Server"
+        "liveServer.settings.multiRootWorkspaceName": "Server",
+        "editor.fontFamily": "Monocraft,Consolas, 'Courier New', monospace",
 		"[javascript]": {
 			"editor.tabSize": 4
 		}
