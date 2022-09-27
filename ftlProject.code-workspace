@@ -33,7 +33,9 @@
         "editor.fontFamily": "Monocraft,Consolas, 'Courier New', monospace",
 		"[javascript]": {
 			"editor.tabSize": 4
-		}
+		},
+		"mochaExplorer.require": "ts-node/register",
+		"mochaExplorer.files": "tests/**/*.ts",
        
     },
 	"launch": {

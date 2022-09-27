@@ -1,10 +1,25 @@
-import {AllowNull, Column, CreatedAt, HasOne, IsUUID, Model, Table, UpdatedAt} from 'sequelize-typescript';
-import { DataTypes } from 'sequelize/types';
+import {AllowNull, Column, CreatedAt, HasOne, IsUUID, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { DataTypes,Optional } from 'sequelize';
 import Ship from './ship';
 
+export interface IUser {
+	id: number;
+	username: string;
+	email: string;
+	uuid: string;
+	credits:number;
+	passwordHash: string;
+	createdAt?: Date;
+	updatedAt?: Date;
+  }
+
+export interface IUserView extends Optional<IUser, 'id' > {}
+
 @Table
-export default class User extends Model<User>{
+export class User extends Model<IUser,IUserView> implements IUser{
 	static STARTCREDITS = 500;
+
+	declare id:number;
 
 	@AllowNull(false)
 	@Column

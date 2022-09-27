@@ -66,6 +66,8 @@ https://github.com/sequelize/sequelize-typescript
 
 https://github.com/lotivo/sequelize-guard
 
+https://github.com/hbenl/vscode-mocha-test-adapter
+
 {
       "type": "chrome",
       "request": "launch",

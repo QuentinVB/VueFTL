@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import bcrypt from "bcrypt";
 import { v4 } from "uuid";
-import User from "../src/models/User"
+import {User} from "../src/models/User"
 
 const saltRounds = 2;
 const testPassword = "thisIsATestPassword";
@@ -27,7 +27,7 @@ describe("User tests", () => {
 		});
 		it("should have a value from DB", async () => {
 			//const sut = await User.findOne({ where: { id: 1 }})
-			const sut = await User.findByPk(1);
+			const sut : any = await User.findByPk(1);
             
 			expect(sut.uuid).to.be.not.null;
 			expect(sut.username).to.equal("John Doe");
@@ -38,7 +38,7 @@ describe("User tests", () => {
 	//TODO : will use auth library
 	describe("User Password tests", async() => {
 		//arrange
-		const sut = await User.findByPk(1);
+		const sut : any = await User.findByPk(1);
 
 		//act
 		sut.passwordHash = bcrypt.hashSync(testPassword, saltRounds);
@@ -51,18 +51,18 @@ describe("User tests", () => {
 	});
 	
     describe('Credits tests', () => {
-        it('Increment should add', () => {
+        it('Increment should add', async() => {
             //arrange
-            const sut = User.EmptyUser();
+            const sut = await User.create();
             sut.credits = 50;
             //act 
             sut.credits++;
             //assert
             expect(sut.credits).to.equal(51);
         });
-        it('should equal 0', () => {
+        it('should equal 0', async() => {
             //arrange
-            const sut = User.EmptyUser();
+            const sut = await User.create();
             sut.credits = 50;
             //act 
             sut.credits -= 100;

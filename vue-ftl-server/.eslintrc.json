@@ -1,13 +1,21 @@
-module.exports = {
+{
 	"env": {
+		"node": true,
 		"browser": true,
 		"commonjs": true,//TODO : false
 		"es2021": true,
 		"mocha": true
 	},
-	"extends": "eslint:recommended",
+	"plugins": [
+		"@typescript-eslint"
+	],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended"
+	  ],
 	"parserOptions": {
-		"ecmaVersion": "latest"
+		"ecmaVersion": "latest",
+		"sourceType": "module"
 	},
 	"rules": {
 		"indent": [
@@ -27,4 +35,4 @@ module.exports = {
 			"always"
 		]
 	}
-};
+}
