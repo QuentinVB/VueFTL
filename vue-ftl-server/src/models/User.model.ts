@@ -1,6 +1,6 @@
-import {AllowNull, Column, CreatedAt, HasOne, IsUUID, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import {AllowNull, Column,  HasOne, IsUUID, Model, Table} from 'sequelize-typescript';
 import { DataTypes,Optional } from 'sequelize';
-import Ship from './ship';
+import { Ship } from './Ship.model';
 
 export interface IUser {
 	id: number;
@@ -9,8 +9,6 @@ export interface IUser {
 	uuid: string;
 	credits:number;
 	passwordHash: string;
-	createdAt?: Date;
-	updatedAt?: Date;
   }
 
 export interface IUserView extends Optional<IUser, 'id' > {}
@@ -20,6 +18,10 @@ export class User extends Model<IUser,IUserView> implements IUser{
 	static STARTCREDITS = 500;
 
 	declare id:number;
+	
+	declare createdAt: Date;
+	
+	declare updatedAt: Date;
 
 	@AllowNull(false)
 	@Column
@@ -49,14 +51,6 @@ export class User extends Model<IUser,IUserView> implements IUser{
 	
 	@HasOne(() => Ship)
 	ship?: Ship;
-	
-	@CreatedAt
-	@Column
-	createdAt!: Date;
-	
-	@UpdatedAt
-	@Column
-	updatedAt!: Date;
 
 
 	//TODO : TO JSON/To ViewModel

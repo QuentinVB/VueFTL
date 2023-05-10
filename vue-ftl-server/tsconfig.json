@@ -1,11 +1,17 @@
 {
   "compileOnSave": false,
-  "baseUrl": ".",
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "types": ["node", "express"],
+    "sourceRoot": ".",
+    "baseUrl": "./",
+    "target": "es2022",
+    "module": "esnext",
     "moduleResolution": "node",
+    "lib": [
+      "ESNext"
+    ],
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noUnusedLocals": true,
@@ -30,6 +36,7 @@
     "node_modules"
   ],
   "ts-node": {
+    "esm": true,
     "require": ["tsconfig-paths/register"]
   }
 }

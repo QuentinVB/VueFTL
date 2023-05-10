@@ -163,3 +163,6 @@ development: {
       acquire: parseInt(process.env.DB_POOL_ACQUIRE),
       idle: parseInt(process.env.DB_POOL_IDLE),
     },
+
+
+https://www.npmjs.com/package/sequelize-test-helpers

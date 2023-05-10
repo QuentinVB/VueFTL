@@ -1,12 +1,18 @@
+import "mocha";
 import { expect } from "chai";
 import bcrypt from "bcrypt";
 import { v4 } from "uuid";
-import {User} from "../src/models/User"
+import sequelize from "../src/sequelize";
+import {User} from "../src/models/User.model"
 
 const saltRounds = 2;
 const testPassword = "thisIsATestPassword";
 
 describe("User tests", () => {
+	before(async function(){
+		return sequelize.sync({force: true});
+	});
+	
 	describe("Stored User tests", () => {
 		beforeEach(async () => {
 			await User.sync();
@@ -17,8 +23,6 @@ describe("User tests", () => {
 				passwordHash: "",
 				uuid: v4(),
 				credits: User.STARTCREDITS,
-				createdAt: new Date(),
-				updatedAt: new Date(),
 			});
 		});
         

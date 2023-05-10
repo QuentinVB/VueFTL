@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { Sequelize, DataTypes, Model } from 'sequelize-typescript';
 import User from '../vue-ftl-server/models/User.js';
 
 const sequelize = new Sequelize({
