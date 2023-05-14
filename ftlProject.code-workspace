@@ -12,6 +12,14 @@
 			"name": "Database",
 			"path": "./vue-ftl-database"
 		},
+        {
+			"name": "SQL",
+			"path": "./database"
+		},
+        {
+			"name": "Sandbox",
+			"path": "./sandbox2"
+		},
 		{
 			"name": "Dev",
 			"path": "./dev"
@@ -35,8 +43,14 @@
 			"editor.tabSize": 4
 		},
 		"mochaExplorer.require": "ts-node/register",
-		"mochaExplorer.files": "tests/**/*.ts",
-       
+        "mochaExplorer.files": "tests/**/*.ts",
+        "jest.disabledWorkspaceFolders": [
+            "Dev",
+            "SQL",
+            "Database",
+            "Server",
+            "Client",
+        ],      
     },
 	"launch": {
             "configurations": [

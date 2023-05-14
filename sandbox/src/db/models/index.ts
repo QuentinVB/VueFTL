@@ -4,6 +4,7 @@ import Recipe from './Recipe'
 import Review from './Review'
 import RecipeTag from './RecipeTag'
 import RecipeIngredient from './RecipeIngredient'
+import User from './User'
 
 export {
   Tag,
@@ -11,5 +12,6 @@ export {
   Recipe,
   Review,
   RecipeTag,
-  RecipeIngredient
+  RecipeIngredient,
+  User
 }

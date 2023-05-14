@@ -1,0 +1,14 @@
+import {IUser} from '../../interfaces'
+import {UserOutput} from '../../../db/models/User'
+
+export const toUser = (user: UserOutput): IUser => {
+    return {
+        id: user.id,
+        name: user.name,
+        description: user.description,
+        credit: user.credits,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        deletedAt: user.deletedAt,
+    }
+}

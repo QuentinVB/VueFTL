@@ -1,11 +1,11 @@
-import express, { Application, Request, Response } from 'express'
-
-import routes from './api/routes'
+require('dotenv').config()
 import dbInit from './db/init'
+import express, { Application, Request, Response } from 'express'
+import routes from './api/routes'
 
-const port = 3000
+const port = process.env.DEV_PORT
 
-export const get = () => {
+export const getApp = () => {
     const app: Application = express()
 
     // Body parsing Middleware
@@ -13,7 +13,7 @@ export const get = () => {
     app.use(express.urlencoded({ extended: true }));
     
     app.get('/', async(req: Request, res: Response): Promise<Response> => {
-        return res.status(200).send({ message: `Welcome to the cookbook API! \n Endpoints available at http://localhost:${port}/api/v1` })
+        return res.status(200).send({ message: `Welcome to the sandboxAPI` })
     })
     
     app.use('/api/v1', routes)
@@ -22,7 +22,7 @@ export const get = () => {
 }
 
 export const start = () => {
-    const app = get()
+    const app = getApp()
     try {
         app.listen(port, () => {
             console.log(`Server running on http://localhost:${port}`)
