@@ -1,4 +1,4 @@
-import User, { UserOutput } from "../../../src/db/models/User"
+import User, { UserOutput } from "../../../src/db/models/User.model"
 import { request } from "../../helpers"
 
 

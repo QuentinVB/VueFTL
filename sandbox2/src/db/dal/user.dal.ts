@@ -3,7 +3,7 @@ import {isEmpty} from 'lodash'
 import bcrypt from 'bcrypt'
 import {User} from '../models'
 import {GetAllUsersFilters} from './types'
-import {UserInput, UserOutput} from '../models/User'
+import {UserInput, UserOutput} from '../models/User.model'
 const saltRounds = 2;
 
 

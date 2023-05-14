@@ -1,5 +1,5 @@
 import {cash} from '../../../src/db/services/UserService'
-import {cashIn as userDalUpdate} from '../../../src/db/dal/user'
+import {cashIn as userDalUpdate} from '../../../src/db/dal/user.dal'
 import { User } from '../../../src/db/models'
 
 /*

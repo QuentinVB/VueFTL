@@ -1,5 +1,5 @@
 import {IUser} from '../../interfaces'
-import {UserOutput} from '../../../db/models/User'
+import {UserOutput} from '../../../db/models/User.model'
 
 export const toUser = (user: UserOutput): IUser => {
     return {

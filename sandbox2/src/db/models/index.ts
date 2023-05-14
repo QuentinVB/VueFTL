@@ -1,6 +1,8 @@
 
-import User from './User'
+import Ship from './Ship.model'
+import User from './User.model'
 
 export {
-  User
+  User,
+  Ship
 }

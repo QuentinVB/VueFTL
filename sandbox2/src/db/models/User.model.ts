@@ -8,6 +8,7 @@ interface UserAttributes {
     passwordHash: string;
     description?: string;
     credits?: number;
+    
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;
