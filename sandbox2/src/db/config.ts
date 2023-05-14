@@ -58,7 +58,11 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: dbDriver,
   storage: dbPath,
   logging: false,
-  define: {hooks}
+  define: {hooks},
+  retry:{
+    match:[/Deadlock/i],
+    max:3,
+  }
 })
 
 export default sequelizeConnection

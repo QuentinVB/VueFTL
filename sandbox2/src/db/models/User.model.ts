@@ -1,5 +1,6 @@
 import { DataTypes, Model, ModelStatic, Optional } from 'sequelize'
 import sequelizeConnection from '../config'
+import Ship from './Ship.model';
 
 interface UserAttributes {
     id: number;
@@ -8,6 +9,8 @@ interface UserAttributes {
     passwordHash: string;
     description?: string;
     credits?: number;
+
+    shipId?: number;
     
     createdAt?: Date;
     updatedAt?: Date;
@@ -28,6 +31,8 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
     public passwordHash!: string
     public description!: string
     public credits!: number
+
+    public shipId!: number
     
     // timestamps!
     public readonly createdAt!: Date;
@@ -53,6 +58,13 @@ User.init({
     description: {
         type: DataTypes.TEXT
     },
+    shipId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Ship,
+            key: 'id'
+        }
+    },
     credits: {
 		type: DataTypes.INTEGER,
 		defaultValue: User.STARTCREDITS,
@@ -64,5 +76,12 @@ User.init({
   sequelize: sequelizeConnection,
   paranoid: true
 })
+
+User.hasOne(Ship, {
+    foreignKey: {
+        allowNull: true
+    }
+});
+
 
 export default User

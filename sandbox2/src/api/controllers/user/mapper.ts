@@ -7,6 +7,7 @@ export const toUser = (user: UserOutput): IUser => {
         name: user.name,
         description: user.description,
         credit: user.credits,
+        shipId: user.shipId,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
         deletedAt: user.deletedAt,

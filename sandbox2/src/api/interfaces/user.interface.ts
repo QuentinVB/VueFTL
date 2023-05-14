@@ -3,6 +3,7 @@ export interface IUser {
   name: string
   description?: string
   credit?: number
+  shipId?:number
   createdAt: Date
   updatedAt: Date
   deletedAt?: Date 
