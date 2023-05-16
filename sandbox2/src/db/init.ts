@@ -18,7 +18,7 @@ switch (true) {
 }
 
 const dbInit = () => Promise.all([
-  Ship.sync(param),
+    Ship.sync(param),
     User.sync(param)
     /*
     Ship.sync({ alter: isDev , force: isTest }),

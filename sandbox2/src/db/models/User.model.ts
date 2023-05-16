@@ -51,7 +51,7 @@ User.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        //unique: true,https://github.com/sequelize/sequelize/issues/8984
     },
     passwordHash: {
         type: DataTypes.STRING,
@@ -81,7 +81,8 @@ User.init({
 
 User.hasOne(Ship, {
     foreignKey: {
-        allowNull: true
+        allowNull: true,
+        name: 'shipId'
     }
 });
 
