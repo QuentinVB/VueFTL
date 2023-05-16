@@ -9,7 +9,7 @@ const dbTeardown = async () => {
     //await User.sequelize?.query("SET FOREIGN_KEY_CHECKS = 1")
 }
 */
-jest.mock('../../../src/db/dal/user', () => ({
+jest.mock('../../../src/db/dal/user.dal', () => ({
     cashIn: jest.fn(),
 }))
 

@@ -1,8 +1,10 @@
 import dbInit from '../src/db/init'
-import dbTeardown from '../src/db/teardown'
 
-(async function () {
+
+const bootstrapTest = async () => {
     console.log('++++++ Bootstraping Tests +++++++')
-    //await dbTeardown();
-    await dbInit();
-})()
+
+     await dbInit();
+};
+
+export default bootstrapTest

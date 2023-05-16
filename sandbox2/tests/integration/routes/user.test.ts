@@ -1,18 +1,26 @@
+import Supertest from "supertest";
 import User, { UserOutput } from "../../../src/db/models/User.model"
-import { request } from "../../helpers"
+import { appTest } from "../../helpers";
+import supertest from "supertest";
 
+let request= supertest(appTest);
 
 describe('User routes', () => {
     let userId: number
     let user: UserOutput
 
     beforeAll(async () => {
+
         [user] = await Promise.all([
             User.create({name: 'Adam', password: 'pesto-pasta',passwordHash:"666"}),
             User.create({name: 'Lilith', password: 'caesar-salad',passwordHash:"zobuga"}),
         ])
 
         ;({id: userId} = user)
+    })
+    
+    afterAll(function (done) {
+        appTest.close(done)
     })
 
     describe('Get All', () => {

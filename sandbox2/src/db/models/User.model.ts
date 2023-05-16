@@ -11,6 +11,7 @@ interface UserAttributes {
     credits?: number;
 
     shipId?: number;
+    ship?: Ship;
     
     createdAt?: Date;
     updatedAt?: Date;
@@ -33,6 +34,7 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
     public credits!: number
 
     public shipId!: number
+    declare ship:Ship
     
     // timestamps!
     public readonly createdAt!: Date;

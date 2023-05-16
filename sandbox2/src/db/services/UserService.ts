@@ -17,6 +17,10 @@ export const getById = (id: number): Promise<UserOutput> => {
     return UserDal.getById(id)
 }
 
+export const getByIdDeep = (id: number): Promise<UserOutput> => {
+    return UserDal.getById(id,true)
+}
+
 export const deleteById = (id: number): Promise<boolean> => {
     return UserDal.deleteById(id)
 }

@@ -11,6 +11,12 @@ usersRouter.get('/:id', async (req: Request, res: Response) => {
     const result = await userController.getById(id)
     return res.status(200).send(result)
 })
+usersRouter.get('/:id/deep', async (req: Request, res: Response) => {
+    const id = Number(req.params.id)
+
+    const result = await userController.getByIdDeep(id)
+    return res.status(200).send(result)
+})
 
 usersRouter.put('/:id', async (req: Request, res: Response) => {
     const id = Number(req.params.id)

@@ -27,7 +27,7 @@ class Ship extends Model<ShipAttributes, ShipInput> implements ShipAttributes {
 
 Ship.init({
     id: {
-        type: DataTypes.INTEGER,//TODO unsigned
+        type: DataTypes.INTEGER,//TODO unsigned when not sequelize
         autoIncrement: true,
         primaryKey: true,
     },

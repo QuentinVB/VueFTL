@@ -1,5 +1,6 @@
-import { agent as _request } from "supertest"
+require('dotenv').config()
 
-import {getApp as getApplication} from '../src/index'
+import app from '../src/app'
+const port = process.env.TEST_PORT
 
-export const request = _request(getApplication())
+export const appTest = app().listen(port)

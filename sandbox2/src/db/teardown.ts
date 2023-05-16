@@ -8,8 +8,8 @@ const dbTeardown = async () => {
   if(isTest)
   {
     return Promise.all([
-      User.truncate({force: true}),
-      Ship.truncate({force: true}),
+      User.destroy(),
+      Ship.destroy(),
     ]);
   }
   throw new Error("Can only teardown the base in test !")
