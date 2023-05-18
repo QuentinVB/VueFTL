@@ -49,7 +49,7 @@
             "SQL",
             "Database",
             "Server",
-            "Client",
+            "Client"
         ],      
     },
 	"launch": {

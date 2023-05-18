@@ -23,6 +23,9 @@ class Ship extends Model<ShipAttributes, ShipInput> implements ShipAttributes {
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
+    public static associate<M extends Model>(models:Model[]): void {
+       
+    }
 }
 
 Ship.init({

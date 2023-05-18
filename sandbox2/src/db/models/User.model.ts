@@ -1,6 +1,7 @@
 import { DataTypes, Model, ModelStatic, Optional } from 'sequelize'
 import sequelizeConnection from '../config'
 import Ship from './Ship.model';
+import { IAssociable } from '../interfaces/IAssociable';
 
 interface UserAttributes {
     id: number;
@@ -25,6 +26,7 @@ export interface UserInput extends Optional<UserAttributes, 'id' | 'passwordHash
 export interface UserOutput extends Required<UserAttributes> {}
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
+
     static STARTCREDITS = 500;
 
     public id!: number
@@ -40,6 +42,15 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
+
+    public static associate<M extends Model>(models:any): void {
+        User.hasOne(models.Ship, {
+            foreignKey: {
+                allowNull: true,
+                name: 'shipId'
+            }
+        });
+    }
 }
 
 User.init({
@@ -51,7 +62,6 @@ User.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        //unique: true,https://github.com/sequelize/sequelize/issues/8984
     },
     passwordHash: {
         type: DataTypes.STRING,
@@ -76,15 +86,14 @@ User.init({
 	}
 }, {
   sequelize: sequelizeConnection,
-  paranoid: true
+  paranoid: true,
+  //https://github.com/sequelize/sequelize/issues/8984
+  indexes: [
+    { fields: ['name'], name: 'UQ_User_Name', unique: true }
+  ]
 })
 
-User.hasOne(Ship, {
-    foreignKey: {
-        allowNull: true,
-        name: 'shipId'
-    }
-});
+
 
 
 export default User

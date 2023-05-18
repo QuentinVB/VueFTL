@@ -1,6 +1,7 @@
 require('dotenv').config()
 
-import { Ship, User } from './models'
+import { Model } from 'sequelize';
+import * as models from './models'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isTest = process.env.NODE_ENV === 'test'
@@ -17,13 +18,10 @@ switch (true) {
     break;
 }
 
-const dbInit = () => Promise.all([
-    Ship.sync(param),
-    User.sync(param)
-    /*
-    Ship.sync({ alter: isDev , force: isTest }),
-    User.sync({ alter: isDev , force: isTest })
-    */
-  ])
-
+const dbInit = async() => {
+  return Promise.all(Object.values(models).map(m=>{
+    m.associate(models);
+    return m.sync(param);
+  }))
+}
 export default dbInit 
