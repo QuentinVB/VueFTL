@@ -2,7 +2,7 @@ import {kebabCase} from 'lodash'
 
 import * as UserDal from '../dal/user.dal'
 import {GetAllUsersFilters} from '../dal/types'
-import {UserInput, UserOutput} from '../models/User.model'
+import {UserInput, UserOutput} from '../interfaces/User.interfaces'
 
 
 export const create = async (payload: UserInput): Promise<UserOutput> => {

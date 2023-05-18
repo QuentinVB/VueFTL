@@ -1,29 +1,10 @@
 import { DataTypes, Model, ModelStatic, Optional } from 'sequelize'
 import sequelizeConnection from '../config'
-import Ship from './Ship.model';
+
 import { IAssociable } from '../interfaces/IAssociable';
+import { UserAttributes, UserInput } from '../interfaces/User.interfaces';
+import Ship from './Ship.model';
 
-interface UserAttributes {
-    id: number;
-    name: string;
-    
-    passwordHash: string;
-    description?: string;
-    credits?: number;
-
-    shipId?: number;
-    ship?: Ship;
-    
-    createdAt?: Date;
-    updatedAt?: Date;
-    deletedAt?: Date;
-}
-
-export interface UserInput extends Optional<UserAttributes, 'id' | 'passwordHash' > {
-    password: string;
-}
-
-export interface UserOutput extends Required<UserAttributes> {}
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
 
@@ -35,20 +16,21 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
     public description!: string
     public credits!: number
 
-    public shipId!: number
-    declare ship:Ship
-    
+    declare ships?: Ship[]
+
     // timestamps!
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
 
     public static associate<M extends Model>(models:any): void {
-        User.hasOne(models.Ship, {
+        this.hasMany(models.Ship, {
+            sourceKey:'id',
             foreignKey: {
                 allowNull: true,
-                name: 'shipId'
-            }
+                name: 'userId',
+            },
+            as:'ships'
         });
     }
 }
@@ -70,6 +52,7 @@ User.init({
     description: {
         type: DataTypes.TEXT
     },
+    /*
     shipId: {
         type: DataTypes.INTEGER,
         references: {
@@ -77,6 +60,7 @@ User.init({
             key: 'id'
         }
     },
+    */
     credits: {
 		type: DataTypes.INTEGER,
 		defaultValue: User.STARTCREDITS,

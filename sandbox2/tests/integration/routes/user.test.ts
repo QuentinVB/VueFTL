@@ -1,22 +1,28 @@
 import Supertest from "supertest";
-import User, { UserOutput } from "../../../src/db/models/User.model"
+import User from "../../../src/db/models/User.model"
 import { appTest } from "../../helpers";
 import supertest from "supertest";
+import { Ship } from "../../../src/db/models";
+import { UserOutput } from "../../../src/db/interfaces/User.interfaces";
 
 let request= supertest(appTest);
 
 describe('User routes', () => {
     let userId: number
     let user: UserOutput
+    let ship:Ship;
 
     beforeAll(async () => {
-
         [user] = await Promise.all([
-            User.create({name: 'Adam', password: 'pesto-pasta',passwordHash:"666"}),
+            User.create({name: 'Adam', password: 'pesto-pasta',passwordHash:"666"}),//shipId:ship.id
             User.create({name: 'Lilith', password: 'caesar-salad',passwordHash:"zobuga"}),
         ])
 
         ;({id: userId} = user)
+
+        ship = await Ship.create({name:"Vostok"});
+        ship.userId = userId;
+        await ship.save()
     })
     
     afterAll(function (done) {
@@ -37,6 +43,15 @@ describe('User routes', () => {
                 
             expect(data.id).toEqual(userId)
             expect(data.name).toEqual(user.name)
+        })
+    })
+
+    describe('Get single user deep', () => {
+
+        it('should return a single user with specified id and ship data', async () => {
+            const {body: data} = await request.get(`/api/v1/user/${userId}/deep`).expect(200)
+                
+            expect(data.ships).toHaveLength(1);
         })
     })
 })

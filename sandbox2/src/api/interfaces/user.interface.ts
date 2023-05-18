@@ -5,8 +5,7 @@ export interface IUser {
   name: string
   description?: string
   credit?: number
-  shipId?:number
-  ship?:IShip
+  ships?:IShip[]
   createdAt: Date
   updatedAt: Date
   deletedAt?: Date 

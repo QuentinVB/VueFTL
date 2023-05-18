@@ -1,12 +1,12 @@
 import {IShip} from '../../interfaces'
-import {ShipOutput} from '../../../db/models/Ship.model'
+import {ShipOutput} from '../../../db/interfaces/Ship.interfaces'
 
-export const toShip = (user: ShipOutput): IShip => {
+export const toShip = (ship: ShipOutput): IShip => {
     return {
-        id: user.id,
-        name: user.name,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-        deletedAt: user.deletedAt,
+        id: ship.id,
+        name: ship.name,
+        createdAt: ship.createdAt,
+        updatedAt: ship.updatedAt,
+        deletedAt: ship.deletedAt,
     }
 }

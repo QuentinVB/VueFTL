@@ -1,6 +1,6 @@
 import * as ShipDal from '../dal/ship.dal'
 import {GetAllShipsFilters} from '../dal/types'
-import {ShipInput, ShipOutput} from '../models/Ship.model'
+import {ShipInput, ShipOutput} from '../interfaces/Ship.interfaces'
 
 
 export const create = async (payload: ShipInput): Promise<ShipOutput> => {

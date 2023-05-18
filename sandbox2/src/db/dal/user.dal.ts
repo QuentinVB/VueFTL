@@ -3,7 +3,7 @@ import {isEmpty} from 'lodash'
 import bcrypt from 'bcrypt'
 import {Ship, User} from '../models'
 import {GetAllUsersFilters} from './types'
-import {UserInput, UserOutput} from '../models/User.model'
+import {UserInput, UserOutput} from '../interfaces/User.interfaces'
 const saltRounds = 2;
 
 
@@ -43,9 +43,9 @@ export const update = async (id: number, payload: Partial<UserInput>): Promise<U
 }
 
 export const getById = async (id: number, deep?:boolean): Promise<UserOutput> => {
-    const include = deep ? { include: Ship } : undefined;
+    const include = deep ? { include: {model:Ship,as: 'ships'} } : undefined;
     const user = await User.findByPk(id,include)
-    console.log(user)
+    //console.log(user)
     if (!user) {
         // @todo throw custom error
         throw new Error('not found')

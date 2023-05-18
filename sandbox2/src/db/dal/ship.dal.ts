@@ -1,6 +1,6 @@
 import {Op} from 'sequelize'
 import {Ship} from '../models'
-import {ShipInput, ShipOutput} from '../models/Ship.model'
+import {ShipInput, ShipOutput} from '../interfaces/Ship.interfaces'
 import { GetAllShipsFilters } from './types'
 
 export const create = async (payload: ShipInput): Promise<ShipOutput> => {

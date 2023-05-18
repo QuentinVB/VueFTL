@@ -1,30 +1,29 @@
-import { DataTypes, Model, ModelStatic, Optional } from 'sequelize'
+import { DataTypes, Model, } from 'sequelize'
 import sequelizeConnection from '../config'
-
-interface ShipAttributes {
-    id: number;
-    name: string;
-    
-    createdAt?: Date;
-    updatedAt?: Date;
-    deletedAt?: Date;
-}
-
-export interface ShipInput extends Optional<ShipAttributes, 'id' > {}
-
-export interface ShipOutput extends Required<ShipAttributes> {}
+import { ShipAttributes, ShipInput } from '../interfaces/Ship.interfaces'
+import User from './User.model'
 
 class Ship extends Model<ShipAttributes, ShipInput> implements ShipAttributes {
 
     public id!: number
     public name!: string
+
+    declare userId?:number
+    declare owner?:User
     
     // timestamps!
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
-    public static associate<M extends Model>(models:Model[]): void {
-       
+    public static associate<M extends Model>(models:any): void {
+        this.hasOne(models.User, {
+            sourceKey:'id',
+            foreignKey: {
+                allowNull: true,
+                name: 'userId',
+            },
+            as:'owner'
+        });
     }
 }
 
@@ -37,12 +36,14 @@ Ship.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
     },
 
 }, {
   sequelize: sequelizeConnection,
-  paranoid: true
+  paranoid: true,
+  indexes: [
+    { fields: ['name'], name: 'UQ_Ship_Name', unique: true }
+  ]
 })
 
 export default Ship
