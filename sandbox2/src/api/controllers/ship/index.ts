@@ -11,8 +11,8 @@ export const update = async (id: number, payload: UpdateShipDTO): Promise<IShip>
     return mapper.toShip(await service.update(id, payload))
 }
 
-export const getById = async (id: number): Promise<IShip> => {
-    return mapper.toShip(await service.getById(id))
+export const getById = async (id: number,deep?:boolean): Promise<IShip> => {
+    return mapper.toShip(await service.getById(id,deep))
 }
 
 export const deleteById = async(id: number): Promise<Boolean> => {

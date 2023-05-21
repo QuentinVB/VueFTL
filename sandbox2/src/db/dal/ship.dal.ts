@@ -1,5 +1,5 @@
 import {Op} from 'sequelize'
-import {Ship} from '../models'
+import {Ship, User} from '../models'
 import {ShipInput, ShipOutput} from '../interfaces/Ship.interfaces'
 import { GetAllShipsFilters } from './types'
 
@@ -35,15 +35,16 @@ export const update = async (id: number, payload: Partial<ShipInput>): Promise<S
     return updatedShip
 }
 
-export const getById = async (id: number): Promise<ShipOutput> => {
-    const user = await Ship.findByPk(id)
-
-    if (!user) {
+export const getById = async (id: number,deep?:boolean): Promise<ShipOutput> => {
+    const include = deep ? { include: {model:User,as: 'owner'} } : undefined;
+    const ship = await Ship.findByPk(id,include)
+    //console.log(ship)
+    if (!ship) {
         // @todo throw custom error
         throw new Error('not found')
     }
 
-    return user
+    return ship
 }
 
 export const deleteById = async (id: number): Promise<boolean> => {

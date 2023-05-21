@@ -20,7 +20,7 @@ const dateSpy = jest.spyOn(global, 'Date')
     .mockImplementation(() => mockDate)
 */
 
-describe('Review Service', () => {
+describe('User Service', () => {
     /*
     afterAll(() => {
         dateSpy.mockRestore()

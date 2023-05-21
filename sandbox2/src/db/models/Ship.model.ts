@@ -16,14 +16,10 @@ class Ship extends Model<ShipAttributes, ShipInput> implements ShipAttributes {
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
     public static associate<M extends Model>(models:any): void {
-        this.hasOne(models.User, {
-            sourceKey:'id',
-            foreignKey: {
-                allowNull: true,
-                name: 'userId',
-            },
+        /*this.hasOne(models.User, {
+            sourceKey:'userId',
             as:'owner'
-        });
+        });*/
     }
 }
 

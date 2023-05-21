@@ -7,10 +7,12 @@ const shipsRouter = Router()
 
 shipsRouter.get('/:id', async (req: Request, res: Response) => {
     const id = Number(req.params.id)
+    const isDeep = !!req.query["deep"];
 
-    const result = await shipController.getById(id)
+    const result = await shipController.getById(id,isDeep)
     return res.status(200).send(result)
 })
+
 
 shipsRouter.put('/:id', async (req: Request, res: Response) => {
     const id = Number(req.params.id)

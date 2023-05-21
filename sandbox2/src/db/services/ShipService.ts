@@ -11,8 +11,8 @@ export const update = async (id: number, payload: Partial<ShipInput>): Promise<S
     return ShipDal.update(id, payload)
 }
 
-export const getById = (id: number): Promise<ShipOutput> => {
-    return ShipDal.getById(id)
+export const getById = (id: number,deep?:boolean): Promise<ShipOutput> => {
+    return ShipDal.getById(id,deep)
 }
 
 export const deleteById = (id: number): Promise<boolean> => {

@@ -5,6 +5,7 @@ export const toShip = (ship: ShipOutput): IShip => {
     return {
         id: ship.id,
         name: ship.name,
+        owner:ship.owner,
         createdAt: ship.createdAt,
         updatedAt: ship.updatedAt,
         deletedAt: ship.deletedAt,
