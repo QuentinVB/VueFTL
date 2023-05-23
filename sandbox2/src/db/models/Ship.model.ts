@@ -1,4 +1,4 @@
-import { DataTypes, Model, } from 'sequelize'
+import { BelongsToCreateAssociationMixin, DataTypes, Model, } from 'sequelize'
 import sequelizeConnection from '../config'
 import { ShipAttributes, ShipInput } from '../interfaces/Ship.interfaces'
 import User from './User.model'
@@ -10,6 +10,7 @@ class Ship extends Model<ShipAttributes, ShipInput> implements ShipAttributes {
 
     declare userId?:number
     declare owner?:User
+    declare addOwner: BelongsToCreateAssociationMixin<User>;
     
     // timestamps!
     public readonly createdAt!: Date;
@@ -18,6 +19,7 @@ class Ship extends Model<ShipAttributes, ShipInput> implements ShipAttributes {
     public static associate<M extends Model>(models:any): void {
         this.belongsTo(models.User,{
             as:'owner',
+            foreignKey:'userId',
         });
         /*{
             sourceKey:'userId',

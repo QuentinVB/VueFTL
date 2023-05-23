@@ -21,8 +21,7 @@ describe('User routes', () => {
         ;({id: userId} = user)
 
         ship = await Ship.create({name:"Vostok"});
-        ship.userId = userId;
-        await ship.save()
+        const shipAfter = await Ship.findByPk(ship.id)
     })
     
     afterAll(function (done) {
@@ -49,7 +48,7 @@ describe('User routes', () => {
     describe('Get single user deep', () => {
 
         it('should return a single user with specified id and ship data', async () => {
-            const {body: data} = await request.get(`/api/v1/user/${userId}/deep`).expect(200)
+            const {body: data} = await request.get(`/api/v1/user/${userId}?deep=true`).expect(200)
                 
             expect(data.ships).toHaveLength(1);
         })

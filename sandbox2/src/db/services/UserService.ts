@@ -13,12 +13,8 @@ export const update = async (id: number, payload: Partial<UserInput>): Promise<U
     return UserDal.update(id, payload)
 }
 
-export const getById = (id: number): Promise<UserOutput> => {
-    return UserDal.getById(id)
-}
-
-export const getByIdDeep = (id: number): Promise<UserOutput> => {
-    return UserDal.getById(id,true)
+export const getById = (id: number,deep?:boolean): Promise<UserOutput> => {
+    return UserDal.getById(id,deep)
 }
 
 export const deleteById = (id: number): Promise<boolean> => {

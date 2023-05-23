@@ -7,14 +7,9 @@ const usersRouter = Router()
 
 usersRouter.get('/:id', async (req: Request, res: Response) => {
     const id = Number(req.params.id)
+    const isDeep = !!req.query["deep"];
 
-    const result = await userController.getById(id)
-    return res.status(200).send(result)
-})
-usersRouter.get('/:id/deep', async (req: Request, res: Response) => {
-    const id = Number(req.params.id)
-
-    const result = await userController.getByIdDeep(id)
+    const result = await userController.getById(id,isDeep)
     return res.status(200).send(result)
 })
 

@@ -11,14 +11,8 @@ export const update = async (id: number, payload: UpdateUserDTO): Promise<IUser>
     return mapper.toUser(await service.update(id, payload))
 }
 
-export const getById = async (id: number): Promise<IUser> => {
-    return mapper.toUser(await service.getById(id))
-}
-
-export const getByIdDeep = async (id: number): Promise<IUser> => {
-    const usr = await service.getByIdDeep(id);
-    //console.log(usr);
-    return mapper.toUser(usr)
+export const getById = async (id: number,deep?:boolean): Promise<IUser> => {
+    return mapper.toUser(await service.getById(id,deep))
 }
 
 export const deleteById = async(id: number): Promise<Boolean> => {
